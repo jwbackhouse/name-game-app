@@ -1,21 +1,38 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import { v4 as uuidv4 } from 'uuid'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import AppRouter, { history } from './routers/AppRouter';
 import { login, logout } from './actions/auth';
+import { addName } from './actions/names';
 import configureStore from './store/configureStore';
 import { firebase } from './firebase/firebase';
 import LoadingPage from './components/LoadingPage';
 import 'normalize.css/normalize.css';
-import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
-// import './styles/react-dates-override.css';   // TODO: make this work
+import './styles/styles.scss';
 
 // Set up store
 const store = configureStore();
-console.log('Dev tools working fine');
+
+store.subscribe(() => {
+  const names = store.getState();
+  console.log(names);
+});
+
+// Manually add names to state
+const nameOne = {
+  id: uuidv4(),
+  name: 'Martin Luther King'
+};
+const nameTwo = {
+  id: uuidv4(),
+  name: 'Rosie Revere'
+};
+store.dispatch(addName(nameOne));
+store.dispatch(addName(nameTwo));
 
 // Setup rendering
 const jsx = (
@@ -50,5 +67,4 @@ firebase.auth().onAuthStateChanged((user) => {
     history.push('/');
   }
 });
-
 
