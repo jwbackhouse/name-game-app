@@ -31,8 +31,25 @@ const nameTwo = {
   id: uuidv4(),
   name: 'Rosie Revere'
 };
+const nameThree = {
+  id: uuidv4(),
+  name: 'David Bowie'
+};
+const nameFour = {
+  id: uuidv4(),
+  name: 'Fred Truman'
+};
+const nameFive = {
+  id: uuidv4(),
+  name: 'Harold Wilson'
+};
+
 store.dispatch(addName(nameOne));
 store.dispatch(addName(nameTwo));
+store.dispatch(addName(nameThree));
+store.dispatch(addName(nameFour));
+store.dispatch(addName(nameFive));
+
 
 // Setup rendering
 const jsx = (
@@ -52,7 +69,7 @@ const renderApp = () => {
 ReactDOM.render(<LoadingPage />,document.getElementById('body'));
 
 // Authenticate user
-firebase.auth().onAuthStateChanged((user) => {
+firebase.auth().onAuthStateChanged((user) => {    // fires once user logs in
   if (user) {
     console.log('Logged in.')
     store.dispatch(login(user.uid))

@@ -13,6 +13,11 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+// Test call to confirm connection is working
+// firebase.database().ref().set({
+//   name: 'James'
+// })
+
 const database = firebase.database();
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 

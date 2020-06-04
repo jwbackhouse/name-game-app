@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { addName } from '../actions/names';
+import { startAddName } from '../actions/names';
 
 export class NameEntry extends React.Component {
   state = {
@@ -15,11 +15,9 @@ export class NameEntry extends React.Component {
   
   onSubmit = (e) => {
     e.preventDefault();
-    const name = {
-      id: uuidv4(),
-      name: this.state.newName
-    };
-    this.props.addName(name);
+    const newNameTrimmed = this.state.newName.trim()
+    this.props.startAddName(newNameTrimmed);
+    this.setState(() => ({newName: ''}));
   };
   
   render() {
@@ -41,11 +39,7 @@ export class NameEntry extends React.Component {
 
 
 const mapDispatchToProps = (dispatch) => ({
-  addName: (name) => dispatch(addName(name))
+  startAddName: (name) => dispatch(startAddName(name))
 });
 
-const mapStateToProps = (state) => ({
-  names: state.names
-})
-
-export default connect(mapStateToProps,mapDispatchToProps)(NameEntry)
+export default connect(undefined,mapDispatchToProps)(NameEntry)

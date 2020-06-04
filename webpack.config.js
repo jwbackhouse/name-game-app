@@ -61,7 +61,7 @@ module.exports = (env) => {
     devtool: isProduction ? 'source-map' : 'inline-source-map',    // use production-suitable version if running for production (see webpack docs)
     devServer: {
       contentBase: path.join(__dirname,'public'),
-      host: '100.115.92.10',
+      host: '100.115.92.14',
       historyApiFallback:true,
       publicPath: '/dist/'    // directory containing bundled assets
     }

@@ -8,9 +8,7 @@ export const NameListItem = (props) => {
   const onDelete = () => {
     props.removeName(props.id);
   };
-  const onEdit = () => {
-    props.editName(props.id);
-  };
+
   return (
     <div>
       <h5>{ props.name }</h5>
@@ -19,13 +17,15 @@ export const NameListItem = (props) => {
       >
         Delete
       </button>
+      <button>
+        Edit
+      </button>
     </div>
   )
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  removeName: (id) => dispatch(removeName(id)),
-  editName: (id) => dispatch(editName(id))
+  removeName: (id) => dispatch(removeName(id))
 })
 
 export default connect(undefined, mapDispatchToProps)(NameListItem);

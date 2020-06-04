@@ -7,8 +7,6 @@ export default (state = [], action) => {
       ];
     case 'REMOVE_NAME':
       return state.filter((name) => name.id !== action.id);
-    // case 'EDIT_NAME':
-      
     // case 'SET_EXPENSES':
     //   return action.expenses;   // Overwrites all existing expenses
     default:
