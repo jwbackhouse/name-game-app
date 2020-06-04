@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NameListItem from './NameListItem';
 import NameEntry from './NameEntry';
+import {getUsers} from '../actions/teams';
 
 export class SetupPage extends React.Component {
   remainingNames = () => {
@@ -12,6 +13,7 @@ export class SetupPage extends React.Component {
   
   onClick = () => {   // TODO add check that 5 names have been submitted
     this.props.history.push('/play');
+    this.props.getUsers();
   }
   
   render() {
@@ -48,7 +50,8 @@ const mapStateToProps = (state) => ({
   names: state.names
 });
 
-// const mapDispatchToProps = (dispatch) => ({
-// });
+const mapDispatchToProps = (dispatch) => ({
+  getUsers: () => dispatch(getUsers())
+});
 
-export default connect(mapStateToProps)(SetupPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SetupPage);
