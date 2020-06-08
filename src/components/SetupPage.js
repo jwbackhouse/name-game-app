@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NameListItem from './NameListItem';
 import NameEntry from './NameEntry';
-import {getUsers} from '../actions/teams';
+import {startSetPlayer} from '../actions/users';
 
 export class SetupPage extends React.Component {
   remainingNames = () => {
@@ -12,8 +12,7 @@ export class SetupPage extends React.Component {
   }
   
   onClick = () => {   // TODO add check that 5 names have been submitted
-    this.props.history.push('/play');
-    this.props.getUsers();
+    this.props.history.push('/start');
   }
   
   render() {
@@ -38,7 +37,7 @@ export class SetupPage extends React.Component {
             ? <div>
                 <span>Nothing added yet</span>
               </div>
-            : this.props.names.map((name) => <NameListItem key={ name.id } { ...name } />)
+            : this.props.names.map((name) => <NameListItem key={ name.id } id={name.id} name={name.name} />)
           }
         </div>
       </div>
@@ -47,11 +46,12 @@ export class SetupPage extends React.Component {
 };
 
 const mapStateToProps = (state) => ({
-  names: state.names
+  names: state.names,
+  teams: state.teams
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getUsers: () => dispatch(getUsers())
+  startSetPlayer: (id) => dispatch(startSetPlayer(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetupPage);

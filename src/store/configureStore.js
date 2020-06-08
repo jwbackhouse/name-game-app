@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware,  } from 'redux';
 import thunk from 'redux-thunk'; // allows asynchronous calls to Firebase from actions
 import authReducer from '../reducers/auth';
 import namesReducer from '../reducers/names';
-import usersReducer from '../reducers/users';
+import userReducer from '../reducers/users';
 import teamsReducer from '../reducers/teams';
 
 // This needed to use thunk alongside dev tools extension
@@ -13,7 +13,7 @@ export default () => {
     combineReducers({   // Takes object as an argument - with root state name as key, and reducer as the value
       auth: authReducer,
       names: namesReducer,
-      users: usersReducer,
+      user: userReducer,
       teams: teamsReducer
     }),
     composeEnhancers(applyMiddleware(thunk)) // See above

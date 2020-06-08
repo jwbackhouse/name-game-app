@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { removeName, editName } from '../actions/names';
+import { startRemoveName, editName } from '../actions/names';
 
 
 // TODO add edit button
 export const NameListItem = (props) => {
   const onDelete = () => {
-    props.removeName(props.id);
+    props.startRemoveName(props.id);
   };
-
+  
   return (
     <div>
-      <h5>{ props.name }</h5>
+      <h5>{ props.name}</h5>
       <button
         onClick={ onDelete }
       >
@@ -25,7 +25,7 @@ export const NameListItem = (props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  removeName: (id) => dispatch(removeName(id))
+  startRemoveName: (id) => dispatch(startRemoveName(id))
 })
 
 export default connect(undefined, mapDispatchToProps)(NameListItem);

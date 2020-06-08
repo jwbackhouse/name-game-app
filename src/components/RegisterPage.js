@@ -23,7 +23,8 @@ export class RegisterPage extends React.Component {
     e.preventDefault();
     const user = {
       userName: this.state.userName,
-      team: this.state.team
+      team: this.state.team,
+      hasPlayed: false
     };
     this.props.startAddUser(user);
     this.setState(() => ({
@@ -52,6 +53,16 @@ export class RegisterPage extends React.Component {
             <option value='A'>Team A</option>
             <option value='B'>Team B</option>
           </select>
+          <div>
+            <p>Already on Team A:</p>
+            {this.props.teams.teamA.map((teamMember) => {
+              return <p key={teamMember.uid}>{teamMember.userName}</p>
+            })}
+            <p>Already on Team B:</p>
+            {this.props.teams.teamB.map((teamMember) => {
+              return <p key={teamMember.uid}>{teamMember.userName}</p>
+            })}
+          </div>
           <button>Go</button>
         </form>
       </div>
@@ -59,8 +70,12 @@ export class RegisterPage extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  teams: state.teams
+});
+
 const mapDispatchToProps = (dispatch) => ({
   startAddUser: (user) => dispatch(startAddUser(user))
 });
 
-export default connect(undefined, mapDispatchToProps)(RegisterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

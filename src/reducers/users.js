@@ -4,10 +4,17 @@ export default (state = {}, action) => {
       return {
         userName: action.userName,
         team: action.team,
-        uid: action.uid
+        uid: action.uid,
+        hasPlayed: action.hasPlayed,
+        isPlaying: action.isPlaying
       };
     case 'REMOVE_USER':
       return {};
+    case 'SET_PLAYER':
+      return {
+        ...state,
+        isPlaying: true
+      }
     default:
       return state;
   }

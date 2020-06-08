@@ -15,8 +15,8 @@ export class NameEntry extends React.Component {
   
   onSubmit = (e) => {
     e.preventDefault();
-    const newNameTrimmed = this.state.newName.trim()
-    this.props.startAddName(newNameTrimmed);
+    const name = this.state.newName.trim()
+    this.props.startAddName(name);
     this.setState(() => ({newName: ''}));
   };
   
@@ -37,9 +37,12 @@ export class NameEntry extends React.Component {
   };
 };
 
+const mapStateToProps = (state) => ({
+  user: state.user
+})
 
 const mapDispatchToProps = (dispatch) => ({
   startAddName: (name) => dispatch(startAddName(name))
 });
 
-export default connect(undefined,mapDispatchToProps)(NameEntry)
+export default connect(mapStateToProps,mapDispatchToProps)(NameEntry)

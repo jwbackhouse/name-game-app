@@ -9,21 +9,14 @@ export default (state = defaultState, action) => {
     case 'ADD_TEAM_A':
       return {
         ...state,
-        teamA: [...state.teamA, action.user.userName]
+        teamA: [...state.teamA, action.user]
       }
     case 'ADD_TEAM_B':
       return {
         ...state,
-        teamB: [...state.teamB, action.user.userName]
+        teamB: [...state.teamB, action.user]
       }
     default:
       return state;
   }
 };
-
-
-
-// state
-//   team A: [a, b, c]
-    
-//   team B: [d, e, g]
