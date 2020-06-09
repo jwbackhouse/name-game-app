@@ -1,11 +1,10 @@
 // *** ACTION CREATORS ***
 
 import database from '../firebase/firebase';
-import {addTeamA} from './teams';
-import {addTeamB} from './teams';
+import { addPlayer } from './players';
 
 
-// Add player
+// Add user
 export const addUser = ({userName, team, hasPlayed, isPlaying, uid}) => ({
   type:'ADD_USER',
   userName,
@@ -14,7 +13,6 @@ export const addUser = ({userName, team, hasPlayed, isPlaying, uid}) => ({
   isPlaying,
   uid
 });
-
 
 export const startAddUser = (userData = {}) => {
   return (dispatch, getState) => {    // Redux-thunk allows us to return a function, which is called with dispatch
@@ -30,10 +28,12 @@ export const startAddUser = (userData = {}) => {
         uid: ref.key,    // .then callback from .push gets called with ref, so can get id from this using .key
         ...user
       }
+      
+      // Add user to state.user
       dispatch(addUser(userObj))
-      user.team === 'A'
-        ? dispatch(addTeamA(userObj))
-        : dispatch(addTeamB(userObj));
+      
+      // Add user to state.players
+      dispatch(addPlayer(userObj));
     });
   };
 };
@@ -42,8 +42,7 @@ export const startAddUser = (userData = {}) => {
 // Set the active player
 export const setPlayer = () => ({
   type: 'SET_PLAYER',
-})
-
+});
 
 export const startSetPlayer = (uid) => {
   return (dispatch, getState) => {
@@ -57,4 +56,31 @@ export const startSetPlayer = (uid) => {
     // Update Firebase
     return database.ref(`users/${uid}/isPlaying`).set(true)
   }
-}
+};
+
+
+// Reset the active player
+export const resetPlayer = () => ({
+  type: 'RESET_PLAYER',
+});
+
+export const startResetPlayer = () => {
+  return (dispatch, getState) => {
+    const thisUserPlaying = getState().user.isPlaying;
+    
+    // Check if local user is the active player
+    if (thisUserPlaying) {
+      // Update isPlaying in local state
+      dispatch(resetPlayer())
+      
+      // Update Firebase
+      const uid = getState().user.uid;
+      return database.ref(`users/${uid}`).update({
+        isPlaying: false,
+        hasPlayed: true
+      })
+      
+    }
+    
+  }
+};

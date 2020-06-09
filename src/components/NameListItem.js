@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startRemoveName, editName } from '../actions/names';
+import { startRemoveName } from '../actions/names';
 
 
 // TODO add edit button
@@ -17,15 +17,12 @@ export const NameListItem = (props) => {
       >
         Delete
       </button>
-      <button>
-        Edit
-      </button>
     </div>
   )
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  startRemoveName: (id) => dispatch(startRemoveName(id))
+  startRemoveName: (id) => dispatch(startRemoveName(id)),
 })
 
 export default connect(undefined, mapDispatchToProps)(NameListItem);

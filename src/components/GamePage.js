@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import LiveName from './LiveName';
-import {updateNames} from '../actions/names';
+import { updateNames, getNames } from '../actions/names';
+import { startResetPlayer } from '../actions/user';
 
 
 // TODO - is there a better way to deal with repeated code (e.g. index setting)
@@ -17,18 +18,12 @@ import {updateNames} from '../actions/names';
 export class GamePage extends React.Component {
   state = {
     index: undefined,
-    isPlaying: undefined,
     names: [],
     passedNames: [],
     guessedNames: []
   };
   
-  // Set initial state values
   componentDidMount() {
-    // Set local state for isPlaying
-    const isPlaying = !!this.props.user.isPlaying;
-    this.setState(() => ({ isPlaying}));
-    
     // Generate random index for name choice
     const index = Math.floor(Math.random() * (this.props.names.length - 1));    // BODGE - will not return array length to avoid error when array is shortened and {guess} renders below
     this.setState(() => ({index}));
@@ -38,7 +33,7 @@ export class GamePage extends React.Component {
     this.setState(() => ({ names}));
   };
   
-  // Remove name from relevant stat object + update index
+  // Remove name from relevant state object + update index
   removeName = (arr) => {
     this.setState(prevState => {
       const index = prevState.index;
@@ -129,13 +124,21 @@ export class GamePage extends React.Component {
     this.setState({index}, this.removeName('passedNames'));
   };
   
-  // Update Firebase with guessedNames and redirect
   finished = () => {
+    // Update Firebase with guessedNames
     this.props.updateNames(this.state.guessedNames);
-    this.props.history.push('/start');
+    
+    // Reset isPlaying flag if appropriate for local user
+    this.props.user.isPlaying && this.props.startResetPlayer()
+    
+    // Send to ChangeoverPage
+    this.props.history.push('/scores');
   };
     
   render () {
+    // Check if current user is playing
+    const isPlaying = !!this.props.user.isPlaying;
+
     // Define which name is to be rendered for guessing
     let guess;
     const remainingNames = this.state.names.length;
@@ -171,7 +174,7 @@ export class GamePage extends React.Component {
     const score = this.state.guessedNames.length
     
     // // Conditional rendering based on whether local user is playing
-    // if (this.state.isPlaying) {
+    // if (isPlaying) {
       return (
         <div>
           <h1>Let's play...</h1>
@@ -196,11 +199,13 @@ export class GamePage extends React.Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  names: state.names
+  names: state.names.filter(name => name.isGuessed === false)   // Only fetch unguessed names
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateNames: (names) => dispatch(updateNames(names))
+  updateNames: (names) => dispatch(updateNames(names)),
+  getNames: () => dispatch(getNames()),
+  startResetPlayer: () => dispatch(startResetPlayer())
 });
 
 export default connect (mapStateToProps, mapDispatchToProps)(GamePage);

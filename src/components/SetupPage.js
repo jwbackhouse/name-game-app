@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NameListItem from './NameListItem';
 import NameEntry from './NameEntry';
-import {startSetPlayer} from '../actions/users';
+import { startSetPlayer } from '../actions/user';
 
 export class SetupPage extends React.Component {
   remainingNames = () => {
@@ -46,8 +46,7 @@ export class SetupPage extends React.Component {
 };
 
 const mapStateToProps = (state) => ({
-  names: state.names,
-  teams: state.teams
+  names: state.names
 });
 
 const mapDispatchToProps = (dispatch) => ({

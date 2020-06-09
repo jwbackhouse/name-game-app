@@ -1,12 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startAddUser } from '../actions/users';
+import TeamList from './TeamList';
+import { startAddUser } from '../actions/user';
+import { getPlayers } from '../actions/players';
 
 
 export class RegisterPage extends React.Component {
   state = {
     userName: '',
-    team: 'A'
+    team: 'A',
+    players: []
+  }
+  
+  componentDidMount() {
+    this.props.getPlayers()
   }
   
   onTextChange = (e) => {
@@ -23,8 +30,7 @@ export class RegisterPage extends React.Component {
     e.preventDefault();
     const user = {
       userName: this.state.userName,
-      team: this.state.team,
-      hasPlayed: false
+      team: this.state.team
     };
     this.props.startAddUser(user);
     this.setState(() => ({
@@ -55,13 +61,10 @@ export class RegisterPage extends React.Component {
           </select>
           <div>
             <p>Already on Team A:</p>
-            {this.props.teams.teamA.map((teamMember) => {
-              return <p key={teamMember.uid}>{teamMember.userName}</p>
-            })}
+            <TeamList team='A' />
+            <br />
             <p>Already on Team B:</p>
-            {this.props.teams.teamB.map((teamMember) => {
-              return <p key={teamMember.uid}>{teamMember.userName}</p>
-            })}
+            <TeamList team='B' />
           </div>
           <button>Go</button>
         </form>
@@ -71,11 +74,12 @@ export class RegisterPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  teams: state.teams
+  players: state.players
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  startAddUser: (user) => dispatch(startAddUser(user))
+  startAddUser: (user) => dispatch(startAddUser(user)),
+  getPlayers: () => dispatch(getPlayers()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

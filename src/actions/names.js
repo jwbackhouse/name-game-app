@@ -34,14 +34,22 @@ export const removeName = (id) => ({
 
 export const startRemoveName = (id) => {
   return (dispatch, getState) => {
-    return database.ref(`names/${id}`).remove();
+    return database.ref(`names/${id}`).remove().then(() => {
+      dispatch(removeName(id));
+    });
   };
 };
+
+// Remove all names
+export const removeAllNames = () => ({
+  type: 'REMOVE_ALL_NAMES'
+});
 
 // Fetch names from Firebase
 export const getNames = () => {
   return (dispatch, getState) => {
     return database.ref(`names`).once('value').then((snapshot) => {
+      dispatch(removeAllNames());
       snapshot.forEach((childSnapshot) => {   // snapshot is an object, so using in-built Firebase method to iterate over child snapshots
         dispatch(addName({
           id: childSnapshot.key,
@@ -51,6 +59,12 @@ export const getNames = () => {
         }));
       });
     });
+  };
+};
+
+export const getNamesPromise = () => {
+  return (dispatch, getState) => {
+    return database.ref(`names`).once('value');
   };
 };
 

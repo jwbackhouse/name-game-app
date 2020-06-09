@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'; // allows asynchronous calls to Firebase from a
 import authReducer from '../reducers/auth';
 import namesReducer from '../reducers/names';
 import userReducer from '../reducers/users';
-import teamsReducer from '../reducers/teams';
+import playersReducer from '../reducers/players';
 
 // This needed to use thunk alongside dev tools extension
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;    // Needed to setup redux devtools + allow middleware
@@ -14,7 +14,7 @@ export default () => {
       auth: authReducer,
       names: namesReducer,
       user: userReducer,
-      teams: teamsReducer
+      players: playersReducer
     }),
     composeEnhancers(applyMiddleware(thunk)) // See above
   );

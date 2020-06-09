@@ -10,10 +10,17 @@ export default (state = {}, action) => {
       };
     case 'REMOVE_USER':
       return {};
+    case 'REMOVE_ALL_USERS':
+      return state = [];
     case 'SET_PLAYER':
       return {
         ...state,
         isPlaying: true
+      }
+    case 'RESET_PLAYER':
+      return {
+        ...state,
+        isPlaying: false
       }
     default:
       return state;
