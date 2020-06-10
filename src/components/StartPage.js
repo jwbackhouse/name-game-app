@@ -3,43 +3,39 @@ import { connect } from 'react-redux';
 import TeamList from './TeamList';
 import { startSetPlayer } from '../actions/user';
 import { getPlayers } from '../actions/players';
-import { getNames, addName, removeAllNames } from '../actions/names';
+import { getNames } from '../actions/names';
+import choosePlayer from '../selectors/choosePlayer';
 
 
 export class StartPage extends React.Component {
   state = {
-    teamLetter: undefined
+    nextPlayer: undefined,
+    nextTeam: undefined
   }
   
-  componentDidMount() {
-    this.props.getPlayers().then(() => this.choosePlayer());
+  componentDidMount = () => {
+    // Get final player list
+    this.props.getPlayers()
+      .then(() => {
+        // Choose next player
+        const lastTeamPlayed = this.props.game.teamJustPlayed;
+        const players = this.props.players.players;
+        const nextPlayer = choosePlayer(lastTeamPlayed, players);
+        // Set isPlaying flag
+        this.props.startSetPlayer(nextPlayer.uid);
+        // Update local state
+        this.setState({
+          nextPlayer: nextPlayer.userName,
+          nextTeam: nextPlayer.team
+        });
+      })
   }
-  
-  // Choose starting team & player
-  choosePlayer = () => {
-    const teamLetter = Math.random() < 0.5 ? 'A' : 'B';
-    const team = `team${teamLetter}`;
-    
-    // FOR LIVE
-    // const startingTeam = this.props.players.players.filter(player => player.team === teamLetter && !player.hasPlayed);
-    // const index = Math.floor(Math.random() * startingTeam.length);
-    // const player = startingTeam[index];
-    
-    // FOR TESTING
-    const startingTeam = this.props.players.players.filter(player => player.team === 'A' && !player.hasPlayed);
-    const index = startingTeam.length - 1;
-    const player = startingTeam[index];
-    console.log('Player:', player.userName, 'from team', teamLetter);
-
-    this.props.startSetPlayer(player.uid);
-    this.setState({teamLetter});
-  }
-  
   
   // TODO: check at least one person on each team
-  // TODO: can this dispatch go back into actions file, before db call?
+  // TODO: routing depends on who's playing
+  
   onClick = () => {
-    // Get latest names from Firebase then send to GamePage
+    // Get latest names from Firebase before pushing to GamePage
     this.props.getNames().then(() => {
       this.props.history.push('/play');
     });
@@ -48,7 +44,7 @@ export class StartPage extends React.Component {
   
   render() {
     let team
-    if (this.state.teamLetter) { team = <p>{`Team ${this.state.teamLetter} will start.`}</p> }
+    this.state.nextPlayer && (team = <p>{`${this.state.nextPlayer} from team ${this.state.nextTeam} will start.`}</p>)
 
     return (
       <div>
@@ -68,15 +64,14 @@ export class StartPage extends React.Component {
 
 const mapStateToProps = (state) => ({
   players: state.players,
-  user: state.user
+  user: state.user,
+  game: state.game
 });
 
 const mapDispatchToProps = (dispatch) => ({
   startSetPlayer: (id) => dispatch(startSetPlayer(id)),
   getPlayers: () => dispatch(getPlayers()),
-  getNames: () => dispatch(getNames()),
-  addName: (name) => dispatch(addName(name)),
-  removeAllNames: () => dispatch(removeAllNames()),
+  getNames: () => dispatch(getNames())
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(StartPage);

@@ -1,4 +1,4 @@
-// *** ACTION CREATORS ***
+// *** NAMES ACTION CREATORS ***
 
 import database from '../firebase/firebase';
 

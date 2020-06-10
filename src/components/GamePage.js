@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import LiveName from './LiveName';
-import { updateNames, getNames } from '../actions/names';
+import { updateNames } from '../actions/names';
+import { updateScore } from '../actions/game';
 import { startResetPlayer } from '../actions/user';
 
 
@@ -20,7 +21,8 @@ export class GamePage extends React.Component {
     index: undefined,
     names: [],
     passedNames: [],
-    guessedNames: []
+    guessedNames: [],
+    team: undefined
   };
   
   componentDidMount() {
@@ -31,6 +33,8 @@ export class GamePage extends React.Component {
     // Populate local state with names
     const names = this.props.names;
     this.setState(() => ({ names}));
+    
+    this.setState(() => ({team: this.props.user.team}));
   };
   
   // Remove name from relevant state object + update index
@@ -131,6 +135,9 @@ export class GamePage extends React.Component {
     // Reset isPlaying flag if appropriate for local user
     this.props.user.isPlaying && this.props.startResetPlayer()
     
+    // Update team's score
+    this.props.updateScore(this.state.team, this.state.guessedNames.length)
+    
     // Send to ChangeoverPage
     this.props.history.push('/scores');
   };
@@ -204,8 +211,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateNames: (names) => dispatch(updateNames(names)),
-  getNames: () => dispatch(getNames()),
-  startResetPlayer: () => dispatch(startResetPlayer())
+  startResetPlayer: () => dispatch(startResetPlayer()),
+  updateScore: (team, score) => dispatch(updateScore(team, score))
 });
 
 export default connect (mapStateToProps, mapDispatchToProps)(GamePage);
