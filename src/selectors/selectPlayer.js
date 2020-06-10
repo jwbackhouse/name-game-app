@@ -4,7 +4,7 @@ export default ((lastTeamPlayed, players) => {
   if (lastTeamPlayed) {
     teamLetter = (lastTeamPlayed === 'teamA') ? 'B' : 'A'
   } else {
-    teamLetter = Math.random() < 0.5 ? 'A' : 'B';
+    teamLetter = 'A';
   }
   
   const team = `team${teamLetter}`;
@@ -17,7 +17,7 @@ export default ((lastTeamPlayed, players) => {
   // const startingTeam = players.filter(player => player.team === 'A' && !player.hasPlayed);
   // const index = startingTeam.length - 1;
   // const player = startingTeam[index];
-
+  
   return player;
 });
 

@@ -9,3 +9,10 @@ export const updateScore = (team, score) => ({
   score
 });
 
+
+export const setStartTime = () => {
+  return (dispatch, getState) => {
+    const now = Date.now();
+    return database.ref('game/startTime').set(now);
+  };
+};

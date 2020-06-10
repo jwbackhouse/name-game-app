@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import LiveName from './LiveName';
+import Countdown from './Countdown';
 import { updateNames } from '../actions/names';
 import { updateScore } from '../actions/game';
 import { startResetPlayer } from '../actions/user';
@@ -128,7 +129,7 @@ export class GamePage extends React.Component {
     this.setState({index}, this.removeName('passedNames'));
   };
   
-  finished = () => {
+  onFinished = () => {
     const promisesArray = [
       this.props.updateNames(this.state.guessedNames),
       this.props.startResetPlayer(),
@@ -184,7 +185,7 @@ export class GamePage extends React.Component {
       guess = (
         <div>
           <p>All finished</p>
-          <button onClick={this.finished}>Next player</button>
+          <button onClick={this.onFinished}>Next player</button>
         </div>
       )
     }
@@ -203,6 +204,7 @@ export class GamePage extends React.Component {
             <p>Score: {score}</p>
             <p>Passed: {passedNames}</p>
           </div>
+          <Countdown onFinished={this.onFinished}/>
         </div>
       )
     // } else {
