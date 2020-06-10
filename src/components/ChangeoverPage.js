@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { startSetPlayer } from '../actions/user';
 import { getNames } from '../actions/names';
-import choosePlayer from '../selectors/choosePlayer';
+import selectPlayer from '../selectors/selectPlayer';
 
 
 
@@ -12,17 +12,25 @@ export class ChangeoverPage extends React.Component {
     nextTeam: undefined
   }
   
-  componentDidMount() {
-    // Choose next player
+  componentDidMount = () => {
+    this.choosePlayer();
+  }
+  
+  choosePlayer = () => {
     const lastTeamPlayed = this.props.game.teamJustPlayed;
     const players = this.props.players.players;
-    const nextPlayer = choosePlayer(lastTeamPlayed, players);
+    
+    // Use selector to return next player
+    const nextPlayer = selectPlayer(lastTeamPlayed, players);
+    
+    // Set isPlaying flag
+    this.props.startSetPlayer(nextPlayer.uid);
+    
+    // Update local state
     this.setState({
       nextPlayer: nextPlayer.userName,
       nextTeam: nextPlayer.team
-    })
-    // Set isPlaying flag
-    this.props.startSetPlayer(nextPlayer.uid);
+    });
   }
 
   onClick = () => {
@@ -34,7 +42,7 @@ export class ChangeoverPage extends React.Component {
   
   render = () => {
     let team;
-    this.state.nextPlayer && (team = <p>{`${this.state.nextPlayer} from team ${this.state.nextTeam} will start.`}</p>);
+    this.state.nextPlayer && (team = <p>{`${this.state.nextPlayer} from team ${this.state.nextTeam} is up next.`}</p>);
     
     return (
       <div>

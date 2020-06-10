@@ -4,7 +4,8 @@ import { startAddName } from '../actions/names';
 
 export class NameEntry extends React.Component {
   state = {
-    newName: ''
+    newName: '',
+    error: ''
   };
   
   onNameChange = (e) => {
@@ -14,22 +15,31 @@ export class NameEntry extends React.Component {
   
   onSubmit = (e) => {
     e.preventDefault();
-    const name = this.state.newName.trim()
-    this.props.startAddName(name);
-    this.setState(() => ({newName: ''}));
+    
+    const name = this.state.newName.trim();
+    if (!name) {
+      this.setState({error: 'Please enter a name'})
+    } else {
+      this.props.startAddName(name);
+      this.setState(() => ({newName: ''}));
+    }
   };
   
   render() {
     return (
       <div>
-        <form onSubmit={ this.onSubmit }>
+        <form
+          onSubmit={ this.onSubmit }
+        >
           <input
             autoFocus
+            disabled={ this.props.disabled }
             placeholder='Enter a name'
             onChange={ this.onNameChange }
             value={ this.state.newName }
           />
           <button>Submit</button>
+          { this.state.error && <p>{ this.state.error }</p> }
         </form>
       </div>
     )

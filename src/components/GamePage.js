@@ -129,17 +129,29 @@ export class GamePage extends React.Component {
   };
   
   finished = () => {
-    // Update Firebase with guessedNames
-    this.props.updateNames(this.state.guessedNames);
+    const promisesArray = [
+      this.props.updateNames(this.state.guessedNames),
+      this.props.startResetPlayer(),
+      this.props.updateScore(this.state.team, this.state.guessedNames.length)
+    ]
     
-    // Reset isPlaying flag if appropriate for local user
-    this.props.user.isPlaying && this.props.startResetPlayer()
+    const handleAllPromises = Promise.all(promisesArray);
+    handleAllPromises
+      .then(() => this.props.names.length === 0 ? this.props.history.push('/end') : this.props.history.push('/scores'))
+      .catch((err) => console.log('Something went wrong:', err));
     
-    // Update team's score
-    this.props.updateScore(this.state.team, this.state.guessedNames.length)
     
-    // Send to ChangeoverPage
-    this.props.history.push('/scores');
+    // // Update Firebase with guessedNames
+    // this.props.updateNames(this.state.guessedNames);
+    
+    // // Reset isPlaying flag if appropriate for local user
+    // this.props.user.isPlaying && this.props.startResetPlayer();
+    
+    // // Update team's score
+    // this.props.updateScore(this.state.team, this.state.guessedNames.length);
+    
+    // // Send to ChangeoverPage
+    // this.props.history.push('/scores');
   };
     
   render () {

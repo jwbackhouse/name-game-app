@@ -5,24 +5,23 @@ import { addPlayer } from './players';
 
 
 // Add user
-export const addUser = ({userName, team, hasPlayed, isPlaying, uid}) => ({
+export const addUser = ({userName, uid, team}) => ({
   type:'ADD_USER',
   userName,
-  team,
-  hasPlayed,
-  isPlaying,
-  uid
+  uid,
+  team
 });
 
-export const startAddUser = (userData = {}) => {
-  return (dispatch, getState) => {    // Redux-thunk allows us to return a function, which is called with dispatch
+export const startAddUser = (userData) => {
+  return (dispatch, getState) => {
     const {
-      userName = 'Blank',
-      team = 'Unknown',
+      userName = '',
+      team = '',
       hasPlayed = false,
-      isPlaying = false
+      isPlaying = false,
+      isReady = false
     } = userData;   // Using destructuring to extract data from the user argument rather than doing it in function argument itself
-    const user = { userName, team, hasPlayed };   // uses deconstructed values from userData
+    const user = { userName, team, hasPlayed, isPlaying, isReady };   // uses deconstructed values from userData
     return database.ref(`users`).push(user).then((ref) => {
       const userObj = {
         uid: ref.key,    // .then callback from .push gets called with ref, so can get id from this using .key
@@ -30,7 +29,7 @@ export const startAddUser = (userData = {}) => {
       }
       
       // Add user to state.user
-      dispatch(addUser(userObj))
+      dispatch(addUser(userObj));
       
       // Add user to state.players
       dispatch(addPlayer(userObj));

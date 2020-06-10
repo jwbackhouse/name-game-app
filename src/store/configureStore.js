@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware,  } from 'redux';
 import thunk from 'redux-thunk'; // allows asynchronous calls to Firebase from actions
 import authReducer from '../reducers/auth';
 import namesReducer from '../reducers/names';
-import userReducer from '../reducers/users';
+import userReducer from '../reducers/user';
 import playersReducer from '../reducers/players';
 import gameReducer from '../reducers/game';
 

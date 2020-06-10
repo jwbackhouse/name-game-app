@@ -40,30 +40,6 @@ export const getPlayers = () => {
   };
 };
 
-
-
-// export const getPlayers = () => {
-//   return (dispatch, getState) => {
-//     // dispatch(getPlayersBegin());
-//     return database.ref(`users`).once('value').then(snapshot => {
-//       // dispatch(getPlayersSuccess(snapshot.val()));
-      
-//       dispatch(removeAllPlayers());
-      
-//       snapshot.forEach((childSnapshot) => {   // snapshot is an object, so using in-built Firebase method to iterate over child snapshots
-//         const output = childSnapshot.val();
-//         dispatch(addPlayer({
-//           uid: childSnapshot.key,
-//           ...output
-//         }));
-//       });
-//     }).catch(err => {
-//       console.log(err)
-//       // dispatch(getPlayersFailure(err));
-//     });
-//   };
-// };
-
 // Remove all players
 export const removeAllPlayers = () => ({
   type: 'REMOVE_ALL_PLAYERS'
@@ -75,21 +51,38 @@ export const addPlayer = (player) => ({
   player
 });
 
-export const startAddPlayer = (player={}) => {
+// Mark player as ready to play
+export const markPlayerReady = (uid) => {
   return (dispatch, getState) => {
-    const uid = getState().user.uid;
-    const playerObj = {
-      uid,
-      isPlaying: false,
-      hasPlayed: false,
-      ...player
-    };
-  
-    return database.ref(`users`).push(playerObj).then((ref) => {
-      dispatch(addPlayer({
-        id: ref.key,    // .then callback from .push gets called with ref, so can get id from this
-        ...playerObj
-      }));
-    });
-  };
+    return database.ref(`users/${uid}/isReady`).set(true)
+  }
 };
+
+
+
+
+// const defaultPlayer = {
+//   userName: '',
+//   team: '',
+//   uid: '',
+//   hasPlayed: false,
+//   isPlaying: false,
+//   isReady: false
+// }
+
+// export const startAddPlayer = (player=defaultPlayer) => {
+//   return (dispatch, getState) => {
+//     const uid = getState().user.uid;
+//     const playerObj = {
+//       uid,
+//       ...player
+//     };
+  
+//     return database.ref(`users`).push(playerObj).then((ref) => {
+//       dispatch(addPlayer({
+//         id: ref.key,    // .then callback from .push gets called with ref, so can get id from this
+//         ...playerObj
+//       }));
+//     });
+//   };
+// };
