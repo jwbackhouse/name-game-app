@@ -18,12 +18,12 @@ export default (state = {}, action) => {
         ...state,
         isReady: true
       }
-    case 'SET_PLAYER':
+    case 'SET_ACTIVE_PLAYER':
       return {
         ...state,
         isPlaying: true
       }
-    case 'RESET_PLAYER':
+    case 'RESET_ACTIVE_PLAYER':
       return {
         ...state,
         isPlaying: false

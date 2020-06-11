@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import database from '../firebase/firebase';
-import { startSetPlayer } from '../actions/user';
+import { startSetActivePlayer } from '../actions/user';
 import { getNames } from '../actions/names';
 import { setStartTime, updateLocalScore } from '../actions/game';
+import { getPlayers } from '../actions/players';
 import selectPlayer from '../selectors/selectPlayer';
 
 
@@ -23,7 +24,6 @@ export class ChangeoverPage extends React.Component {
       // Default to zero if not present
       const teamAScore = scores.A ? scores.A : 0;
       const teamBScore = scores.B ? scores.B : 0;
-      debugger
       // Update state.game
       this.props.updateLocalScore(teamAScore, teamBScore);
       // this.setState({
@@ -31,7 +31,8 @@ export class ChangeoverPage extends React.Component {
       //   teamBScore
       // });
     });
-    this.choosePlayer();
+    this.props.getPlayers()
+      .then(() => this.choosePlayer());
   }
   
   componentWillUnmount = () => {
@@ -49,16 +50,16 @@ export class ChangeoverPage extends React.Component {
     
     if (nextPlayer) {
       // Set isPlaying flag
-      this.props.startSetPlayer(nextPlayer.uid, nextPlayer.team);
+      this.props.startSetActivePlayer(nextPlayer.uid, nextPlayer.team);
       // Update local state
       this.setState({
         nextPlayer: nextPlayer.userName,
         nextTeam: nextPlayer.team
       });
     } else {
-      // Render message because one team currently empty
-      this.setState({ error: "GAME OVER... everyone's had their turn" });
-      setTimeout(() => this.props.history.push('/end'), 2000);
+      // Game over
+      this.setState({ error: "GAME OVER..." });
+      setTimeout(() => this.props.history.push('/end'), 0);
     }
   }
 
@@ -98,8 +99,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  startSetPlayer: (uid, team) => dispatch(startSetPlayer(uid, team)),
   getNames: () => dispatch(getNames()),
+  getPlayers: () => dispatch(getPlayers()),
+  startSetActivePlayer: (uid, team) => dispatch(startSetActivePlayer(uid, team)),
   updateLocalScore: (teamAScore, teamBScore) => dispatch(updateLocalScore(teamAScore, teamBScore)),
   setStartTime: () => dispatch(setStartTime())
 });

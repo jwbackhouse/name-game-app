@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import database from '../firebase/firebase';
 import TeamList from './TeamList';
 import { startAddUser } from '../actions/user';
-import { getPlayers } from '../actions/players';
+import { getPlayersSuccess } from '../actions/players';
 
 // TODO - add live db call
 
@@ -10,11 +11,27 @@ export class RegisterPage extends React.Component {
   state = {
     userName: '',
     team: 'A',
-    players: []
+    teamAPlayers: [],
+    teamBPlayers: []
   }
   
   componentDidMount() {
-    this.props.getPlayers()
+    // Listen for player updaed from Firebase
+    console.log('Props players:', this.props.players)
+    
+    database.ref('users').on('value', snapshot => {
+      let players = [];
+      snapshot.forEach(childSnapshot => {
+        const player = childSnapshot.val();
+        players.push({
+          uid: childSnapshot.key,
+          ...player
+        });
+      });
+      console.log('Players from db:', players)
+      // Log changes to state.players
+      this.props.getPlayersSuccess(players);
+    })
   }
   
   onTextChange = (e) => {
@@ -62,11 +79,11 @@ export class RegisterPage extends React.Component {
           </select>
           <div>
             <p>Already on Team A:</p>
-            <TeamList team='A' />
-            <br />
+            <TeamList players={this.props.players} team='A' />
             <p>Already on Team B:</p>
-            <TeamList team='B' />
+            <TeamList players={this.props.players} team='B' />
           </div>
+          <br />
           <button>Go</button>
         </form>
       </div>
@@ -74,13 +91,15 @@ export class RegisterPage extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  players: state.players
-});
+
 
 const mapDispatchToProps = (dispatch) => ({
   startAddUser: (user) => dispatch(startAddUser(user)),
-  getPlayers: () => dispatch(getPlayers()),
+  getPlayersSuccess: (players) => dispatch(getPlayersSuccess(players)),
 });
+
+const mapStateToProps = (state) => ({
+  players: state.players
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

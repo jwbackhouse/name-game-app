@@ -9,7 +9,6 @@ const initialState = {
 export default (state = initialState, action) => {
   switch(action.type) {
     case 'UPDATE_SCORE':
-      debugger;
       return {
         ...state,
         teamAScore: action.teamAScore,

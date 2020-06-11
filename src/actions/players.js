@@ -57,32 +57,3 @@ export const markPlayerReady = (uid) => {
     return database.ref(`users/${uid}/isReady`).set(true)
   }
 };
-
-
-
-
-// const defaultPlayer = {
-//   userName: '',
-//   team: '',
-//   uid: '',
-//   hasPlayed: false,
-//   isPlaying: false,
-//   isReady: false
-// }
-
-// export const startAddPlayer = (player=defaultPlayer) => {
-//   return (dispatch, getState) => {
-//     const uid = getState().user.uid;
-//     const playerObj = {
-//       uid,
-//       ...player
-//     };
-  
-//     return database.ref(`users`).push(playerObj).then((ref) => {
-//       dispatch(addPlayer({
-//         id: ref.key,    // .then callback from .push gets called with ref, so can get id from this
-//         ...playerObj
-//       }));
-//     });
-//   };
-// };

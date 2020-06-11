@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TeamList from './TeamList';
-import { startSetPlayer } from '../actions/user';
+import { startSetActivePlayer } from '../actions/user';
 import { getPlayersSuccess } from '../actions/players';
 import { getNames } from '../actions/names';
 import { setStartTime } from '../actions/game';
@@ -51,7 +51,7 @@ export class StartPage extends React.Component {
 
     if (nextPlayer) {
       // Set isPlaying flag
-      this.props.startSetPlayer(nextPlayer.uid, nextPlayer.team);
+      this.props.startSetActivePlayer(nextPlayer.uid, nextPlayer.team);
       // Update local state
       this.setState({
         nextPlayer: nextPlayer.userName,
@@ -97,10 +97,10 @@ export class StartPage extends React.Component {
       <div>
         <h1>Ready to go?</h1>
         <h3>Team A</h3>
-        <TeamList team='A' />
+        <TeamList players={this.props.players} team='A' />
         <br />
         <h3>Team B</h3>
-        <TeamList team='B' />
+        <TeamList players={this.props.players} team='B' />
         <br />
         { playElement }
       </div>
@@ -115,7 +115,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  startSetPlayer: (uid, team) => dispatch(startSetPlayer(uid, team)),
+  startSetActivePlayer: (uid, team) => dispatch(startSetActivePlayer(uid, team)),
   getPlayersSuccess: (players) => dispatch(getPlayersSuccess(players)),
   getNames: () => dispatch(getNames()),
   setStartTime: () => dispatch(setStartTime())

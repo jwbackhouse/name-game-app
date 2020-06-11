@@ -1,7 +1,7 @@
 // *** ACTION CREATORS ***
 
 import database from '../firebase/firebase';
-import { addPlayer } from './players';
+import { addPlayer, markPlayerPlayed } from './players';
 import { setPlayingTeam } from './game';
 
 
@@ -39,11 +39,11 @@ export const startAddUser = (userData) => {
 
 
 // Set the active player
-export const setPlayer = () => ({
-  type: 'SET_PLAYER',
+export const setActivePlayer = () => ({
+  type: 'SET_ACTIVE_PLAYER',
 });
 
-export const startSetPlayer = (uid, team) => {
+export const startSetActivePlayer = (uid, team) => {
   return (dispatch, getState) => {
     const isThisUser = getState().user.uid === uid;
     
@@ -52,27 +52,27 @@ export const startSetPlayer = (uid, team) => {
     
     // Update isPlaying in local state for relevant user. Have to call before db update otherwise GamePage loads before promise is resolved
     if (isThisUser) {
-      dispatch(setPlayer())
+      dispatch(setActivePlayer())
     }
   }
 };
 
 
 // Reset the active player
-export const resetPlayer = () => ({
-  type: 'RESET_PLAYER',
+export const resetActivePlayer = () => ({
+  type: 'RESET_ACTIVE_PLAYER',
 });
 
-export const startResetPlayer = () => {
+export const startResetActivePlayer = () => {
   return (dispatch, getState) => {
     const thisUserPlaying = getState().user.isPlaying;
     
     // Check if local user is the active player
     if (thisUserPlaying) {
       // Update isPlaying in local state
-      dispatch(resetPlayer())
+      dispatch(resetActivePlayer())
       
-      // Update Firebase
+      // Update hasPlayed flag in Firebase and state.players
       const uid = getState().user.uid;
       return database.ref(`users/${uid}`).update({ hasPlayed: true })
         .catch(err => console.log('Error resetting player in db:', err));

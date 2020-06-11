@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
         ...state,
         players: [...state.players, action.player]
       };
-    case 'REMOVE_ALL_USERS':
+    case 'REMOVE_ALL_PLAYERS':
       return state.players = [];
     default:
       return state;

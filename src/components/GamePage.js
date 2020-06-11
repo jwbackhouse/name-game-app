@@ -5,7 +5,7 @@ import LiveName from './LiveName';
 import Countdown from './Countdown';
 import { updateNames } from '../actions/names';
 import { startUpdateScore } from '../actions/game';
-import { startResetPlayer } from '../actions/user';
+import { startResetActivePlayer } from '../actions/user';
 
 
 // TODO - is there a better way to deal with repeated code (e.g. index setting)
@@ -130,7 +130,7 @@ export class GamePage extends React.Component {
   onFinished = () => {
     const promisesArray = [
       this.props.updateNames(this.state.guessedNames),
-      this.props.startResetPlayer(),
+      this.props.startResetActivePlayer(),
       this.props.startUpdateScore(this.props.game.playingTeam, this.state.guessedNames.length)
     ];
     const handleAllPromises = Promise.all(promisesArray);
@@ -197,8 +197,8 @@ export class GamePage extends React.Component {
       return (
         <div>
           <h1>Let's play...</h1>
-          <h3>Your word:</h3>
-          {guess}
+          <h3>Your word: {guess}</h3>
+          
           <br />
           <Countdown onFinished={this.onFinished}/>
           <br />
@@ -227,7 +227,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateNames: (names) => dispatch(updateNames(names)),
-  startResetPlayer: () => dispatch(startResetPlayer()),
+  startResetActivePlayer: () => dispatch(startResetActivePlayer()),
   startUpdateScore: (team, score) => dispatch(startUpdateScore(team, score))
 });
 
