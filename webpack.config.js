@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // Check environment variable
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';    // Heroku sets this to production, or we set to 'test' when running yarn test, otherwise default to 'development'
 
+// Setup environment varaibles for test & development (have to set up directly with Heroku CLI for production)
 if (process.env.NODE_ENV === 'test') {
   require('dotenv').config({path: '.env.test'});    // dotenv extract individual variables from the config file, so we don't have to manually define them here
 } else if (process.env.NODE_ENV === 'development') {
