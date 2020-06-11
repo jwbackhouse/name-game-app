@@ -2,11 +2,10 @@
 export default ((lastTeamPlayed, players) => {
   let teamLetter;
   if (lastTeamPlayed) {
-    teamLetter = (lastTeamPlayed === 'teamA') ? 'B' : 'A'
+    teamLetter = (lastTeamPlayed === 'A') ? 'B' : 'A'
   } else {
     teamLetter = 'A';
   }
-  
   const team = `team${teamLetter}`;
   
   // FOR LIVE

@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import database from '../firebase/firebase';
 import LiveName from './LiveName';
 import Countdown from './Countdown';
 import { updateNames } from '../actions/names';
-import { updateScore } from '../actions/game';
+import { startUpdateScore } from '../actions/game';
 import { startResetPlayer } from '../actions/user';
 
 
@@ -23,7 +24,6 @@ export class GamePage extends React.Component {
     names: [],
     passedNames: [],
     guessedNames: [],
-    team: undefined
   };
   
   componentDidMount() {
@@ -34,8 +34,6 @@ export class GamePage extends React.Component {
     // Populate local state with names
     const names = this.props.names;
     this.setState(() => ({ names}));
-    
-    this.setState(() => ({team: this.props.user.team}));
   };
   
   // Remove name from relevant state object + update index
@@ -133,14 +131,15 @@ export class GamePage extends React.Component {
     const promisesArray = [
       this.props.updateNames(this.state.guessedNames),
       this.props.startResetPlayer(),
-      this.props.updateScore(this.state.team, this.state.guessedNames.length)
-    ]
-    
+      this.props.startUpdateScore(this.props.game.playingTeam, this.state.guessedNames.length)
+    ];
     const handleAllPromises = Promise.all(promisesArray);
     handleAllPromises
       .then(() => this.props.names.length === 0 ? this.props.history.push('/end') : this.props.history.push('/scores'))
       .catch((err) => console.log('Something went wrong:', err));
     
+    // Remove counter start time from Firebase
+    database.ref('/game/startTime').remove();
     
     // // Update Firebase with guessedNames
     // this.props.updateNames(this.state.guessedNames);
@@ -198,13 +197,15 @@ export class GamePage extends React.Component {
       return (
         <div>
           <h1>Let's play...</h1>
-          <h3>You're up</h3>
+          <h3>Your word:</h3>
+          {guess}
+          <br />
+          <Countdown onFinished={this.onFinished}/>
+          <br />
           <div>
-            {guess}
             <p>Score: {score}</p>
             <p>Passed: {passedNames}</p>
           </div>
-          <Countdown onFinished={this.onFinished}/>
         </div>
       )
     // } else {
@@ -220,13 +221,14 @@ export class GamePage extends React.Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  names: state.names.filter(name => name.isGuessed === false)   // Only fetch unguessed names
+  names: state.names.filter(name => name.isGuessed === false),   // Only fetch unguessed names
+  game: state.game
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updateNames: (names) => dispatch(updateNames(names)),
   startResetPlayer: () => dispatch(startResetPlayer()),
-  updateScore: (team, score) => dispatch(updateScore(team, score))
+  startUpdateScore: (team, score) => dispatch(startUpdateScore(team, score))
 });
 
 export default connect (mapStateToProps, mapDispatchToProps)(GamePage);

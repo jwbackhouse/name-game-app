@@ -8,7 +8,7 @@ const getPlayersBegin = () => ({
   type: 'GET_PLAYERS_BEGIN'
 });
 
-const getPlayersSuccess = playerArr => ({
+export const getPlayersSuccess = playerArr => ({
     type: 'GET_PLAYERS_SUCCESS',
     payload: playerArr
 });

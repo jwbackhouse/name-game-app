@@ -21,7 +21,7 @@ export class NameEntry extends React.Component {
       this.setState({error: 'Please enter a name'})
     } else {
       this.props.startAddName(name);
-      this.setState(() => ({newName: ''}));
+      this.setState({ newName: '', error: '' });
     }
   };
   
@@ -38,7 +38,7 @@ export class NameEntry extends React.Component {
             onChange={ this.onNameChange }
             value={ this.state.newName }
           />
-          <button>Submit</button>
+          <button disabled={ this.props.disabled }>Add name</button>
           { this.state.error && <p>{ this.state.error }</p> }
         </form>
       </div>

@@ -1,18 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import database from '../firebase/firebase';
 
 
 export const EndPage = (props) => {
 
   const onClick = () => {
-    props.history.push('/setup');
+    database.ref().remove();
+    props.history.push('/');
   }
   
-  const winningTeam = props.game.teamAScore > props.game.teamBScore ? 'A' : 'B';
+  let message;
+  if (props.game.teamAScore > props.game.teamBScore) {
+    message = 'Team A has it!'
+  } else if (props.game.teamBScore > props.game.teamAScore) {
+    message = 'Team B has it!'
+  } else {
+    message = "It's a draw!"
+  }
     
   return (
     <div>
-      <h1>{`Team ${winningTeam} has it!`}</h1>
+      <h1>{ message }</h1>
       <p>Team A scored {props.game.teamAScore}</p>
       <p>Team B scored {props.game.teamBScore}</p>
       <button onClick={onClick}>Play again</button>

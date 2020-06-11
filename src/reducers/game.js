@@ -3,17 +3,23 @@
 const initialState = {
   teamAScore: 0,
   teamBScore: 0,
-  teamJustPlayed: null
+  playingTeam: null,
 };
 
 export default (state = initialState, action) => {
   switch(action.type) {
     case 'UPDATE_SCORE':
-      const prevTeamAScore = state.teamAScore;
-      const prevTeamBScore = state.teamBScore
-      return action.team === 'A'
-        ? {...state, teamJustPlayed: 'A', teamAScore: (action.score + prevTeamAScore)}
-        : {...state, teamJustPlayed: 'B', teamBScore: (action.score + prevTeamBScore)}
+      debugger;
+      return {
+        ...state,
+        teamAScore: action.teamAScore,
+        teamBScore: action.teamBScore
+      }
+    case 'SET_PLAYING_TEAM':
+      return {
+        ...state,
+        playingTeam: action.playingTeam
+      }
     default:
       return state;
   }

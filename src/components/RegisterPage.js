@@ -4,6 +4,7 @@ import TeamList from './TeamList';
 import { startAddUser } from '../actions/user';
 import { getPlayers } from '../actions/players';
 
+// TODO - add live db call
 
 export class RegisterPage extends React.Component {
   state = {

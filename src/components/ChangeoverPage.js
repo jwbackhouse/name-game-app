@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import database from '../firebase/firebase';
 import { startSetPlayer } from '../actions/user';
 import { getNames } from '../actions/names';
+import { setStartTime, updateLocalScore } from '../actions/game';
 import selectPlayer from '../selectors/selectPlayer';
 
 
@@ -9,34 +11,66 @@ import selectPlayer from '../selectors/selectPlayer';
 export class ChangeoverPage extends React.Component {
   state = {
     nextPlayer: undefined,
-    nextTeam: undefined
+    nextTeam: undefined,
+    teamAScore: '...',
+    teamBScore: '...'
   }
   
   componentDidMount = () => {
+    // Listen for score update from Firebase
+    database.ref('game/scores').on('value', snapshot => {
+      const scores = snapshot.val();
+      // Default to zero if not present
+      const teamAScore = scores.A ? scores.A : 0;
+      const teamBScore = scores.B ? scores.B : 0;
+      debugger
+      // Update state.game
+      this.props.updateLocalScore(teamAScore, teamBScore);
+      // this.setState({
+      //   teamAScore,
+      //   teamBScore
+      // });
+    });
     this.choosePlayer();
   }
   
+  componentWillUnmount = () => {
+    // Unsubscribe from Firebase call
+    database.ref('game/scores').off();
+  }
+  
   choosePlayer = () => {
-    const lastTeamPlayed = this.props.game.teamJustPlayed;
-    const players = this.props.players.players;
-    
     // Use selector to return next player
+    const lastTeamPlayed = this.props.game.playingTeam;
+    const players = this.props.players.players;
     const nextPlayer = selectPlayer(lastTeamPlayed, players);
+    console.log('Changeover Page: Last team played:', lastTeamPlayed);
+    console.log('Changeover Page: nextPlayer:', nextPlayer);
     
-    // Set isPlaying flag
-    this.props.startSetPlayer(nextPlayer.uid);
-    
-    // Update local state
-    this.setState({
-      nextPlayer: nextPlayer.userName,
-      nextTeam: nextPlayer.team
-    });
+    if (nextPlayer) {
+      // Set isPlaying flag
+      this.props.startSetPlayer(nextPlayer.uid, nextPlayer.team);
+      // Update local state
+      this.setState({
+        nextPlayer: nextPlayer.userName,
+        nextTeam: nextPlayer.team
+      });
+    } else {
+      // Render message because one team currently empty
+      this.setState({ error: "GAME OVER... everyone's had their turn" });
+      setTimeout(() => this.props.history.push('/end'), 2000);
+    }
   }
 
   onClick = () => {
-    // Get latest names from Firebase then push to GamePage
+    // Get latest names from Firebase before starting game
     this.props.getNames().then(() => {
-      this.props.history.push('/play');
+      if (this.props.user.isPlaying) {
+        this.props.history.push('/play');
+        this.props.setStartTime();
+      } else {
+        this.props.history.push('/guess');
+      }
     });
   }
   
@@ -59,12 +93,15 @@ export class ChangeoverPage extends React.Component {
 
 const mapStateToProps = (state) => ({
   game: state.game,
-  players: state.players
+  players: state.players,
+  user: state.user
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  startSetPlayer: (id) => dispatch(startSetPlayer(id)),
-  getNames: () => dispatch(getNames())
+  startSetPlayer: (uid, team) => dispatch(startSetPlayer(uid, team)),
+  getNames: () => dispatch(getNames()),
+  updateLocalScore: (teamAScore, teamBScore) => dispatch(updateLocalScore(teamAScore, teamBScore)),
+  setStartTime: () => dispatch(setStartTime())
 });
 
 

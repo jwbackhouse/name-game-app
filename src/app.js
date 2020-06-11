@@ -9,15 +9,21 @@ import { login, logout } from './actions/auth';
 import { getNames } from './actions/names';
 import { getPlayers } from './actions/players';
 import configureStore from './store/configureStore';
-import { firebase } from './firebase/firebase';
+import database, { firebase } from './firebase/firebase';
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 
 // Set up store
 const store = configureStore();
 
+// Get existing players & names from Firebase
 store.dispatch(getPlayers());
 store.dispatch(getNames());
+
+// TODO - move to admin only
+// // Remove previous start time for timer -
+// database.ref('game').remove()
+//   .catch(err => console.log('Error removing "/game" from Firebase: ', err));
 
 // Setup rendering
 const jsx = (

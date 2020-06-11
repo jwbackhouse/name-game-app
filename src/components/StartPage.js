@@ -2,60 +2,56 @@ import React from 'react';
 import { connect } from 'react-redux';
 import TeamList from './TeamList';
 import { startSetPlayer } from '../actions/user';
-import { getPlayers } from '../actions/players';
+import { getPlayersSuccess } from '../actions/players';
 import { getNames } from '../actions/names';
 import { setStartTime } from '../actions/game';
 import selectPlayer from '../selectors/selectPlayer';
 import database from '../firebase/firebase';
 
-
+  
+// TODO: routing depends on who's playing
+// TODO: force redirect for guessing users
+  
 export class StartPage extends React.Component {
   state = {
     nextPlayer: undefined,
     nextTeam: undefined,
-    allReady: false,
     error: ''
   }
   
   componentDidMount = () => {
-    // Check all players are ready
+    // Check all players are ready before choosing next player
     database.ref(`users`).on('value', snapshot => {
       let allReady = true;
+      let players = [];
       snapshot.forEach(childSnapshot => {
         const player = childSnapshot.val();
         allReady = player.isReady === false ? false : allReady;
+        players.push({
+          uid: childSnapshot.key,
+          ...player
+        });
       });
-      this.props.getPlayers();
-      
-      this.setState({allReady});
-      
-      // Update state with final player list & choose active player
-      if(allReady === true) {
-        this.props.getPlayers();
-        this.choosePlayer();
+      if (allReady) {
+        this.choosePlayer(players);
+        this.props.getPlayersSuccess(players);
       }
     })
   }
   
   componentWillUnmount = () => {
     // Unsubscribe from Firebase call
-    database.ref('users').off;
+    database.ref('users').off();
   }
-  
-  // TODO: check at least one person on each team
-  // TODO: routing depends on who's playing
-  
-  choosePlayer = () => {
-    const lastTeamPlayed = this.props.game.teamJustPlayed ? this.props.game.teamJustPlayed : undefined;
-    const players = this.props.players.players;
-    
-    // Use selector to return next player or handle error
+
+  choosePlayer = (players) => {
+    // Use selector to choose next player
+    const lastTeamPlayed = this.props.game.teamJustPlayed;
     const nextPlayer = selectPlayer(lastTeamPlayed, players);
-    
+
     if (nextPlayer) {
       // Set isPlaying flag
-      this.props.startSetPlayer(nextPlayer.uid);
-      
+      this.props.startSetPlayer(nextPlayer.uid, nextPlayer.team);
       // Update local state
       this.setState({
         nextPlayer: nextPlayer.userName,
@@ -86,7 +82,8 @@ export class StartPage extends React.Component {
     if(this.state.nextPlayer) {
       playElement = (
         <div>
-          <p>{`${this.state.nextPlayer} from team ${this.state.nextTeam} will start (unless someone else joins the game).`}</p>
+          <p>{`${this.state.nextPlayer} from team ${this.state.nextTeam} will start.`}</p>
+          <p>Once everyone is here, click the button...</p>
           <button onClick={this.onClick}>Let's play</button>
         </div>
       )
@@ -118,8 +115,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  startSetPlayer: (id) => dispatch(startSetPlayer(id)),
-  getPlayers: () => dispatch(getPlayers()),
+  startSetPlayer: (uid, team) => dispatch(startSetPlayer(uid, team)),
+  getPlayersSuccess: (players) => dispatch(getPlayersSuccess(players)),
   getNames: () => dispatch(getNames()),
   setStartTime: () => dispatch(setStartTime())
 });

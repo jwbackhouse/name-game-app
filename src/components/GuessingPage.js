@@ -5,12 +5,12 @@ import Countdown from './Countdown';
 
 export const GuessingPage = (props) => {
   const onFinished = () => {
-    // Impose 1sec delay to allow state to be updated by playing user
+    // Impose delay to allow state to be updated by playing user
     setTimeout(() => {
       props.names.length === 0
         ? props.history.push('/end')
         : props.history.push('/scores');
-    }, 1000);
+    }, 0);
   };
 
   
