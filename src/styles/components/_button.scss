@@ -1,28 +1,58 @@
 .button {
-  background: $blue;
-  border-radius: 2px;
-  border: none;
+  background: $green;
+  border: 2px solid $green;
+  border-radius: 0.25rem;
   color: $white;
   cursor: pointer;
-  display: inline-block;    // for links being disguised as buttons - forces vertical height to be taken into account
-  font-weight: 300;
-  font-size: $font-large;
-  line-height: 1;   // for links
-  padding: $s-size;
-  text-decoration: none;    // for links
+  display: inline-block;
+  font-weight: bold;
+  margin: 0;
+  padding: 0.5rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background 250ms ease-in-out,
+              transform 150ms ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  
+  &:hover, &:focus {
+    background: $white;
+    border: 2px solid $green;
+    color: $green;
+  }
+
+  &:focus {
+    outline: 1px solid $white;
+    outline-offset: -4px;
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
 }
 
-.button--link {
-  background: none;
+.button--input {
+  background: $blue;
+  border: 2px solid $blue;
+  margin: 0 $s-size;
+  &:hover, &:focus {
+    background: $white;
+    border: 2px solid $blue;
+    color: $blue;
+  }
 }
 
-.button--secondary {
-  background: $mid-grey;
-}
-
-.button--tertiary {
-  background: $mid-grey;
-  font-size: $font-medium;
-  margin-top: $s-size;
-  padding: $xs-size;
+.button--delete {
+  background: $white;
+  border: 2px solid $dark-grey;
+  border-radius: 50%;
+  color: $dark-grey;
+  display: inline-block;
+  height: 40px;
+  padding: 0.2rem;
+  width: 40px;
+  &:hover, &:focus {
+    background: $dark-grey;
+    color: $white;
+  }
 }

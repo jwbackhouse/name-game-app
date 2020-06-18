@@ -20,15 +20,10 @@ export const SetupPage = (props) => {
     props.history.push('/start');
   };
   
-  const word = remainingNames() === 1 ? 'name' : 'names';
   
   let namesList;
   if (props.names.length === 0) {
-    namesList = (
-      <div>
-        <span>Nothing added yet</span>
-      </div>
-    )
+    namesList = '';
   } else {
     namesList = props.names.map(name => {
       return <NameListItem
@@ -39,32 +34,37 @@ export const SetupPage = (props) => {
     })
   }
   
+  let word;
+  if (remainingNames() === 1) {
+    word = 'name still'
+  } else if (remainingNames() === 5) {
+    word = 'names'
+  } else {
+    word = 'names still'
+  };
+  
+  const goButtonStyle = props.names.length===5 ? {} : {};
+  
   return (
-    <div>
-      <h1>The Name Game</h1>
-      <h3>{ `You have ${ remainingNames() } ${ word } still to add` }</h3>
+    <div className='content-container'>
+      <h1>Choose your names</h1>
+      <p className='tip'>Friendly tip: It's a good idea to pick names everyone has heard of</p>
+      <p className=''>{ `You have ${ remainingNames() } ${ word } to add` }</p>
       
-      <NameEntry disabled={ props.names.length === 5 }/>
-      
-      <button
-        disabled={props.names.length !== 5}
-        onClick={onClick}
-      >
-        Go
-      </button>
-      <div>
-        <h4>Your names:</h4>
+      <div className='row'>
+        <NameEntry disabled={ props.names.length === 5 }/>
+        <button
+          className='button'
+          style={ goButtonStyle }
+          onClick={onClick}
+        >
+          Go
+        </button>
       </div>
       {namesList}
     </div>
   )
 };
-        // {props.names.length === 0
-        //   ? <div>
-        //       <span>Nothing added yet</span>
-        //     </div>
-        //   : props.names.map((name) => <NameListItem key={ name.id } id={name.id} name={name.name} disabled={ !props.names.length === 5 } />)
-        // }
 
 const mapStateToProps = (state) => ({
   names: selectUsersNames(state.names, state.user.uid),

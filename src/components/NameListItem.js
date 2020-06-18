@@ -10,12 +10,10 @@ export const NameListItem = (props) => {
   };
   
   return (
-    <div>
-      <h5>{ props.name}</h5>
-      <button
-        onClick={ onDelete }
-      >
-        Delete
+    <div className='list-names'>
+      <p className='list-names__name'>{ props.name}</p>
+      <button className = 'button button--delete' onClick={ onDelete }>
+        x
       </button>
     </div>
   )

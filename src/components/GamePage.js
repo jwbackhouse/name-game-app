@@ -10,13 +10,6 @@ import { startResetActivePlayer } from '../actions/user';
 
 // TODO - is there a better way to deal with repeated code (e.g. index setting)
 
-// PROCESS
-// fetch all names (from single list)
-// pick random one
-// mark as done or passed for round x
-// send back to db (ignoring passed flag)
-// next person pulls off non-done ones
-
 
 export class GamePage extends React.Component {
   state = {
@@ -31,7 +24,7 @@ export class GamePage extends React.Component {
     const index = Math.floor(Math.random() * (this.props.names.length - 1));    // BODGE - will not return array length to avoid error when array is shortened and {guess} renders below
     this.setState(() => ({index}));
     
-    // Populate local state with names
+    // Populate local state with unguessed names
     const names = this.props.names;
     this.setState(() => ({ names}));
   };
@@ -84,23 +77,6 @@ export class GamePage extends React.Component {
     
     // Remove name from state.names
     this.removeName('names');
-    
-    // Update index for new array
-    // // Update guessed name property to guessed
-    // this.setState(prevState => {
-    //   const index = prevState.index;
-    //   const names = prevState.names.map((name, arrIndex) => {
-    //     if (index === arrIndex) {
-    //       return {
-    //         ...name,
-    //         guessed:true
-    //       }
-    //     } else {
-    //       return name
-    //     }
-    //   });
-    //   return {names}
-    // })
   };
   
   // Update index to cycle through state.passedNames
@@ -140,18 +116,6 @@ export class GamePage extends React.Component {
     
     // Remove counter start time from Firebase
     database.ref('/game/startTime').remove();
-    
-    // // Update Firebase with guessedNames
-    // this.props.updateNames(this.state.guessedNames);
-    
-    // // Reset isPlaying flag if appropriate for local user
-    // this.props.user.isPlaying && this.props.startResetPlayer();
-    
-    // // Update team's score
-    // this.props.updateScore(this.state.team, this.state.guessedNames.length);
-    
-    // // Send to ChangeoverPage
-    // this.props.history.push('/scores');
   };
     
   render () {
@@ -196,15 +160,19 @@ export class GamePage extends React.Component {
     // if (isPlaying) {
       return (
         <div>
-          <h1>Let's play...</h1>
-          <h3>Your word: {guess}</h3>
-          
-          <br />
-          <Countdown onFinished={this.onFinished}/>
-          <br />
-          <div>
-            <p>Score: {score}</p>
-            <p>Passed: {passedNames}</p>
+          <div className='timer-block'>
+            <Countdown
+              onFinished={this.onFinished}
+              className='timer-block__timer'
+            />
+            <div className='scores-block'>
+              <p>Score: {score}</p>
+              <p>Passed: {passedNames}</p>
+            </div>
+          </div>
+          <div className='word-block'>
+            <h4>Your word:</h4>
+            <span className='word-block__word'>{guess}</span>
           </div>
         </div>
       )

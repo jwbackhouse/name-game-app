@@ -12,13 +12,12 @@ export class RegisterPage extends React.Component {
     userName: '',
     team: 'A',
     teamAPlayers: [],
-    teamBPlayers: []
+    teamBPlayers: [],
+    error: ''
   }
   
   componentDidMount() {
     // Listen for player updaed from Firebase
-    console.log('Props players:', this.props.players)
-    
     database.ref('users').on('value', snapshot => {
       let players = [];
       snapshot.forEach(childSnapshot => {
@@ -28,7 +27,6 @@ export class RegisterPage extends React.Component {
           ...player
         });
       });
-      console.log('Players from db:', players)
       // Log changes to state.players
       this.props.getPlayersSuccess(players);
     })
@@ -36,7 +34,7 @@ export class RegisterPage extends React.Component {
   
   onTextChange = (e) => {
     const userName = e.target.value;
-    this.setState(() => ({userName}))
+    this.setState({userName})
   }
   
   onSelectChange = (e) => {
@@ -46,45 +44,52 @@ export class RegisterPage extends React.Component {
   
   onSubmit = (e) => {
     e.preventDefault();
-    const user = {
-      userName: this.state.userName,
-      team: this.state.team
-    };
-    this.props.startAddUser(user);
-    this.setState(() => ({
-      userName: '',
-      team: 'A'
-    }));
-    this.props.history.push('/setup');
+    // Check a name has been entered
+    if (!this.state.userName) {
+      this.setState({error: '^^Please enter your name'})
+    } else {
+      const user = {
+        userName: this.state.userName,
+        team: this.state.team
+      };
+      this.props.startAddUser(user);
+      this.setState(() => ({
+        userName: '',
+        team: 'A'
+      }));
+      this.props.history.push('/setup');
+    }
   }
   
   render() {
+    const errorMsg = this.state.error && <p className='error'>{this.state.error}</p>
     return (
-      <div>
-        <h1>The Name Game</h1>
-        <h2>Registration</h2>
+      <div className='content-container'>
+        <h1>Sign up here</h1>
         <form onSubmit={ this.onSubmit }>
           <input
             autoFocus
+            className='text-input'
             placeholder='Name'
             onChange={ this.onTextChange }
             value={ this.state.userName }
           />
           <select
+            className='select'
             onChange={ this.onSelectChange }
             value={ this.state.team }
           >
             <option value='A'>Team A</option>
             <option value='B'>Team B</option>
           </select>
+          <button className='button button--input'>Go</button>
+          { errorMsg }
           <div>
-            <p>Already on Team A:</p>
+            <p className='list-header'>Already on Team A:</p>
             <TeamList players={this.props.players} team='A' />
-            <p>Already on Team B:</p>
+            <p className='list-header'>Already on Team B:</p>
             <TeamList players={this.props.players} team='B' />
           </div>
-          <br />
-          <button>Go</button>
         </form>
       </div>
     )

@@ -3,22 +3,40 @@
 }
 
 html {
-  font-size: 62.5%;
-}
-
-body {
-  color: $dark-grey;
-  font-family: Avant Garde, Arial, sans-serif;
   font-size: 16px;
-  line-height: 1.6;
 }
 
-// h2 {
-//   color: $dark-grey;
-//   font-size: 2em;
-//   font-weight: normal;
-//   margin: 0;
-// }
+
+body, input, select, button {
+  color: $dark-grey;
+  font-family: Fauna One, Garamond, sans-serif;
+  font-size: 0.875rem;    // 14px
+  letter-spacing: 0;
+  line-height: 2;
+}
+
+h1, h2, h3 {
+  font-family: Playfair Display, Verdana, Sans-Serif;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+h1 {
+  color: $pink;
+  font-size: 2rem;
+  font-style: italic;
+  margin-bottom: $m-size;
+}
+
+h2 {
+  color: $dark-grey;
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 0.875rem;
+}
 
 a {
   text-decoration: none;

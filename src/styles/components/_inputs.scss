@@ -2,16 +2,14 @@
   border: 1px solid #CACCCB;
   color: $dark-grey;
   height: 50px;
+  margin-right: $s-size;
   padding: 1rem;
+  width: 20rem;
 }
 
 // NOTE: can use @extend to copy properties from another class
 .select {
   @extend .text-input;
-  background:$white;
-}
-
-.textarea {
-  @extend .text-input;
-  height: 10rem;
+  background: $white;
+  width: 10rem;
 }

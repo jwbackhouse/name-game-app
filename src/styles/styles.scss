@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Fauna+One&family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,500&display=swap');
 @import './base/settings';
 @import './base/base';
 @import './components/box-layout';
@@ -8,7 +9,8 @@
 @import './components/input-group';
 @import './components/inputs';
 @import './components/form';
-@import './components/list';
+@import './components/lists';
 @import './components/visibility';
 @import './components/loader';
 @import './components/react-dates-override';
+@import './components/error';

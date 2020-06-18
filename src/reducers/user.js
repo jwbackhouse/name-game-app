@@ -13,11 +13,6 @@ export default (state = {}, action) => {
       return {};
     case 'REMOVE_ALL_USERS':
       return state = [];
-    case 'MARK_USER_READY':
-      return {
-        ...state,
-        isReady: true
-      }
     case 'SET_ACTIVE_PLAYER':
       return {
         ...state,

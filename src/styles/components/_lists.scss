@@ -1,0 +1,28 @@
+.list {
+  margin: $xs-size 0 $m-size 0;
+}
+
+// For names on setup page
+.list-names {
+  @extend .list;
+  display: flex;
+}
+
+.list-names__name {
+  width: 25%;
+}
+  
+
+// For everything else
+.list__item {
+  font-style: italic;
+}
+
+.list__item--message {
+  color: $mid-grey;
+}
+
+.list-header {
+  font-style: italic;
+  padding-top: $xs-size;
+}

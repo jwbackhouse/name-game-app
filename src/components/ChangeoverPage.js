@@ -26,10 +26,6 @@ export class ChangeoverPage extends React.Component {
       const teamBScore = scores.B ? scores.B : 0;
       // Update state.game
       this.props.updateLocalScore(teamAScore, teamBScore);
-      // this.setState({
-      //   teamAScore,
-      //   teamBScore
-      // });
     });
     this.props.getPlayers()
       .then(() => this.choosePlayer());
