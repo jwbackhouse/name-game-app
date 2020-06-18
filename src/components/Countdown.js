@@ -8,7 +8,7 @@ export class Countdown extends React.Component {
     timerOn: false,
     timerTime: 0,
     timerStart: 0,
-    timerLength: 6000,
+    timerLength: 60000,
     message: ''
   }
   
