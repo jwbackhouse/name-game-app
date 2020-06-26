@@ -163,6 +163,7 @@ export const endTurn = (uid) => {
 
 // End game
 export const endGame = (uid) => {
+  debugger;
   return () => {
     database.ref().update({
       ['game/startTurn']: false,

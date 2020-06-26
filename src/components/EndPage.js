@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import database from '../firebase/firebase';
-import { fetchData, resetGame } from '../actions/game';
+import { fetchData } from '../actions/game';
+import { removeAllNames } from '../actions/names';
 
 
 export class EndPage extends React.Component {
@@ -12,7 +13,8 @@ export class EndPage extends React.Component {
   onClick = () => {
     // Clear database
     database.ref().remove();
-    this.props.resetGame();
+    // Necessary as db update on Register page doesn't over-write names
+    this.props.removeAllNames();
     this.props.history.push('/');
   }
   
@@ -43,7 +45,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchData: () => dispatch(fetchData()),
-  resetGame: () => dispatch(resetGame())
+  removeAllNames: () => dispatch(removeAllNames())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EndPage);

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import database from '../firebase/firebase';
 import LiveName from './LiveName';
 import Countdown from './Countdown';
+import { passesAllowed } from '../app';
 import selectPlayer from '../selectors/selectPlayer';
 import { updateNames } from '../actions/names';
 import { startUpdateScore, endTurn, endGame, setNextPlayer } from '../actions/game';
@@ -21,7 +22,7 @@ export class GamePage extends React.Component {
   
   componentDidMount = () => {
     // Generate random index for name choice
-    const index = Math.floor(Math.random() * (this.props.names.length - 1));    // BODGE - will not return array length to avoid error when array is shortened and {guess} renders below
+    const index = Math.floor(Math.random() * (this.props.names.length - 1));
     this.setState({index});
     
     // Populate local state with unguessed names
@@ -30,49 +31,36 @@ export class GamePage extends React.Component {
   };
   
   // Remove name from relevant state object + update index
-  removeName = (arr) => {
+  removeName = (arrayName) => {
     this.setState(prevState => {
-      const index = prevState.index;
-      const newArr = prevState[arr].filter((name, arrIndex) => arrIndex !== index);
-      const newIndex = Math.floor(Math.random() * (prevState.names.length - 1));    // update index based on new array length
-      if (arr === 'names') {
-        return {
-          names: newArr,
-          index: newIndex
-        }
-      } else {
-        return {
-          passedNames: newArr,
-          index:newIndex
-        };
-      }
+      const prevIndex = prevState.index;
+      const newArr = prevState[arrayName].filter((name, arrIndex) => arrIndex !== prevIndex);
+      const newIndex = Math.floor(Math.random() * (prevState[arrayName].length - 1));    // update index based on new array length
+      return {
+        [arrayName]: newArr,
+        index: newIndex
+      };
     });
-  };
-  
-  pass = () => {
-    // Add passed name to state.passedNames
-    this.setState(prevState => {
-      const index = prevState.index;
-      const passedNames = [
-        ...prevState.passedNames,
-        prevState.names[index]
-      ];
-      return {passedNames};
-    });
-    
-    // Remove name from state.name
-    this.removeName('names');
   };
 
-  guessed = () => {
-    // Add guessed name to state.guessedNames
+  nextName = (type) => {
+    // Add guessed / passed name to state
     this.setState(prevState => {
       const index = prevState.index;
-      const guessedNames = [
-        ...prevState.guessedNames,
-        prevState.names[index]
-      ];
-      return {guessedNames};
+      
+      if (type === 'guess') {
+        const guessedNames = [
+          ...prevState.guessedNames,
+          prevState.names[index]
+        ];
+        return {guessedNames};
+      } else if (type === 'pass') {
+        const passedNames = [
+          ...prevState.passedNames,
+          prevState.names[index]
+        ];
+        return {passedNames};
+      }
     });
     
     // Remove name from state.names
@@ -82,8 +70,12 @@ export class GamePage extends React.Component {
   // Update index to cycle through state.passedNames
   passAgain = () => {
     let index;
-    (this.state.passedNames.length - 1) === this.state.index ? index = 0 : index = (this.state.index + 1);
-    this.setState({index});
+    if (this.state.passedNames.length - 1 === this.state.index) {
+      index = 0;
+    } else {
+      index = this.state.index + 1;
+    }
+    this.setState({ index });
   };
   
   guessedAgain = () => {
@@ -97,9 +89,7 @@ export class GamePage extends React.Component {
       return {guessedNames};
     });
     
-    // Update index for shorter array, then remove name from state.passedNames
-    const index = (this.state.passedNames.length - 1) >= this.state.index ? 0 : (this.state.index + 1);
-    this.setState({index}, this.removeName('passedNames'));
+    this.removeName('passedNames');
   };
   
   choosePlayer = (players) => {
@@ -109,7 +99,7 @@ export class GamePage extends React.Component {
 
     // Check a player is returned
     if (!nextPlayer) {
-      this.props.endGame();
+      this.props.endGame(this.props.user.uid);
       // this.props.history.push('/end');
       
     } else {
@@ -135,9 +125,10 @@ export class GamePage extends React.Component {
       // Check if game has ended
       .then(() => {
         if (this.state.names.length === 0) {
-          this.props.endGame()
+          this.props.endGame(this.props.user.uid)
           this.props.history.push('/end')
         } else {
+          debugger;
           this.props.endTurn(this.props.user.uid);
           this.props.history.push('/scores')
         }
@@ -158,11 +149,10 @@ export class GamePage extends React.Component {
         <LiveName
           index={this.state.index}
           names={this.state.names}
-          pass={this.pass}
-          guessed={this.guessed}
+          pass={this.nextName}
+          guessed={this.nextName}
         />
     } else if (passedNames > 0) {
-      // const index = Math.floor(Math.random() * (this.state.passedNames.length))
       guess =
         <LiveName
           index={this.state.index}
@@ -215,7 +205,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateNames: (names) => dispatch(updateNames(names)),
   startUpdateScore: (team, score) => dispatch(startUpdateScore(team, score)),
   endTurn: (uid) => dispatch(endTurn(uid)),
-  endGame: () => dispatch(endGame()),
+  endGame: (uid) => dispatch(endGame(uid)),
   setNextPlayer: (player) => dispatch(setNextPlayer(player))
 });
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NameListItem from './NameListItem';
 import NameEntry from './NameEntry';
+import { numberNames } from '../app';
 import { markPlayerReady } from '../actions/players';
 import selectUsersNames from '../selectors/selectUsersNames';
 
@@ -9,7 +10,6 @@ import selectUsersNames from '../selectors/selectUsersNames';
 // TODO - import numberNames from admin page
 
 export const SetupPage = (props) => {
-  const numberNames = 2;
   const remainingNames = () => {
     const namesSubmitted = props.names.length;
     return numberNames - namesSubmitted;

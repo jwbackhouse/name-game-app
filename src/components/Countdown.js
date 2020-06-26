@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { timerLength } from '../app';
 import database from '../firebase/firebase';
 
 // TODO - link state.timerLength to admin page
@@ -8,7 +9,7 @@ export class Countdown extends React.Component {
     timerOn: false,
     timerTime: 0,
     timerStart: 0,
-    timerLength: 10000,
+    timerLength,
     message: ''
   }
   

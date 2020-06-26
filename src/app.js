@@ -18,16 +18,12 @@ import ChangeoverPage from './components/ChangeoverPage';
 
 // Set up store
 const store = configureStore();
-
 store.dispatch(initialiseGame());
-// Get existing players & names from Firebase
-// store.dispatch(getPlayers());
-// store.dispatch(getNames());
 
-// TODO - move to admin only
-// // Remove previous start time for timer -
-// database.ref('game').remove()
-//   .catch(err => console.log('Error removing "/game" from Firebase: ', err));
+// Set game rules
+export const numberNames = 5;
+export const timerLength = 120000;   // in milliseconds
+export const passesAllowed = 2;
 
 // Setup rendering
 const jsx = (
