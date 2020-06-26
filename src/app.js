@@ -23,7 +23,7 @@ store.dispatch(initialiseGame());
 // Set game rules
 export const numberNames = 5;
 export const timerLength = 120000;   // in milliseconds
-export const passesAllowed = 2;
+export const passesAllowed = 1;
 
 // Setup rendering
 const jsx = (

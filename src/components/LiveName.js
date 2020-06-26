@@ -2,14 +2,40 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 export const LiveName = (props) => {
-  const passMessage = props.runPassed ? 'Pass again' : 'Pass';
+  const passButtonText = props.showingPassedNames ? 'Pass again' : 'Pass';
+  const prevPassedMsg =  props.showingPassedNames && <span>(Previously passed)</span>
+  const noMorePassMsg = !props.allowPass && <p>Sorry, no more passes allowed</p>;
+  
+  let revisitPassedButton;
+  if (!props.allowPass && props.passedNamesLength > 0) {
+    revisitPassedButton = (
+      <button onClick={ props.revisitPassed }>Re-try passed names</button>
+    )
+  }
+    
+  let passButton;
+  if (props.allowPass) {
+    passButton =
+      <button
+        onClick={ () => props.pass('pass') }
+        disabled={ !props.allowPass }
+      >
+        { passButtonText }
+      </button>
+  }
 
   return (
     <div>
-      { props.runPassed && <p>(Previously passed)</p> }
+      { prevPassedMsg }
       <p>{ props.names[props.index].name }</p>
-      <button onClick={ () => props.pass('pass') }>{ passMessage }</button>
-      <button onClick={ () => props.guessed('guess') }>Correct</button>
+      { noMorePassMsg }
+      <button
+        onClick={ () => props.guessed('guess') }
+      >
+        Guessed correctly
+      </button>
+      { passButton }
+      { revisitPassedButton }
     </div>
   )
 }

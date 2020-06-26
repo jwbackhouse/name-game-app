@@ -15,9 +15,12 @@ import { startUpdateScore, endTurn, endGame, setNextPlayer } from '../actions/ga
 export class GamePage extends React.Component {
   state = {
     index: undefined,
+    prevIndex: undefined,
     names: [],
     passedNames: [],
-    guessedNames: []
+    guessedNames: [],
+    numberPasses: 0,
+    revisitPassed: false,
   };
   
   componentDidMount = () => {
@@ -28,6 +31,30 @@ export class GamePage extends React.Component {
     // Populate local state with unguessed names
     const names = this.props.names;
     this.setState({ names});
+  };
+
+  nextName = (type) => {
+    // Add guessed / passed name to state
+    this.setState(prevState => {
+      const index = prevState.index;
+      
+      if (type === 'guess') {
+        const guessedNames = [
+          ...prevState.guessedNames,
+          prevState.names[index]
+        ];
+        return { guessedNames };
+      } else if (type === 'pass') {
+        const passedNames = [
+          ...prevState.passedNames,
+          prevState.names[index]
+        ];
+        return { passedNames, numberPasses: prevState.numberPasses + 1 };
+      }
+    });
+    
+    // Remove name from state.names
+    this.removeName('names');
   };
   
   // Remove name from relevant state object + update index
@@ -41,30 +68,6 @@ export class GamePage extends React.Component {
         index: newIndex
       };
     });
-  };
-
-  nextName = (type) => {
-    // Add guessed / passed name to state
-    this.setState(prevState => {
-      const index = prevState.index;
-      
-      if (type === 'guess') {
-        const guessedNames = [
-          ...prevState.guessedNames,
-          prevState.names[index]
-        ];
-        return {guessedNames};
-      } else if (type === 'pass') {
-        const passedNames = [
-          ...prevState.passedNames,
-          prevState.names[index]
-        ];
-        return {passedNames};
-      }
-    });
-    
-    // Remove name from state.names
-    this.removeName('names');
   };
   
   // Update index to cycle through state.passedNames
@@ -86,10 +89,22 @@ export class GamePage extends React.Component {
         ...prevState.guessedNames,
         prevState.passedNames[index]
       ];
-      return {guessedNames};
+      return {
+        guessedNames,
+        revisitPassed: false,
+        prevIndex: undefined
+      };
     });
     
     this.removeName('passedNames');
+  };
+  
+  revisitPassed = () => {
+    this.setState(prevState => ({
+      revisitPassed: true,
+      index: 0,
+      prevIndex: prevState.index
+    }));
   };
   
   choosePlayer = (players) => {
@@ -128,7 +143,6 @@ export class GamePage extends React.Component {
           this.props.endGame(this.props.user.uid)
           this.props.history.push('/end')
         } else {
-          debugger;
           this.props.endTurn(this.props.user.uid);
           this.props.history.push('/scores')
         }
@@ -144,22 +158,30 @@ export class GamePage extends React.Component {
     let guess;
     const remainingNames = this.state.names.length;
     const passedNames = this.state.passedNames.length;
-    if (remainingNames > 0) {
+    const allowPass = (passesAllowed - this.state.numberPasses) > 0;
+    
+    if (remainingNames > 0 && !this.state.revisitPassed) {
+      const index = this.state.prevIndex ? this.state.prevIndex : this.state.index;
       guess =
         <LiveName
-          index={this.state.index}
-          names={this.state.names}
-          pass={this.nextName}
-          guessed={this.nextName}
+          index={ index }
+          names={ this.state.names }
+          passedNamesLength = { this.state.passedNames.length }
+          pass={ this.nextName }
+          guessed={ this.nextName }
+          revisitPassed={ this.revisitPassed }
+          allowPass={ allowPass }
         />
-    } else if (passedNames > 0) {
+    } else if (passedNames > 0 || (passedNames > 0 && this.state.revisitPassed)) {
       guess =
         <LiveName
-          index={this.state.index}
-          names={this.state.passedNames}
-          pass={this.passAgain}
-          guessed={this.guessedAgain}
-          runPassed={true}
+          index={ this.state.index }
+          names={ this.state.passedNames }
+          passedNamesLength = { this.state.passedNames.length }
+          pass={ this.passAgain }
+          guessed={ this.guessedAgain }
+          revisitPassed={ this.revisitPassed }
+          showingPassedNames={ true }
         />
     } else {
       guess = (
