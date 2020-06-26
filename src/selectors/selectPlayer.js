@@ -11,7 +11,7 @@ export default ((lastTeamPlayed, players) => {
   // FOR LIVE
   const startingTeam = players.filter(player => player.team === teamLetter && !player.hasPlayed);
   const player = startingTeam[0];
-  
+
   // FOR TESTING
   // const startingTeam = players.filter(player => player.team === 'A' && !player.hasPlayed);
   // const index = startingTeam.length - 1;

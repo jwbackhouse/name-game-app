@@ -7,7 +7,7 @@ export default (state = initialState, action) => {
     case 'ADD_NAME':
       return [
         ...state,   // Using spread operator as an alternative to concat - doesn't change original array
-        action.name    // This returns an object that's added to the array
+        action.nameObj    // This returns an object that's added to the array
       ];
     case 'REMOVE_NAME':
       return state.filter(name => name.id !== action.id);

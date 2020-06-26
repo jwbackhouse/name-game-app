@@ -3,9 +3,9 @@
 import database from '../firebase/firebase';
 
 // Add a name
-export const addName = (name) => ({
+export const addName = (nameObj) => ({
   type:'ADD_NAME',
-  name
+  nameObj
 });
 
 export const startAddName = (name={}) => {
@@ -45,12 +45,14 @@ export const removeAllNames = () => ({
   type: 'REMOVE_ALL_NAMES'
 });
 
+
+// TODO - create new dispatch that accepts an array rather than processing each name individually
 // Fetch names from Firebase
 export const getNames = () => {
   return (dispatch, getState) => {
     return database.ref(`names`).once('value').then((snapshot) => {
       dispatch(removeAllNames());
-      snapshot.forEach((childSnapshot) => {   // snapshot is an object, so using in-built Firebase method to iterate over child snapshots
+      snapshot.forEach((childSnapshot) => {
         dispatch(addName({
           id: childSnapshot.key,
           name: childSnapshot.val().name,
@@ -72,7 +74,7 @@ export const getNamesPromise = () => {
 export const updateNames = (names) => {
   return (dispatch, getState) => {
     names.forEach(name => {
-      return database.ref(`names/${name.id}/isGuessed`).set(true);
+      database.ref(`names/${name.id}/isGuessed`).set(true);
     });
     // return database.ref(`names`).once('value').then((snapshot) => {
     //   snapshot.forEach((childSnapshot) => {   // snapshot is an object, so using in-built Firebase method to iterate over child snapshots

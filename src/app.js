@@ -8,17 +8,21 @@ import LoadingPage from './components/LoadingPage';
 import { login, logout } from './actions/auth';
 import { getNames } from './actions/names';
 import { getPlayers } from './actions/players';
+import { initialiseGame } from './actions/game';
 import configureStore from './store/configureStore';
 import database, { firebase } from './firebase/firebase';
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 
+import ChangeoverPage from './components/ChangeoverPage';
+
 // Set up store
 const store = configureStore();
 
+store.dispatch(initialiseGame());
 // Get existing players & names from Firebase
-store.dispatch(getPlayers());
-store.dispatch(getNames());
+// store.dispatch(getPlayers());
+// store.dispatch(getNames());
 
 // TODO - move to admin only
 // // Remove previous start time for timer -

@@ -1,105 +1,73 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import database from '../firebase/firebase';
-import { startSetActivePlayer } from '../actions/user';
+import StartMessage from './StartMessage';
+import { fetchData, endFetchData, startTurn } from '../actions/game';
 import { getNames } from '../actions/names';
-import { setStartTime, updateLocalScore } from '../actions/game';
-import { getPlayers } from '../actions/players';
 import selectPlayer from '../selectors/selectPlayer';
 
 
 
 export class ChangeoverPage extends React.Component {
   state = {
-    nextPlayer: undefined,
-    nextTeam: undefined,
-    teamAScore: '...',
-    teamBScore: '...'
+    error: '',
+    nextPlayer: undefined
   }
   
   componentDidMount = () => {
-    // Listen for score update from Firebase
-    database.ref('game/scores').on('value', snapshot => {
-      const scores = snapshot.val();
-      // Default to zero if not present
-      const teamAScore = scores.A ? scores.A : 0;
-      const teamBScore = scores.B ? scores.B : 0;
-      // Update state.game
-      this.props.updateLocalScore(teamAScore, teamBScore);
-    });
-    this.props.getPlayers()
-      .then(() => this.choosePlayer());
+    this.props.fetchData();
+    this.props.getNames();
+  }
+  
+  componentDidUpdate = (prevProps) => {
+    if (!prevProps.game.startTurn) {
+      this.props.game.startTurn && this.props.history.push('/guess');
+    }
+    if (this.props.game.endGame) {
+      this.props.history.push('/end')
+    }
   }
   
   componentWillUnmount = () => {
-    // Unsubscribe from Firebase call
-    database.ref('game/scores').off();
-  }
-  
-  choosePlayer = () => {
-    // Use selector to return next player
-    const lastTeamPlayed = this.props.game.playingTeam;
-    const players = this.props.players.players;
-    const nextPlayer = selectPlayer(lastTeamPlayed, players);
-    console.log('Changeover Page: Last team played:', lastTeamPlayed);
-    console.log('Changeover Page: nextPlayer:', nextPlayer);
-    
-    if (nextPlayer) {
-      // Set isPlaying flag
-      this.props.startSetActivePlayer(nextPlayer.uid, nextPlayer.team);
-      // Update local state
-      this.setState({
-        nextPlayer: nextPlayer.userName,
-        nextTeam: nextPlayer.team
-      });
-    } else {
-      // Game over
-      this.setState({ error: "GAME OVER..." });
-      setTimeout(() => this.props.history.push('/end'), 0);
-    }
+    this.props.endFetchData();
   }
 
   onClick = () => {
-    // Get latest names from Firebase before starting game
-    this.props.getNames().then(() => {
-      if (this.props.user.isPlaying) {
-        this.props.history.push('/play');
-        this.props.setStartTime();
-      } else {
-        this.props.history.push('/guess');
-      }
-    });
+    // Update Firebase with startGame & startTime
+    this.props.startTurn();
+    this.props.history.push('/play')
   }
   
   render = () => {
-    let team;
-    this.state.nextPlayer && (team = <p>{`${this.state.nextPlayer} from team ${this.state.nextTeam} is up next.`}</p>);
-    
+    // Check if this user is playing next
+    const thisUserPlaying = this.props.user.uid === this.props.game.playingNow.uid;
+
     return (
-      <div>
+      <div className='content-container'>
         <h1>The scores on the doors</h1>
         <p>Team A: {this.props.game.teamAScore}</p>
         <p>Team B: {this.props.game.teamBScore}</p>
-        {team}
-        <button onClick={this.onClick}>Go</button>
+        <StartMessage
+          thisUserPlaying={ thisUserPlaying }
+          playingNow={ this.props.game.playingNow }
+          errorMsg={ '' }
+          onClick={ this.onClick }
+        />
       </div>
     )
   }
-  
 }
 
 const mapStateToProps = (state) => ({
-  game: state.game,
   players: state.players,
+  game: state.game,
   user: state.user
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  startTurn: () => dispatch(startTurn()),
+  fetchData: () => dispatch(fetchData()),
   getNames: () => dispatch(getNames()),
-  getPlayers: () => dispatch(getPlayers()),
-  startSetActivePlayer: (uid, team) => dispatch(startSetActivePlayer(uid, team)),
-  updateLocalScore: (teamAScore, teamBScore) => dispatch(updateLocalScore(teamAScore, teamBScore)),
-  setStartTime: () => dispatch(setStartTime())
+  endFetchData: () => dispatch(endFetchData())
 });
 
 

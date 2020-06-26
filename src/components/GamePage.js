@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import database from '../firebase/firebase';
 import LiveName from './LiveName';
 import Countdown from './Countdown';
+import selectPlayer from '../selectors/selectPlayer';
 import { updateNames } from '../actions/names';
-import { startUpdateScore } from '../actions/game';
-import { startResetActivePlayer } from '../actions/user';
+import { startUpdateScore, endTurn, endGame, setNextPlayer } from '../actions/game';
 
 
 // TODO - is there a better way to deal with repeated code (e.g. index setting)
@@ -16,17 +16,17 @@ export class GamePage extends React.Component {
     index: undefined,
     names: [],
     passedNames: [],
-    guessedNames: [],
+    guessedNames: []
   };
   
-  componentDidMount() {
+  componentDidMount = () => {
     // Generate random index for name choice
     const index = Math.floor(Math.random() * (this.props.names.length - 1));    // BODGE - will not return array length to avoid error when array is shortened and {guess} renders below
-    this.setState(() => ({index}));
+    this.setState({index});
     
     // Populate local state with unguessed names
     const names = this.props.names;
-    this.setState(() => ({ names}));
+    this.setState({ names});
   };
   
   // Remove name from relevant state object + update index
@@ -98,24 +98,51 @@ export class GamePage extends React.Component {
     });
     
     // Update index for shorter array, then remove name from state.passedNames
-    let index;
-    (this.state.passedNames.length - 1) >= this.state.index ? index = 0 : index = (this.state.index + 1);
+    const index = (this.state.passedNames.length - 1) >= this.state.index ? 0 : (this.state.index + 1);
     this.setState({index}, this.removeName('passedNames'));
   };
   
+  choosePlayer = (players) => {
+    // Use selector to choose next player
+    const lastTeamPlayed = this.props.game.playingNow.team;
+    const nextPlayer = selectPlayer(lastTeamPlayed, players);
+
+    // Check a player is returned
+    if (!nextPlayer) {
+      this.props.endGame();
+      // this.props.history.push('/end');
+      
+    } else {
+      return this.props.setNextPlayer(nextPlayer);
+    }
+  }
+  
   onFinished = () => {
     const promisesArray = [
+      // Choose next player & send to Firebase
+      this.choosePlayer(this.props.players.players),
+      
+      // Update names in Firebase
       this.props.updateNames(this.state.guessedNames),
-      this.props.startResetActivePlayer(),
-      this.props.startUpdateScore(this.props.game.playingTeam, this.state.guessedNames.length)
+      
+      // Send score to Firebase
+      this.props.startUpdateScore(this.props.game.playingNow.team, this.state.guessedNames.length)
     ];
-    const handleAllPromises = Promise.all(promisesArray);
-    handleAllPromises
-      .then(() => this.props.names.length === 0 ? this.props.history.push('/end') : this.props.history.push('/scores'))
-      .catch((err) => console.log('Something went wrong:', err));
     
-    // Remove counter start time from Firebase
-    database.ref('/game/startTime').remove();
+    const handleAllPromises = Promise.all(promisesArray);
+    
+    handleAllPromises
+      // Check if game has ended
+      .then(() => {
+        if (this.state.names.length === 0) {
+          this.props.endGame()
+          this.props.history.push('/end')
+        } else {
+          this.props.endTurn(this.props.user.uid);
+          this.props.history.push('/scores')
+        }
+      })
+      .catch((err) => console.log('Something went wrong:', err));
   };
     
   render () {
@@ -148,7 +175,7 @@ export class GamePage extends React.Component {
       guess = (
         <div>
           <p>All finished</p>
-          <button onClick={this.onFinished}>Next player</button>
+          <button onClick={this.onFinished}>To the scores</button>
         </div>
       )
     }
@@ -156,47 +183,40 @@ export class GamePage extends React.Component {
     // Define score
     const score = this.state.guessedNames.length
     
-    // // Conditional rendering based on whether local user is playing
-    // if (isPlaying) {
-      return (
-        <div>
-          <div className='timer-block'>
-            <Countdown
-              onFinished={this.onFinished}
-              className='timer-block__timer'
-            />
-            <div className='scores-block'>
-              <p>Score: {score}</p>
-              <p>Passed: {passedNames}</p>
-            </div>
-          </div>
-          <div className='word-block'>
-            <h4>Your word:</h4>
-            <span className='word-block__word'>{guess}</span>
+    return (
+      <div className='content-container'>
+        <div className='timer-block'>
+          <Countdown
+            onFinished={this.onFinished}
+            className='timer-block__timer'
+          />
+          <div className='scores-block'>
+            <p>Score: {score}</p>
+            <p>Passed: {passedNames}</p>
           </div>
         </div>
-      )
-    // } else {
-    //   return (
-    //     <div>
-    //       <h1>Let's play...</h1>
-    //       <h3>Ready?</h3>
-    //     </div>
-    //   )
-    // }
+        <div className='word-block'>
+          <h4>Your word:</h4>
+          <span className='word-block__word'>{guess}</span>
+        </div>
+      </div>
+    )
   };
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
   names: state.names.filter(name => name.isGuessed === false),   // Only fetch unguessed names
-  game: state.game
+  game: state.game,
+  players: state.players
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updateNames: (names) => dispatch(updateNames(names)),
-  startResetActivePlayer: () => dispatch(startResetActivePlayer()),
-  startUpdateScore: (team, score) => dispatch(startUpdateScore(team, score))
+  startUpdateScore: (team, score) => dispatch(startUpdateScore(team, score)),
+  endTurn: (uid) => dispatch(endTurn(uid)),
+  endGame: () => dispatch(endGame()),
+  setNextPlayer: (player) => dispatch(setNextPlayer(player))
 });
 
 export default connect (mapStateToProps, mapDispatchToProps)(GamePage);

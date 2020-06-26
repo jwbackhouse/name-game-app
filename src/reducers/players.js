@@ -31,6 +31,11 @@ export default (state = initialState, action) => {
       };
     case 'REMOVE_ALL_PLAYERS':
       return state.players = [];
+    case 'UPDATE_PLAYERS':
+        return {
+          ...state,
+          players: action.payload
+        }
     default:
       return state;
   }

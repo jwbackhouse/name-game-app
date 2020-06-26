@@ -29,6 +29,12 @@
   &:active {
     transform: scale(0.99);
   }
+  
+  &:disabled {
+    background: $light-grey;
+    border: 2px solid $mid-grey;
+    color: $dark-grey;
+  }
 }
 
 .button--input {

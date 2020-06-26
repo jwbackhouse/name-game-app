@@ -5,14 +5,14 @@ import NameEntry from './NameEntry';
 import { markPlayerReady } from '../actions/players';
 import selectUsersNames from '../selectors/selectUsersNames';
 
-// TODO - check for duplicate names
-// TODO - import from admin page (also below in JSX)
+// TODO - check for duplicate names using onNameEntry
+// TODO - import numberNames from admin page
 
 export const SetupPage = (props) => {
+  const numberNames = 2;
   const remainingNames = () => {
     const namesSubmitted = props.names.length;
-    const numberAllowed = 5;
-    return numberAllowed - namesSubmitted;
+    return numberNames - namesSubmitted;
   };
   
   const onClick = () => {
@@ -20,6 +20,8 @@ export const SetupPage = (props) => {
     props.history.push('/start');
   };
   
+  const onNameEntry = () => {
+  };
   
   let namesList;
   if (props.names.length === 0) {
@@ -37,13 +39,11 @@ export const SetupPage = (props) => {
   let word;
   if (remainingNames() === 1) {
     word = 'name still'
-  } else if (remainingNames() === 5) {
+  } else if (remainingNames() === numberNames) {
     word = 'names'
   } else {
     word = 'names still'
   };
-  
-  const goButtonStyle = props.names.length===5 ? {} : {};
   
   return (
     <div className='content-container'>
@@ -52,14 +52,16 @@ export const SetupPage = (props) => {
       <p className=''>{ `You have ${ remainingNames() } ${ word } to add` }</p>
       
       <div className='row'>
-        <NameEntry disabled={ props.names.length === 5 }/>
-        <button
+        <NameEntry
+          onNameEntry={ onNameEntry }
+          disabled={ props.names.length === numberNames }
+        />
+        { props.names.length === numberNames && <button
           className='button'
-          style={ goButtonStyle }
-          onClick={onClick}
+          onClick={ onClick }
         >
           Go
-        </button>
+        </button> }
       </div>
       {namesList}
     </div>

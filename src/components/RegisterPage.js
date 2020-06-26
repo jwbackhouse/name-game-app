@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import database from '../firebase/firebase';
 import TeamList from './TeamList';
 import { startAddUser } from '../actions/user';
-import { getPlayersSuccess } from '../actions/players';
+import { fetchData, endFetchData } from '../actions/game';
 
 // TODO - add live db call
 
@@ -11,25 +11,15 @@ export class RegisterPage extends React.Component {
   state = {
     userName: '',
     team: 'A',
-    teamAPlayers: [],
-    teamBPlayers: [],
     error: ''
   }
   
-  componentDidMount() {
-    // Listen for player updaed from Firebase
-    database.ref('users').on('value', snapshot => {
-      let players = [];
-      snapshot.forEach(childSnapshot => {
-        const player = childSnapshot.val();
-        players.push({
-          uid: childSnapshot.key,
-          ...player
-        });
-      });
-      // Log changes to state.players
-      this.props.getPlayersSuccess(players);
-    })
+  componentDidMount = () => {
+    this.props.fetchData();
+  }
+  
+  componentWillUnmount = () => {
+    this.props.endFetchData();
   }
   
   onTextChange = (e) => {
@@ -100,7 +90,8 @@ export class RegisterPage extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   startAddUser: (user) => dispatch(startAddUser(user)),
-  getPlayersSuccess: (players) => dispatch(getPlayersSuccess(players)),
+  fetchData: () => dispatch(fetchData()),
+  endFetchData: () => dispatch(endFetchData())
 });
 
 const mapStateToProps = (state) => ({

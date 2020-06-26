@@ -23,7 +23,7 @@ const getPlayersFailure = error => ({
 export const getPlayers = () => {
   return (dispatch, getState) => {
     dispatch(getPlayersBegin());
-    return database.ref(`users`).once('value').then(snapshot => {
+    return database.ref(`players`).once('value').then(snapshot => {
       const playerArr = [];
       snapshot.forEach(childSnapshot => {
         const output = childSnapshot.val();
@@ -54,6 +54,12 @@ export const addPlayer = (player) => ({
 // Mark player as ready to play
 export const markPlayerReady = (uid) => {
   return (dispatch, getState) => {
-    return database.ref(`users/${uid}/isReady`).set(true)
+    return database.ref(`players/${uid}/isReady`).set(true);
   }
 };
+
+export const updatePlayers = (players) => ({
+  type: 'UPDATE_PLAYERS',
+  payload: players
+});
+

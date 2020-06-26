@@ -8,7 +8,7 @@ export class Countdown extends React.Component {
     timerOn: false,
     timerTime: 0,
     timerStart: 0,
-    timerLength: 60000,
+    timerLength: 10000,
     message: ''
   }
   
@@ -26,8 +26,8 @@ export class Countdown extends React.Component {
   }
   
   componentWillUnmount = () => {
-    // Unsubscribe from Firebase call
-    database.ref('game/startTime').off()
+    database.ref('game/startTime').off();
+    this.stopTimer();
   }
   
   startTimer = () => {
@@ -41,12 +41,12 @@ export class Countdown extends React.Component {
       if (timeLeft >= 0)  {
         this.setState({ timerTime: Date.now() - this.state.timerStart });
       } else {
-        clearInterval(this.timer)
+        clearInterval(this.timer);
         this.setState({ timerOn: false });
         this.props.onFinished();
       }
     }, 50);
-  }
+  };
     
   stopTimer = () => {
     clearInterval(this.timer);
