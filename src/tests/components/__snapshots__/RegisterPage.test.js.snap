@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render RegisterPage correctly 1`] = `
+<div
+  className="content-container"
+>
+  <h1>
+    Sign up here
+  </h1>
+  <form
+    onSubmit={[Function]}
+  >
+    <input
+      autoFocus={true}
+      className="text-input"
+      onChange={[Function]}
+      placeholder="Name"
+      value=""
+    />
+    <select
+      className="select"
+      onChange={[Function]}
+      value="A"
+    >
+      <option
+        value="A"
+      >
+        Team A
+      </option>
+      <option
+        value="B"
+      >
+        Team B
+      </option>
+    </select>
+    <button
+      className="button button--input"
+    >
+      Go
+    </button>
+    <div>
+      <p
+        className="list-header"
+      >
+        Already on Team A:
+      </p>
+      <TeamList
+        team="A"
+      />
+      <p
+        className="list-header"
+      >
+        Already on Team B:
+      </p>
+      <TeamList
+        team="B"
+      />
+    </div>
+  </form>
+</div>
+`;

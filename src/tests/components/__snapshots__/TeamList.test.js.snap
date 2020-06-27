@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render player list with two teamA players 1`] = `
+<ul
+  className="list"
+>
+  <li
+    className="list__item"
+    key="1234"
+  >
+    Bob
+  </li>
+  <li
+    className="list__item"
+    key="9012"
+  >
+    Amy
+  </li>
+</ul>
+`;
