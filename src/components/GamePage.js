@@ -15,12 +15,12 @@ import { startUpdateScore, endTurn, endGame, setNextPlayer } from '../actions/ga
 export class GamePage extends React.Component {
   state = {
     index: undefined,
-    prevIndex: undefined,
     names: [],
     passedNames: [],
     guessedNames: [],
     numberPasses: 0,
-    revisitPassed: false,
+    viewingPassedNames: false,
+    unguessedIndex: undefined
   };
   
   componentDidMount = () => {
@@ -33,8 +33,8 @@ export class GamePage extends React.Component {
     this.setState({ names});
   };
 
+  // Handle name being guessed or passed
   nextName = (type) => {
-    // Add guessed / passed name to state
     this.setState(prevState => {
       const index = prevState.index;
       
@@ -52,8 +52,6 @@ export class GamePage extends React.Component {
         return { passedNames, numberPasses: prevState.numberPasses + 1 };
       }
     });
-    
-    // Remove name from state.names
     this.removeName('names');
   };
   
@@ -62,7 +60,7 @@ export class GamePage extends React.Component {
     this.setState(prevState => {
       const prevIndex = prevState.index;
       const newArr = prevState[arrayName].filter((name, arrIndex) => arrIndex !== prevIndex);
-      const newIndex = Math.floor(Math.random() * (prevState[arrayName].length - 1));    // update index based on new array length
+      const newIndex = Math.floor(Math.random() * (prevState[arrayName].length - 1));
       return {
         [arrayName]: newArr,
         index: newIndex
@@ -81,107 +79,102 @@ export class GamePage extends React.Component {
     this.setState({ index });
   };
   
+  // Add successfully-guessed passed name to state.guessedNames
   guessedAgain = () => {
-    // Add guessed passed name to state.guessedNames
     this.setState(prevState => {
       const index = prevState.index;
       const guessedNames = [
         ...prevState.guessedNames,
         prevState.passedNames[index]
       ];
-      return {
-        guessedNames,
-        revisitPassed: false,
-        prevIndex: undefined
-      };
+      return { guessedNames };
     });
-    
     this.removeName('passedNames');
   };
   
-  revisitPassed = () => {
-    this.setState(prevState => ({
-      revisitPassed: true,
-      index: 0,
-      prevIndex: prevState.index
-    }));
+  // Handle button toggling whether to display unguessed or passed names
+  toggleViewPassedNames = () => {
+    if (this.state.viewingPassedNames) {
+      this.setState(prevState => ({
+        viewingPassedNames: false,
+        unguessedIndex: '',
+        index: this.state.unguessedIndex
+      }));
+    } else {
+      this.setState(prevState => ({
+        viewingPassedNames: true,
+        // Save index of the last unguessed name
+        unguessedIndex: prevState.index,
+        index: 0
+      }));
+    }
   };
   
+  // Choose next player
   choosePlayer = (players) => {
-    // Use selector to choose next player
     const lastTeamPlayed = this.props.game.playingNow.team;
     const nextPlayer = selectPlayer(lastTeamPlayed, players);
 
     // Check a player is returned
     if (!nextPlayer) {
       this.props.endGame(this.props.user.uid);
-      // this.props.history.push('/end');
-      
     } else {
       return this.props.setNextPlayer(nextPlayer);
     }
-  }
+  };
   
+  // Handle timer expiry or all names being guesses
   onFinished = () => {
+    // Await Firebase update
     const promisesArray = [
-      // Choose next player & send to Firebase
       this.choosePlayer(this.props.players.players),
-      
-      // Update names in Firebase
       this.props.updateNames(this.state.guessedNames),
-      
-      // Send score to Firebase
       this.props.startUpdateScore(this.props.game.playingNow.team, this.state.guessedNames.length)
     ];
     
     const handleAllPromises = Promise.all(promisesArray);
     
     handleAllPromises
-      // Check if game has ended
       .then(() => {
+        // Check if game has ended
         if (this.state.names.length === 0) {
-          this.props.endGame(this.props.user.uid)
-          this.props.history.push('/end')
+          this.props.endGame(this.props.user.uid);
+          this.props.history.push('/end');
         } else {
           this.props.endTurn(this.props.user.uid);
-          this.props.history.push('/scores')
+          this.props.history.push('/scores');
         }
       })
-      .catch((err) => console.log('Something went wrong:', err));
+      .catch((err) => console.log('onFinished(): error from promisesArray:', err));
   };
     
-  render () {
-    // Check if current user is playing
-    const isPlaying = !!this.props.user.isPlaying;
-
-    // Define which name is to be rendered for guessing
+  render = () => {
+    // Render name for guessing
     let guess;
     const remainingNames = this.state.names.length;
     const passedNames = this.state.passedNames.length;
     const allowPass = (passesAllowed - this.state.numberPasses) > 0;
     
-    if (remainingNames > 0 && !this.state.revisitPassed) {
+    if (remainingNames > 0 && !this.state.viewingPassedNames) {
       const index = this.state.prevIndex ? this.state.prevIndex : this.state.index;
       guess =
         <LiveName
           index={ index }
           names={ this.state.names }
-          passedNamesLength = { this.state.passedNames.length }
           pass={ this.nextName }
           guessed={ this.nextName }
-          revisitPassed={ this.revisitPassed }
           allowPass={ allowPass }
+          viewingPassedNames={ false }
         />
     } else if (passedNames > 0 || (passedNames > 0 && this.state.revisitPassed)) {
       guess =
         <LiveName
           index={ this.state.index }
           names={ this.state.passedNames }
-          passedNamesLength = { this.state.passedNames.length }
           pass={ this.passAgain }
           guessed={ this.guessedAgain }
-          revisitPassed={ this.revisitPassed }
-          showingPassedNames={ true }
+          allowPass={ true }
+          viewingPassedNames={ true }
         />
     } else {
       guess = (
@@ -192,7 +185,17 @@ export class GamePage extends React.Component {
       )
     }
     
-    // Define score
+    // Render button to toggle between unguessed & passed names
+    let viewPassedNamesButton;
+    if (this.state.passedNames.length > 0 && this.state.names.length > 0) {
+      viewPassedNamesButton = (
+        <button onClick={ this.toggleViewPassedNames }>
+          { this.state.viewingPassedNames ? 'Return to unguessed names' : 'Re-try your passed names' }
+        </button>
+      );
+    }
+    
+    // Set score
     const score = this.state.guessedNames.length
     
     return (
@@ -210,6 +213,7 @@ export class GamePage extends React.Component {
         <div className='word-block'>
           <h4>Your word:</h4>
           <span className='word-block__word'>{guess}</span>
+          { viewPassedNamesButton }
         </div>
       </div>
     )
