@@ -1,8 +1,8 @@
 // *** GAME ACTION CREATORS ***
 
 import database from '../firebase/firebase';
-import { updatePlayers } from './players';
-import { addName } from './names';
+import { getPlayersBegin, getPlayersSuccess, getPlayersFailure  } from './players';
+import { addName, getNamesBegin, getNamesSuccess, getNamesFailure  } from './names';
 
 
 // Populate Firebase with initial game state
@@ -27,6 +27,10 @@ export const initialiseGame = () => {
 // Subscribe to live Firebase data
 export const fetchData = () => {
   return (dispatch, getState) => {
+    dispatch(getPlayersBegin());
+    dispatch(getGameDataBegin());
+    dispatch(getNamesBegin());
+
     database.ref('players').on('value', snapshot => {
       let playersArr = [];
       snapshot.forEach(childSnapshot => {
@@ -36,32 +40,40 @@ export const fetchData = () => {
           ...playerData
         });
       });
-      dispatch(updatePlayers(playersArr));
-    });
+      dispatch(getPlayersSuccess(playersArr));
+    }, err => dispatch(getPlayersFailure(err)));
+      
     database.ref('game').on('value', snapshot => {
       const gameData = snapshot.val();
-      dispatch(updateGame(gameData));
-    });
+      dispatch(getGameDataSuccess(gameData));
+    }, err => dispatch(getGameDataFailure(err)));
+    
     database.ref('names').on('value', snapshot => {
+      let namesArr = [];
       snapshot.forEach((childSnapshot) => {
-        const localNames = getState().names;
-        const nameID = childSnapshot.key;
-        if (!localNames.some(localName => localName.id === nameID)) {
-          dispatch(addName({
-            id: nameID,
-            name: childSnapshot.val().name,
-            uid: childSnapshot.val().uid,
-            isGuessed: childSnapshot.val().isGuessed
-          }));
-        }
+        const nameData = childSnapshot.val();
+        namesArr.push({
+          id: childSnapshot.key,
+          ...nameData
+        });
       });
-    });
+      dispatch(getNamesSuccess(namesArr));
+    }, err => dispatch(getNamesFailure(err)));
   };
 };
 
-export const updateGame = (gameData) => ({
-  type: 'UPDATE_GAME',
-  gameData
+const getGameDataBegin = () => ({
+  type: 'GET_GAME_DATA_BEGIN'
+});
+
+const getGameDataSuccess = gameData => ({
+    type: 'GET_GAME_DATA_SUCCESS',
+    payload: gameData
+});
+
+const getGameDataFailure = error => ({
+  type: 'GET_GAME_DATA_FAILURE',
+  payload: {error}
 });
 
 export const endFetchData = () => {

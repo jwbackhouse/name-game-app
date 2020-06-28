@@ -1,7 +1,7 @@
 const initialState = {
   players: [],
   isLoading: false,
-  error: false
+  error: ''
 };
 
 export default (state = initialState, action) => {
@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        error: null
+        error: ''
       }
     case 'GET_PLAYERS_SUCCESS':
       return {
@@ -32,10 +32,10 @@ export default (state = initialState, action) => {
     case 'REMOVE_ALL_PLAYERS':
       return state.players = [];
     case 'UPDATE_PLAYERS':
-        return {
-          ...state,
-          players: action.payload
-        }
+      return {
+        ...state,
+        players: action.payload
+      }
     default:
       return state;
   }

@@ -222,7 +222,7 @@ export class GamePage extends React.Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  names: state.names.filter(name => name.isGuessed === false),   // Only fetch unguessed names
+  names: state.names.names.filter(name => name.isGuessed === false),   // Only fetch unguessed names
   game: state.game,
   players: state.players
 });

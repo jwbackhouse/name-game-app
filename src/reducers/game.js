@@ -1,6 +1,8 @@
 // *** GAME REDUCER ***
 
 const initialState = {
+  isLoading: false,
+  error: '',
   teamAScore: 0,
   teamBScore: 0,
   playingNow: {
@@ -15,6 +17,24 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch(action.type) {
+    case 'GET_GAME_DATA_BEGIN':
+      return {
+        ...state,
+        error: '',
+        isLoading: true
+      }
+    case 'GET_GAME_DATA_SUCCESS':
+      return {
+        ...state,
+        isLoading: false,
+        ...action.payload
+      }
+    case 'GET_GAME_DATA_FAILURE':
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.error
+      }
     case 'UPDATE_SCORE':
       return {
         ...state,
@@ -25,11 +45,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         playingTeam: action.playingTeam
-      };
-    case 'UPDATE_GAME':
-      return {
-        ...state,
-        ...action.gameData
       };
     case 'UPDATE_END_GAME':
       return {

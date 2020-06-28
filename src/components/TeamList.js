@@ -9,6 +9,8 @@ export const TeamList = (props) => {
     list = <li className='list__item list__item--message'>No one yet</li>
   } else if (props.players.isLoading) {
     list = <li className='list__item list__item--message'>Loading...</li>
+  } else if (props.players.error) {
+    list = <li className='list__item list__item--message'>Oops, something went wrong</li>
   } else {
     // Generate list item for each player
     list = teamRoster.map(player => <li className='list__item' key={player.uid}>{player.userName}</li>)

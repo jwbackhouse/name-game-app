@@ -6,7 +6,7 @@ import { resetGame, initialiseGame, fetchScores } from '../actions/game';
 import { removeAllNames } from '../actions/names';
 
 
-export class EndPage extends React.Component {
+export class EndPageBase extends React.Component {
   state = {
     ready: false
   }
@@ -65,5 +65,5 @@ const mapDispatchToProps = (dispatch) => ({
   initialiseGame: () => dispatch(initialiseGame())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EndPage);
+export default connect(mapStateToProps, mapDispatchToProps)(EndPageBase);
 

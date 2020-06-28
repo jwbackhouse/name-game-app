@@ -4,6 +4,7 @@ import NameListItem from './NameListItem';
 import NameEntry from './NameEntry';
 import { numberNames } from '../app';
 import { markPlayerReady } from '../actions/players';
+import { startRemoveName, startAddName } from '../actions/names';
 import selectUsersNames from '../selectors/selectUsersNames';
 
 // TODO - check for duplicate names using onNameEntry
@@ -22,16 +23,23 @@ export const SetupPage = (props) => {
   
   const onNameEntry = () => {
   };
+
+  const onDelete = (id) => {
+    props.startRemoveName(id);
+  };
+  
+  const onAddName = (name) => {
+    props.startAddName(name);
+  };
   
   let namesList;
-  if (props.names.length === 0) {
-    namesList = '';
-  } else {
+  if (props.names.length > 0) {
     namesList = props.names.map(name => {
       return <NameListItem
         key={ name.id }
         id={name.id}
         name={name.name}
+        onDelete={ onDelete }
       />
     })
   }
@@ -54,14 +62,10 @@ export const SetupPage = (props) => {
       <div className='row'>
         <NameEntry
           onNameEntry={ onNameEntry }
+          onAddName={ onAddName }
           disabled={ props.names.length === numberNames }
         />
-        { props.names.length === numberNames && <button
-          className='button'
-          onClick={ onClick }
-        >
-          Go
-        </button> }
+        { props.names.length === numberNames && <button className='button' onClick={ onClick }>Go </button> }
       </div>
       {namesList}
     </div>
@@ -69,12 +73,14 @@ export const SetupPage = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  names: selectUsersNames(state.names, state.user.uid),
+  names: selectUsersNames(state.names.names, state.user.uid),
   user: state.user
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  markPlayerReady: (uid) => dispatch(markPlayerReady(uid))
+  markPlayerReady: (uid) => dispatch(markPlayerReady(uid)),
+  startRemoveName: (id) => dispatch(startRemoveName(id)),
+  startAddName: (name) => dispatch(startAddName(name))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetupPage);
