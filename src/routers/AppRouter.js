@@ -7,7 +7,7 @@ import StartPage from '../components/StartPage';
 import GamePage from '../components/GamePage';
 import GuessingPage from '../components/GuessingPage';
 import ChangeoverPage from '../components/ChangeoverPage';
-import EndPage from '../components/EndPage';
+import EndPageBase from '../components/EndPageBase';
 import ErrorPage from '../components/ErrorPage';
 import LoginPage from '../components/LoginPage';
 import PrivateRoute from './PrivateRoute';
@@ -25,7 +25,7 @@ const AppRouter = () => (
         <PublicRoute path='/play' component={GamePage} />
         <PublicRoute path='/guess' component={GuessingPage} />
         <PublicRoute path='/scores' component={ChangeoverPage} />
-        <PublicRoute path='/end' component={EndPage} />
+        <PublicRoute path='/end' component={EndPageBase} />
         <Route component={ErrorPage} />
       </Switch>
     </div>

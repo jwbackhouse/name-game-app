@@ -73,6 +73,20 @@ export const endFetchData = () => {
 };
 
 
+// Fetch scores
+export const fetchScores = () => {
+  return (dispatch) => {
+    return database.ref('game').once('value')
+      .then(snapshot => {
+        const teamAScore = snapshot.val().teamAScore;
+        const teamBScore = snapshot.val().teamBScore;
+        dispatch(updateLocalScore(teamAScore, teamBScore))
+      })
+      .catch(err => console.log('actions/fetchScores(): error fetching game data from Firebase.'));
+  };
+};
+      
+
 // endGame flag
 export const fetchEndGame = () => {
   return (dispatch, getState) => {

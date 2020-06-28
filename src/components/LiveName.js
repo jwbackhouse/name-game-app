@@ -7,11 +7,6 @@ export const LiveName = (props) => {
   const passButtonText = props.viewingPassedNames ? 'Pass again' : 'Pass';
   const prevPassedMsg =  props.viewingPassedNames && <span>(Previously passed)</span>
   const noMorePassMsg = !props.allowPass && <p>Sorry, no more passes allowed</p>;
-  
-  // let passButton;
-  // if (props.allowPass) {
-  //   passButton =
-  // }
 
   return (
     <div>

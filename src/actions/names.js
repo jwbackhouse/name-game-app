@@ -76,14 +76,5 @@ export const updateNames = (names) => {
     names.forEach(name => {
       database.ref(`names/${name.id}/isGuessed`).set(true);
     });
-    // return database.ref(`names`).once('value').then((snapshot) => {
-    //   snapshot.forEach((childSnapshot) => {   // snapshot is an object, so using in-built Firebase method to iterate over child snapshots
-    //     dispatch(addName({
-    //       id: childSnapshot.key,
-    //       name: childSnapshot.val().name,
-    //       uid: childSnapshot.val().uid
-    //     }));
-    //   });
-    // });
   };
 };
