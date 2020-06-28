@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import AppRouter, { history } from './routers/AppRouter';
 import LoadingPage from './components/LoadingPage';
-import { login, logout } from './actions/auth';
+import { loginSuccess, logout } from './actions/auth';
 import { getNames } from './actions/names';
 import { getPlayers } from './actions/players';
 import { initialiseGame } from './actions/game';
@@ -60,4 +60,9 @@ renderApp();
 //     history.push('/');
 //   }
 // });
+
+
+firebase.auth().onAuthStateChanged((user) => {    // fires once user logs in
+  user ? console.log('app.js: logged in') : console.log('app.js: not logged in')
+})
 

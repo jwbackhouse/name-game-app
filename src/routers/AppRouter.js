@@ -20,6 +20,7 @@ const AppRouter = () => (
     <div>
       <Switch>
         <PublicRoute exact path='/' component={RegisterPage} />
+        <PublicRoute path='/login' component={LoginPage} />
         <PublicRoute path='/setup' component={SetupPage} />
         <PublicRoute path='/start' component={StartPage} />
         <PublicRoute path='/play' component={GamePage} />
