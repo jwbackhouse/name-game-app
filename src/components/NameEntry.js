@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 export class NameEntry extends React.Component {
   state = {
@@ -48,8 +47,5 @@ export class NameEntry extends React.Component {
     )
   };
 };
-
-const mapDispatchToProps = (dispatch) => ({
-});
 
 export default NameEntry;
