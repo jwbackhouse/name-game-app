@@ -9,7 +9,7 @@ import GuessingPage from '../components/GuessingPage';
 import ChangeoverPage from '../components/ChangeoverPage';
 import EndPageBase from '../components/EndPageBase';
 import ErrorPage from '../components/ErrorPage';
-import LoginPage from '../components/LoginPage';
+import EntryPage from '../components/EntryPage';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 
@@ -20,7 +20,7 @@ const AppRouter = () => (
     <div>
       <Switch>
         <PublicRoute exact path='/' component={RegisterPage} />
-        <PublicRoute path='/login' component={LoginPage} />
+        <PublicRoute path='/login' component={EntryPage} />
         <PublicRoute path='/setup' component={SetupPage} />
         <PublicRoute path='/start' component={StartPage} />
         <PublicRoute path='/play' component={GamePage} />

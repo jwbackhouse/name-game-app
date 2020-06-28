@@ -1,18 +1,17 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { startPasswordSignup } from '../actions/auth';
-import { firebase } from '../firebase/firebase';
+import { startPasswordLogin } from '../actions/auth';
 
 const initialState = {
   username: '',
   email: '',
-  passwordOne: '',
-  passwordTwo: '',
+  password: '',
   error: null
 }
   
 
-export class LoginForm extends React.Component {
+export class LoginFormBase extends React.Component {
   state = { ...initialState };
   
   onChange = e => {
@@ -22,35 +21,25 @@ export class LoginForm extends React.Component {
   onSubmit = e => {
     e.preventDefault();
     
-    const { email, passwordOne } = this.state;
-    this.props.startPasswordSignup(email, passwordOne)
+    const { email, password } = this.state;
+    this.props.startPasswordLogin(email, password);
+    this.props.history.push('/');
   }
   
   render() {
     const {
       username,
       email,
-      passwordOne,
-      passwordTwo,
+      password,
       error
     } = this.state;
     
     const isInvalid =
-      passwordOne !== passwordTwo ||
-      passwordOne === '' ||
-      username === '' ||
+      password === '' ||
       email === '';
-      
     
     return (
       <form onSubmit={ this.onSubmit }>
-        <input
-          name='username'
-          value={ username }
-          onChange={ this.onChange }
-          placeholder='Name'
-          type='text'
-        />
         <input
           name='email'
           value={ email }
@@ -59,17 +48,10 @@ export class LoginForm extends React.Component {
           type='email'
         />
         <input
-          name='passwordOne'
-          value={ passwordOne }
+          name='password'
+          value={ password }
           onChange={ this.onChange }
           placeholder='Password'
-          type='password'
-        />
-        <input
-          name='passwordTwo'
-          value={ passwordTwo }
-          onChange={ this.onChange }
-          placeholder='Confirm password'
           type='password'
         />
         <button type='submit' disabled={ isInvalid }>
@@ -77,16 +59,21 @@ export class LoginForm extends React.Component {
         </button>
         
         { error && <p>{error.message}</p> }
+        { this.props.auth.error && <p>Oops. { this.props.auth.error.message }</p> }
       </form>
     )
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  startPasswordSignup: (email, password) => dispatch(startPasswordSignup(email, password))
+const mapStateToProps = (state) => ({
+  auth: state.auth
 });
 
-export default connect(undefined, mapDispatchToProps)(LoginForm);
 
-// // Redux connect effectively uses a HOC to create a new component, which is what we render above
-// const ConnectedLoginForm = connect(undefined, mapDispatchToProps)(LoginForm);
+const mapDispatchToProps = (dispatch) => ({
+  startPasswordLogin: (email, password) => dispatch(startPasswordLogin(email, password))
+});
+
+// withRouter required to access history
+const LoginForm = withRouter(LoginFormBase);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
