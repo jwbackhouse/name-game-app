@@ -4,12 +4,13 @@ import database from '../firebase/firebase';
 import TeamList from './TeamList';
 import { startAddUser } from '../actions/user';
 import { fetchData, endFetchData } from '../actions/game';
+import { updateDisplayName } from '../actions/auth';
 
 // TODO - add live db call
 
 export class RegisterPage extends React.Component {
   state = {
-    userName: this.props.auth.username || 'Name',
+    username: this.props.auth.username || '',
     team: 'A',
     error: ''
   }
@@ -18,13 +19,18 @@ export class RegisterPage extends React.Component {
     this.props.fetchData();
   }
   
+  componentDidUpdate = (prevProps) => {
+    // Needed to force username to be rendered in name input
+    prevProps.auth.username !== this.props.auth.username && this.setState({ username: this.props.auth.username });
+  }
+  
   componentWillUnmount = () => {
     this.props.endFetchData();
   }
   
   onTextChange = (e) => {
-    const userName = e.target.value;
-    this.setState({userName})
+    const username = e.target.value;
+    this.setState({username})
   }
   
   onSelectChange = (e) => {
@@ -34,24 +40,28 @@ export class RegisterPage extends React.Component {
   
   onSubmit = (e) => {
     e.preventDefault();
+  
+    const {username, team} = this.state;
+    
     // Check a name has been entered
-    if (!this.state.userName) {
-      this.setState({error: '^^Please enter your name'})
+    if (!username) {
+      this.setState({error: '^^Please enter your name'});
     } else {
       const user = {
-        userName: this.state.userName,
-        team: this.state.team
+        username,
+        team
       };
       this.props.startAddUser(user);
-      this.setState(() => ({
-        userName: '',
-        team: 'A'
-      }));
+      
+      // Update displayName in firebase.authUser if it doesn't match
+      this.props.auth.username !== username && this.props.updateDisplayName(username);
+      
       this.props.history.push('/setup');
     }
   }
   
   render() {
+    console.log(this.props.auth.username);
     const errorMsg = this.state.error && <p className='error'>{this.state.error}</p>
     return (
       <div className='content-container'>
@@ -62,7 +72,7 @@ export class RegisterPage extends React.Component {
             className='text-input'
             placeholder='Name'
             onChange={ this.onTextChange }
-            value={ this.state.userName }
+            value={ this.state.username }
           />
           <select
             className='select'
@@ -91,7 +101,8 @@ export class RegisterPage extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   startAddUser: (user) => dispatch(startAddUser(user)),
   fetchData: () => dispatch(fetchData()),
-  endFetchData: () => dispatch(endFetchData())
+  endFetchData: () => dispatch(endFetchData()),
+  updateDisplayName: (displayName) => dispatch(updateDisplayName(displayName))
 });
 
 const mapStateToProps = (state) => ({

@@ -55,3 +55,10 @@ export const startLogout = () => {
       .catch(() => dispatch(logoutFailure()));
   };
 };
+
+export const updateDisplayName = (displayName) => {
+  return () => {
+    return firebase.auth().currentUser.updateProfile({ displayName })
+      .catch(error => console.log('updateDisplayName() error:', error));
+  };
+};
