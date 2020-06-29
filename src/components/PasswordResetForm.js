@@ -1,9 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import { startPasswordReset } from '../actions/auth';
 
 const initialState = {
-}
+  email: '',
+  message: ''
+};
   
 
 export class PasswordResetFormBase extends React.Component {
@@ -15,10 +18,44 @@ export class PasswordResetFormBase extends React.Component {
 
   onSubmit = e => {
     e.preventDefault();
+    
+    const { email } = this.state;
+    
+    this.props.startPasswordReset(email);
+    this.setState({ message: 'An email to reset your password is on its way.' });
   }
   
   render() {
-    return ()
+    const { email, message } = this.state;
+    const { passwordResetError } = this.props.auth;
+    
+    const isInvalid = email === '';
+    
+    let alertMsg;
+    if (passwordResetError) {
+      alertMsg = <p>Doh. { passwordResetError.message }</p>
+    } else if (message) {
+      alertMsg = <p>{ message }</p>
+    }
+    
+    return (
+      <div>
+        <p>Reset your password</p>
+        <form onSubmit={ this.onSubmit }>
+          <input
+            name='email'
+            value={ this.state.email }
+            onChange={ this.onChange }
+            placeholder='Email'
+            type='email'
+          />
+          <button type='submit' disabled={ isInvalid }>
+            Go
+          </button>
+          { alertMsg }
+        </form>
+      </div>
+    )
   }
 }
 
@@ -26,8 +63,8 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-
 const mapDispatchToProps = (dispatch) => ({
+  startPasswordReset: (email) => dispatch(startPasswordReset(email))
 });
 
 // withRouter required to access history

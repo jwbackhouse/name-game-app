@@ -9,17 +9,18 @@ export const loginSuccess = (user, username) => ({
   username
 });
 
-const loginFailure = (error) => ({
-  type:'LOGIN_ERROR',
-  error
-});
-
 export const logoutSuccess = () => ({
     type:'LOGOUT_SUCCESS',
 });
 
-const logoutFailure = () => ({
-    type:'LOGOUT_FAILURE',
+const loginFailure = (error) => ({
+  type:'LOGIN_FAILURE',
+  error
+});
+
+const passwordResetError = (error) => ({
+  type:'PASSWORD_RESET_FAILURE',
+  error
 });
 
 
@@ -30,21 +31,22 @@ export const startPasswordSignup = (email,password, username) => {
         authUser.updateProfile({ displayName: username });
         console.log('startPasswordSignup(): authUser:', authUser);
       })
-      .catch(error => {
-        dispatch(loginFailure(error));
-      });
+      .catch(error => dispatch(loginFailure(error)));
   };
 };
 
 export const startPasswordLogin = (email,password) => {
   return (dispatch, getState) => {
     return firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(authUser => {
-        dispatch(loginSuccess(authUser, ''));
-      })
-      .catch(error => {
-        dispatch(loginFailure(error));
-      });
+      .then(authUser => dispatch(loginSuccess(authUser, '')))
+      .catch(error => dispatch(loginFailure(error)));
+  };
+};
+
+export const startPasswordReset = (email) => {
+  return (dispatch, getState) => {
+    return firebase.auth().sendPasswordResetEmail(email)
+      .catch(error => dispatch(passwordResetError(error)));
   };
 };
 
@@ -52,7 +54,7 @@ export const startLogout = () => {
   return (dispatch) => {
     return firebase.auth().signOut()
       .then(() => dispatch(logoutSuccess()))
-      .catch(() => dispatch(logoutFailure()));
+      .catch(error => dispatch(loginFailure(error)));
   };
 };
 

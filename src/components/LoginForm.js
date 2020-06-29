@@ -27,7 +27,6 @@ export class LoginFormBase extends React.Component {
   
   onResetPasswordClick = e => {
     e.preventDefault();
-    console.log('show reset pw');
     this.props.passwordReset();
   }
   
@@ -69,7 +68,7 @@ export class LoginFormBase extends React.Component {
         </button>
         
         { error && <p>{error.message}</p> }
-        { this.props.auth.error && <p>Oops. { this.props.auth.error.code }</p> }
+        { this.props.auth.error && <p>Oops. { this.props.auth.error.message }</p> }
         { resetPasswordLink }
       </form>
     )

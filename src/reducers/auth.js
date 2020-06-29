@@ -3,7 +3,8 @@
 const initialState = {
   uid: '',
   username: '',
-  error: ''
+  error: '',
+  passwordResetError: ''
 };
 
 export default (state = initialState, action) => {
@@ -14,18 +15,18 @@ export default (state = initialState, action) => {
         username: action.username,
         error: ''
       };
-    case 'LOGIN_ERROR':
-      return {
-        uid: '',
-        error: action.error
-      };
     case 'LOGOUT_SUCCESS':
       return initialState;
-    case 'LOGOUT_FAILURE':
+    case 'LOGIN_FAILURE':
       return {
         ...state,
         error: action.error
       };
+    case 'PASSWORD_RESET_FAILURE':
+      return {
+        ...state,
+        passwordResetError: action.error
+      }
     default:
       return state;
   }
