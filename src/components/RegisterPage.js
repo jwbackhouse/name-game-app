@@ -61,7 +61,6 @@ export class RegisterPage extends React.Component {
   }
   
   render() {
-    console.log(this.props.auth.username);
     const errorMsg = this.state.error && <p className='error'>{this.state.error}</p>
     return (
       <div className='content-container'>
