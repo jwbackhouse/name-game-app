@@ -23,7 +23,6 @@ export class LoginFormBase extends React.Component {
     
     const { email, password } = this.state;
     this.props.startPasswordLogin(email, password);
-    this.props.history.push('/');
   }
   
   render() {

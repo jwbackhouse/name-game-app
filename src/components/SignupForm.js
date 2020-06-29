@@ -24,7 +24,6 @@ export class SignupFormBase extends React.Component {
     
     const { email, passwordOne, username } = this.state;
     this.props.startPasswordSignup(email, passwordOne, username);
-    this.props.history.push('/');
   }
   
   render() {

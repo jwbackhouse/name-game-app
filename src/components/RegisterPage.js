@@ -9,7 +9,7 @@ import { fetchData, endFetchData } from '../actions/game';
 
 export class RegisterPage extends React.Component {
   state = {
-    userName: '',
+    userName: this.props.auth.username || 'Name',
     team: 'A',
     error: ''
   }
@@ -95,6 +95,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   players: state.players
 })
 
