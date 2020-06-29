@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { startPasswordLogin } from '../actions/auth';
+import checkEmail from '../selectors/checkEmail';
 
 const initialState = {
   username: '',
@@ -39,8 +40,8 @@ export class LoginFormBase extends React.Component {
     } = this.state;
     
     const isInvalid =
-      password === '' ||
-      email === '';
+      !checkEmail(email) ||
+      password.length < 2;
     
     let resetPasswordLink;
     if (this.props.auth.error.code === 'auth/wrong-password') {

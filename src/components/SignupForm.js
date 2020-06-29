@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { startPasswordSignup } from '../actions/auth';
+import checkEmail from '../selectors/checkEmail';
 
 const initialState = {
   username: '',
@@ -35,11 +36,11 @@ export class SignupFormBase extends React.Component {
       error
     } = this.state;
     
-    const isInvalid =
+     const isInvalid =
+      !checkEmail(email) ||
+      passwordOne.length < 6 ||
       passwordOne !== passwordTwo ||
-      passwordOne === '' ||
-      username === '' ||
-      email === '';
+      username === ''
     
     
     return (

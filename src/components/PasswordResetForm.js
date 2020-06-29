@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { startPasswordReset } from '../actions/auth';
+import checkEmail from '../selectors/checkEmail';
 
 const initialState = {
   email: '',
@@ -22,14 +23,14 @@ export class PasswordResetFormBase extends React.Component {
     const { email } = this.state;
     
     this.props.startPasswordReset(email);
-    this.setState({ message: 'An email to reset your password is on its way.' });
+    this.setState({ message: 'An email is on its way.' });
   }
   
   render() {
     const { email, message } = this.state;
     const { passwordResetError } = this.props.auth;
     
-    const isInvalid = email === '';
+    const isInvalid = !checkEmail(email);
     
     let alertMsg;
     if (passwordResetError) {
@@ -38,9 +39,9 @@ export class PasswordResetFormBase extends React.Component {
       alertMsg = <p>{ message }</p>
     }
     
-    return (
-      <div>
-        <p>Reset your password</p>
+    let form;
+    if (!message) {
+      form = (
         <form onSubmit={ this.onSubmit }>
           <input
             name='email'
@@ -52,8 +53,15 @@ export class PasswordResetFormBase extends React.Component {
           <button type='submit' disabled={ isInvalid }>
             Go
           </button>
-          { alertMsg }
         </form>
+      )
+    }
+    
+    return (
+      <div>
+        <p>Reset your password</p>
+        { form }
+        { alertMsg }
       </div>
     )
   }
