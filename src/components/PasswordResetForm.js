@@ -48,7 +48,7 @@ export class PasswordResetFormBase extends React.Component {
             value={ this.state.email }
             onChange={ this.onChange }
             placeholder='Email'
-            type='email'
+            type='text'
           />
           <button type='submit' disabled={ isInvalid }>
             Go

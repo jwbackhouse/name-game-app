@@ -55,7 +55,7 @@ export class LoginFormBase extends React.Component {
           value={ email }
           onChange={ this.onChange }
           placeholder='Email'
-          type='email'
+          type='text'
         />
         <input
           name='password'
