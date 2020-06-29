@@ -25,6 +25,12 @@ export class LoginFormBase extends React.Component {
     this.props.startPasswordLogin(email, password);
   }
   
+  onResetPasswordClick = e => {
+    e.preventDefault();
+    console.log('show reset pw');
+    this.props.passwordReset();
+  }
+  
   render() {
     const {
       username,
@@ -36,6 +42,11 @@ export class LoginFormBase extends React.Component {
     const isInvalid =
       password === '' ||
       email === '';
+    
+    let resetPasswordLink;
+    if (this.props.auth.error.code === 'auth/wrong-password') {
+      resetPasswordLink = <a href='' onClick={ this.onResetPasswordClick }>Forgotten your password?</a>
+    }
     
     return (
       <form onSubmit={ this.onSubmit }>
@@ -58,7 +69,8 @@ export class LoginFormBase extends React.Component {
         </button>
         
         { error && <p>{error.message}</p> }
-        { this.props.auth.error && <p>Oops. { this.props.auth.error.message }</p> }
+        { this.props.auth.error && <p>Oops. { this.props.auth.error.code }</p> }
+        { resetPasswordLink }
       </form>
     )
   }
