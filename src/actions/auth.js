@@ -27,7 +27,8 @@ export const startPasswordSignup = (email,password, username) => {
   return (dispatch, getState) => {
     return firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(authUser => {
-        dispatch(loginSuccess(authUser, username));
+        authUser.updateProfile({ displayName: username });
+        console.log('startPasswordSignup(): authUser:', authUser);
       })
       .catch(error => {
         dispatch(loginFailure(error));
