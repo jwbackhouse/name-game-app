@@ -3,15 +3,23 @@
 import { firebase, googleAuthProvider } from '../firebase/firebase';
 
 // NOTE this is called in app.js rather than startLogin so that it runs when app first loads, not just when user explictly logs in/out
-export const loginSuccess = (user, username) => ({
+const loginSuccess = (user, username) => ({
   type:'LOGIN_SUCCESS',
   uid: user.uid,
   username
 });
 
-export const loginFailure = (error) => ({
+const loginFailure = (error) => ({
   type:'LOGIN_ERROR',
   error
+});
+
+const logoutSuccess = () => ({
+    type:'LOGOUT_SUCCESS',
+});
+
+const logoutFailure = () => ({
+    type:'LOGOUT_FAILURE',
 });
 
 
@@ -39,12 +47,10 @@ export const startPasswordLogin = (email,password) => {
   };
 };
 
-export const logout = () => ({
-    type:'LOGOUT',
-});
-
 export const startLogout = () => {
-  return () => {
-    return firebase.auth().signOut();
+  return (dispatch) => {
+    return firebase.auth().signOut()
+      .then(() => dispatch(logoutSuccess()))
+      .catch(() => dispatch(logoutFailure()));
   };
 };
