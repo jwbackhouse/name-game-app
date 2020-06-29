@@ -10,17 +10,11 @@ export const PublicRoute = ({
   ...rest
 }) => (
   <Route { ...rest } component={(props) => (
-    <div>
-      <Header />
+    isAuthenticated ? (
+      <Redirect to='/join' />
+    ) : (
       <Component { ...props } />
-    </div>
-    
-    // NOTE - revert to this when auth sorted
-    // isAuthenticated ? (
-    //   <Redirect to='/dashboard' />
-    // ) : (
-    //   <Component { ...props } />
-    // )
+    )
   )} />
 );
 

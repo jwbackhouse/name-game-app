@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import AppRouter, { history } from './routers/AppRouter';
 import LoadingPage from './components/LoadingPage';
-import { loginSuccess, logout } from './actions/auth';
+import { loginSuccess, logoutSuccess } from './actions/auth';
 import { getNames } from './actions/names';
 import { getPlayers } from './actions/players';
 import { initialiseGame } from './actions/game';
@@ -31,6 +31,7 @@ const jsx = (
     <AppRouter />
   </Provider>
 );
+
 let hasRendered = false;
 const renderApp = () => {
   if (!hasRendered) {
@@ -39,30 +40,33 @@ const renderApp = () => {
   }
 }
 
-renderApp();
 
 // // Render loading page
-// ReactDOM.render(<LoadingPage />,document.getElementById('body'));
+ReactDOM.render(<LoadingPage />,document.getElementById('body'));
 
 // // Authenticate user
+try {
+  firebase.auth().onAuthStateChanged((user) => {    // fires once user logs in
+    if (user) {
+      console.log('app.js: Logged in.')
+      store.dispatch(loginSuccess(user, ''))
+      renderApp();
+      if (history.location.pathname === '/') {
+        history.push('/join');
+      }
+    } else {
+      console.log('app.js: Logged out.')
+      store.dispatch(logoutSuccess());
+      renderApp();
+      history.push('/');
+    }
+  });
+} catch (error) {
+  console.log('app.js: firebase.auth() error:', error);
+}
+
+// renderApp();
 // firebase.auth().onAuthStateChanged((user) => {    // fires once user logs in
-//   if (user) {
-//     console.log('Logged in.')
-//     store.dispatch(login(user.uid))
-//     renderApp();
-//     if (history.location.pathname === '/') {
-//       history.push('/dashboard');
-//     }
-//   } else {
-//     console.log('Logged out.')
-//     store.dispatch(logout());
-//     renderApp();
-//     history.push('/');
-//   }
-// });
-
-
-firebase.auth().onAuthStateChanged((user) => {    // fires once user logs in
-  user ? console.log('app.js: logged in') : console.log('app.js: not logged in')
-})
+//   user ? console.log('app.js: logged in') : console.log('app.js: not logged in')
+// })
 

@@ -19,14 +19,14 @@ const AppRouter = () => (
   <Router history={ history }>
     <div>
       <Switch>
-        <PublicRoute exact path='/' component={RegisterPage} />
-        <PublicRoute path='/login' component={EntryPage} />
-        <PublicRoute path='/setup' component={SetupPage} />
-        <PublicRoute path='/start' component={StartPage} />
-        <PublicRoute path='/play' component={GamePage} />
-        <PublicRoute path='/guess' component={GuessingPage} />
-        <PublicRoute path='/scores' component={ChangeoverPage} />
-        <PublicRoute path='/end' component={EndPageBase} />
+        <PublicRoute exact path='/' component={EntryPage} />
+        <PrivateRoute path='/join' component={RegisterPage} />
+        <PrivateRoute path='/setup' component={SetupPage} />
+        <PrivateRoute path='/start' component={StartPage} />
+        <PrivateRoute path='/play' component={GamePage} />
+        <PrivateRoute path='/guess' component={GuessingPage} />
+        <PrivateRoute path='/scores' component={ChangeoverPage} />
+        <PrivateRoute path='/end' component={EndPageBase} />
         <Route component={ErrorPage} />
       </Switch>
     </div>

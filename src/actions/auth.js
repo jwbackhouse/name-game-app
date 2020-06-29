@@ -3,7 +3,7 @@
 import { firebase, googleAuthProvider } from '../firebase/firebase';
 
 // NOTE this is called in app.js rather than startLogin so that it runs when app first loads, not just when user explictly logs in/out
-const loginSuccess = (user, username) => ({
+export const loginSuccess = (user, username) => ({
   type:'LOGIN_SUCCESS',
   uid: user.uid,
   username
@@ -14,7 +14,7 @@ const loginFailure = (error) => ({
   error
 });
 
-const logoutSuccess = () => ({
+export const logoutSuccess = () => ({
     type:'LOGOUT_SUCCESS',
 });
 

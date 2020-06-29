@@ -16,7 +16,7 @@ export const PrivateRoute = ({
         <Component { ...props } />
       </div>
     ) : (
-      <Redirect to='/' />   // Built-in component from react-router-dom
+      <Redirect to='/' />
     )
   )} />
 );
