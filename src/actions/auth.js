@@ -18,11 +18,18 @@ const loginFailure = (error) => ({
   error
 });
 
-const passwordResetError = (error) => ({
+const passwordResetFailure = (error) => ({
   type:'PASSWORD_RESET_FAILURE',
   error
 });
 
+export const clearLoginFailure = () => ({
+  type: 'CLEAR_LOGIN_FAILURE'
+});
+
+export const clearPasswordResetFailure = () => ({
+  type: 'CLEAR_PASSWORD_RESET_FAILURE'
+});
 
 export const startPasswordSignup = (email,password, username) => {
   return (dispatch, getState) => {
@@ -46,7 +53,7 @@ export const startPasswordLogin = (email,password) => {
 export const startPasswordReset = (email) => {
   return (dispatch, getState) => {
     return firebase.auth().sendPasswordResetEmail(email)
-      .catch(error => dispatch(passwordResetError(error)));
+      .catch(error => dispatch(passwordResetFailure(error)));
   };
 };
 
@@ -74,6 +81,6 @@ export const checkResetPassword = (actionCode) => {
 export const confirmPasswordReset = (actionCode, password) => {
   return (dispatch) => {
     return firebase.auth().confirmPasswordReset(actionCode, password)
-      .catch(error => dispatch(passwordResetError(error)));
+      .catch(error => dispatch(passwordResetFailure(error)));
   };
 };

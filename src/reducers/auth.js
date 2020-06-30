@@ -22,10 +22,20 @@ export default (state = initialState, action) => {
         ...state,
         error: action.error
       };
+    case 'CLEAR_LOGIN_FAILURE':
+      return {
+        ...state,
+        error: ''
+      }
     case 'PASSWORD_RESET_FAILURE':
       return {
         ...state,
         passwordResetError: action.error
+      }
+    case 'CLEAR_PASSWORD_RESET_FAILURE':
+      return {
+        ...state,
+        passwordResetError: ''
       }
     default:
       return state;

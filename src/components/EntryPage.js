@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import PasswordResetForm from './PasswordResetForm';
+import { clearLoginFailure } from '../actions/auth';
 
 const initialState = {
   login: false,
@@ -14,6 +15,12 @@ export class LoginPage extends React.Component {
   state = initialState
   
   onClick = (show, hide) => {
+    // Close <PasswordResetForm/> if still open
+    this.state.passwordReset && this.handlePasswordReset();
+    
+    // Clear any error left over from previous login attempt
+    this.props.clearLoginFailure();
+    
     this.setState({
       [show]: !this.state[show],
       [hide]: false
@@ -23,7 +30,7 @@ export class LoginPage extends React.Component {
   handlePasswordReset = () => {
     this.setState({
       ...initialState,
-      passwordReset: true
+      passwordReset: !this.state.passwordReset
     })
   }
     
@@ -36,13 +43,17 @@ export class LoginPage extends React.Component {
           <p>The online version</p>
           <button onClick={ () => this.onClick('login', 'signup') } className='button'>Login</button>
           <button onClick={ () => this.onClick('signup', 'login') } className='button'>Sign up</button>
-          { this.state.login && <LoginForm passwordReset={ this.handlePasswordReset }/> }
+          { this.state.login && <LoginForm showPasswordReset={ this.handlePasswordReset }/> }
           { this.state.signup && <SignupForm /> }
-          { this.state.passwordReset && <PasswordResetForm /> }
+          { this.state.passwordReset && <PasswordResetForm showPasswordReset={ this.handlePasswordReset }/> }
         </div>
       </div>
     );
   }
 };
 
-export default LoginPage;
+const mapDispatchToProps = dispatch => ({
+  clearLoginFailure: () => dispatch(clearLoginFailure())
+});
+
+export default connect(undefined, mapDispatchToProps)(LoginPage);

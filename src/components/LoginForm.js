@@ -7,9 +7,8 @@ import checkEmail from '../selectors/checkEmail';
 const initialState = {
   username: '',
   email: '',
-  password: '',
-  error: null
-}
+  password: ''
+};
   
 
 export class LoginFormBase extends React.Component {
@@ -28,16 +27,16 @@ export class LoginFormBase extends React.Component {
   
   onResetPasswordClick = e => {
     e.preventDefault();
-    this.props.passwordReset();
+    this.props.showPasswordReset();
   }
   
   render() {
     const {
       username,
       email,
-      password,
-      error
+      password
     } = this.state;
+    const { error } = this.props.auth;
     
     const isInvalid =
       !checkEmail(email) ||
@@ -68,8 +67,7 @@ export class LoginFormBase extends React.Component {
           Login
         </button>
         
-        { error && <p>{error.message}</p> }
-        { this.props.auth.error && <p>Oops. { this.props.auth.error.message }</p> }
+        { error && <p>Oops. { error.message }</p> }
         { resetPasswordLink }
       </form>
     )
