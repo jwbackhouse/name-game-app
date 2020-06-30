@@ -59,8 +59,21 @@ export const startLogout = () => {
 };
 
 export const updateDisplayName = (displayName) => {
-  return () => {
+  return (dispatch) => {
     return firebase.auth().currentUser.updateProfile({ displayName })
       .catch(error => console.log('updateDisplayName() error:', error));
+  };
+};
+
+export const checkResetPassword = (actionCode) => {
+  return (dispatch) => {
+    return firebase.auth().verifyPasswordResetCode(actionCode)
+  };
+};
+
+export const confirmPasswordReset = (actionCode, password) => {
+  return (dispatch) => {
+    return firebase.auth().confirmPasswordReset(actionCode, password)
+      .catch(error => dispatch(passwordResetError(error)));
   };
 };

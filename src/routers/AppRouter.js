@@ -10,6 +10,7 @@ import ChangeoverPage from '../components/ChangeoverPage';
 import EndPageBase from '../components/EndPageBase';
 import ErrorPage from '../components/ErrorPage';
 import EntryPage from '../components/EntryPage';
+import ResetPage from '../components/ResetPage';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 
@@ -20,6 +21,7 @@ const AppRouter = () => (
     <div>
       <Switch>
         <PublicRoute exact path='/' component={EntryPage} />
+        <PublicRoute path='/reset' component={ResetPage} />
         <PrivateRoute path='/join' component={RegisterPage} />
         <PrivateRoute path='/setup' component={SetupPage} />
         <PrivateRoute path='/start' component={StartPage} />

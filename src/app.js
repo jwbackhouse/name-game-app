@@ -53,7 +53,9 @@ try {
       console.log('app.js: Logged out.')
       store.dispatch(logoutSuccess());
       renderApp();
-      history.push('/');
+      if (!history.location.pathname === '/'  && !history.location.pathname === '/reset') {
+        history.push('/');
+      }
     }
   });
 } catch (error) {
