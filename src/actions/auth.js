@@ -44,6 +44,7 @@ export const startPasswordSignup = (email,password, username) => {
 
 export const startPasswordLogin = (email,password) => {
   return (dispatch, getState) => {
+    console.log('starting login with', email, password);
     return firebase.auth().signInWithEmailAndPassword(email, password)
       .then(authUser => dispatch(loginSuccess(authUser, '')))
       .catch(error => dispatch(loginFailure(error)));
@@ -81,6 +82,5 @@ export const checkResetPassword = (actionCode) => {
 export const confirmPasswordReset = (actionCode, password) => {
   return (dispatch) => {
     return firebase.auth().confirmPasswordReset(actionCode, password)
-      .catch(error => dispatch(passwordResetFailure(error)));
   };
 };

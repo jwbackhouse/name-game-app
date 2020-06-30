@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
-import { checkResetPassword, confirmPasswordReset } from '../actions/auth';
+import { checkResetPassword, confirmPasswordReset, startPasswordLogin } from '../actions/auth';
 
 const initialState = {
   mode: '',
@@ -42,7 +42,7 @@ export class ResetPage extends React.Component {
   onSubmit = e => {
     e.preventDefault();
     
-    const { actionCode, passwordOne } = this.state
+    const { actionCode, email, passwordOne } = this.state
     
     this.props.confirmPasswordReset(actionCode, passwordOne)
       .then(() => this.props.startPasswordLogin(email, passwordOne))
@@ -50,9 +50,8 @@ export class ResetPage extends React.Component {
   }
   
   render() {
-    console.log(this.state)
-    
-    const { passwordOne, passwordTwo, email } = this.state;
+    const { passwordOne, passwordTwo, email, error } = this.state;
+
     const isInvalid =
       passwordOne.length < 6 ||
       passwordOne !== passwordTwo;
@@ -61,7 +60,7 @@ export class ResetPage extends React.Component {
     if (this.state.email) {
       pageContent = (
         <div>
-          <p>Your email: { email }</p>
+          <p>{ email }</p>
           <form onSubmit={ this.onSubmit }>
             <input
               type='password'
@@ -80,9 +79,15 @@ export class ResetPage extends React.Component {
             <button type='submit' disabled={ isInvalid }>
               Go
             </button>
+            { error && <p>Oops. { error.message }</p> }
+            { this.props.auth.error && <p>Doh. { this.props.auth.error.message }</p> }
           </form>
         </div>
       );
+    } else if (!this.state.mode) {
+      pageContent = (
+        <Link to='/'>Return to login page</Link>
+      )
     } else {
       pageContent = (
         <div>
@@ -109,7 +114,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   checkResetPassword: (actionCode) => dispatch(checkResetPassword(actionCode)),
-  confirmPasswordReset: (actionCode, email) => dispatch(confirmPasswordReset(actionCode, email))
+  confirmPasswordReset: (actionCode, email) => dispatch(confirmPasswordReset(actionCode, email)),
+  startPasswordLogin: (email, password) => dispatch(startPasswordLogin(email, password))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResetPage);
