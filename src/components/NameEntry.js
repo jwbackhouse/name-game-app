@@ -14,15 +14,12 @@ export class NameEntry extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     const name = this.state.newName.trim();
-    console.log('state before:', this.state, 'Name:', name)
-    console.log(this.props);
     if (!name) {
       this.setState({error: 'Please enter a name'})
     } else {
       this.props.onAddName(name);
       this.setState({ newName: '', error: '' });
     }
-    console.log('state after', this.state);
   };
   
   render() {

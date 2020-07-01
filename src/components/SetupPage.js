@@ -17,7 +17,7 @@ export const SetupPage = (props) => {
   };
   
   const onClick = () => {
-    props.markPlayerReady(props.user.uid);
+    props.markPlayerReady(props.auth.playersUid);
     props.history.push('/start');
   };
   
@@ -37,8 +37,8 @@ export const SetupPage = (props) => {
     namesList = props.names.map(name => {
       return <NameListItem
         key={ name.id }
-        id={name.id}
-        name={name.name}
+        id={ name.id }
+        name={ name.name }
         onDelete={ onDelete }
       />
     })
@@ -73,8 +73,8 @@ export const SetupPage = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  names: selectUsersNames(state.names.names, state.user.uid),
-  user: state.user
+  names: selectUsersNames(state.names.names, state.auth.playersUid),
+  auth: state.auth
 });
 
 const mapDispatchToProps = (dispatch) => ({

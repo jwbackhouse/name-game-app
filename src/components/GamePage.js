@@ -117,7 +117,7 @@ export class GamePage extends React.Component {
 
     // Check a player is returned
     if (!nextPlayer) {
-      this.props.endGame(this.props.user.uid);
+      this.props.endGame(this.props.auth.playersUid);
     } else {
       return this.props.setNextPlayer(nextPlayer);
     }
@@ -138,10 +138,10 @@ export class GamePage extends React.Component {
       .then(() => {
         // Check if game has ended
         if (this.state.names.length === 0) {
-          this.props.endGame(this.props.user.uid);
+          this.props.endGame(this.props.auth.playersUid);
           this.props.history.push('/end');
         } else {
-          this.props.endTurn(this.props.user.uid);
+          this.props.endTurn(this.props.auth.playersUid);
           this.props.history.push('/scores');
         }
       })
@@ -221,7 +221,7 @@ export class GamePage extends React.Component {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user,
+  auth: state.auth,
   names: state.names.names.filter(name => name.isGuessed === false),   // Only fetch unguessed names
   game: state.game,
   players: state.players

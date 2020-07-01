@@ -2,6 +2,7 @@
 
 const initialState = {
   uid: '',
+  playersUid: '',
   username: '',
   error: '',
   passwordResetError: ''
@@ -37,6 +38,13 @@ export default (state = initialState, action) => {
         ...state,
         passwordResetError: ''
       }
+    case 'ADD_GAME_INFO':
+        return {
+          ...state,
+          username: action.username,
+          team: action.team,
+          playersUid: action.playersUid
+        }
     default:
       return state;
   }

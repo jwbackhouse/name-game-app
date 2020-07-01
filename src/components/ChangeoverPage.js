@@ -39,7 +39,7 @@ export class ChangeoverPage extends React.Component {
   
   render = () => {
     // Check if this user is playing next
-    const thisUserPlaying = this.props.user.uid === this.props.game.playingNow.uid;
+    const thisUserPlaying = this.props.auth.playersUid === this.props.game.playingNow.uid;
 
     return (
       <div className='content-container'>
@@ -60,7 +60,7 @@ export class ChangeoverPage extends React.Component {
 const mapStateToProps = (state) => ({
   players: state.players,
   game: state.game,
-  user: state.user
+  auth: state.auth
 });
 
 const mapDispatchToProps = (dispatch) => ({

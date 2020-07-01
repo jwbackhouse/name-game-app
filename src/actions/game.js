@@ -13,7 +13,7 @@ export const initialiseGame = () => {
       teamBScore: 0,
       playingNow: {
         uid: '',
-        userName: '',
+        username: '',
         team: ''
       },
       startTime: '',
@@ -146,7 +146,7 @@ export const setNextPlayer = (player) => {
     return database.ref(`game`).update({
       playingNow : {
         uid: player.uid,
-        userName: player.userName,
+        username: player.username,
         team: player.team
       }
     });
@@ -158,7 +158,7 @@ export const resetNextPlayer = () => {
     return database.ref(`game`).update({
       playingNow : {
         uid: '',
-        userName: '',
+        username: '',
         team: ''
       }
     });

@@ -49,13 +49,12 @@ export class StartPage extends React.Component {
         this.props.setNextPlayer(nextPlayer)
       } else {
         this.setState({ error: 'Waiting for more people to join.' });
-        console.log('no one in team A - nextPlayer:', nextPlayer);
+        console.log('No one in team A - nextPlayer:', nextPlayer);
       }
     } else if (players.length > 0) {
       this.props.resetNextPlayer();
       this.setState({ error: 'Waiting for other players to choose their names.' });
       console.log('Players length > 0 BUT not all ready')
-      
     } else {
       this.props.resetNextPlayer();
       this.setState({ error: 'Waiting for more people to join.' });
@@ -71,7 +70,7 @@ export class StartPage extends React.Component {
   
   
   render() {
-    const thisUserPlaying = this.props.user.uid === this.props.game.playingNow.uid;
+    const thisUserPlaying = this.props.auth.playersUid === this.props.game.playingNow.uid;
     
     return (
       <div className='content-container'>
@@ -95,8 +94,8 @@ export class StartPage extends React.Component {
 
 const mapStateToProps = (state) => ({
   players: state.players,
-  user: state.user,
-  game: state.game
+  auth: state.auth,
+  game: state.game,
 });
 
 const mapDispatchToProps = (dispatch) => ({

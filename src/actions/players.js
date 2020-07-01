@@ -3,7 +3,7 @@
 import database from '../firebase/firebase';
 
 
-// Fetch users from Firebase
+// Fetch players from Firebase
 export const getPlayers = () => {
   return (dispatch, getState) => {
     dispatch(getPlayersBegin());

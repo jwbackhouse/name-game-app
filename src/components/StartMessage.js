@@ -17,8 +17,8 @@ export const StartMessage = (props) => {
   } else if (props.playingNow.uid) {
     messageElement = (
       <div>
-        <p>{`${ props.playingNow.userName } from team ${ props.playingNow.team } will start.`}</p>
-        <p>{`The game will begin when ${ props.playingNow.userName } presses the button...`}</p>
+        <p>{`${ props.playingNow.username } from team ${ props.playingNow.team } will start.`}</p>
+        <p>{`The game will begin when ${ props.playingNow.username } presses the button...`}</p>
       </div>
     )
     

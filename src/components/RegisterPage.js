@@ -2,11 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import database from '../firebase/firebase';
 import TeamList from './TeamList';
-import { startAddUser } from '../actions/user';
 import { fetchData, endFetchData } from '../actions/game';
-import { updateDisplayName } from '../actions/auth';
+import { updateDisplayName, startAddGameInfo } from '../actions/auth';
 
-// TODO - add live db call
 
 export class RegisterPage extends React.Component {
   state = {
@@ -51,7 +49,7 @@ export class RegisterPage extends React.Component {
         username,
         team
       };
-      this.props.startAddUser(user);
+      this.props.startAddGameInfo(user);
       
       // Update displayName in firebase.authUser if it doesn't match
       this.props.auth.username !== username && this.props.updateDisplayName(username);
@@ -98,7 +96,7 @@ export class RegisterPage extends React.Component {
 
 
 const mapDispatchToProps = (dispatch) => ({
-  startAddUser: (user) => dispatch(startAddUser(user)),
+  startAddGameInfo: (user) => dispatch(startAddGameInfo(user)),
   fetchData: () => dispatch(fetchData()),
   endFetchData: () => dispatch(endFetchData()),
   updateDisplayName: (displayName) => dispatch(updateDisplayName(displayName))

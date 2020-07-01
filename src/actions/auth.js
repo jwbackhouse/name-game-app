@@ -1,6 +1,6 @@
 // *** AUTH ACTIONS
 
-import { firebase, googleAuthProvider } from '../firebase/firebase';
+import database, { firebase, googleAuthProvider } from '../firebase/firebase';
 
 // NOTE this is called in app.js rather than startLogin so that it runs when app first loads, not just when user explictly logs in/out
 export const loginSuccess = (user, username) => ({
@@ -9,6 +9,8 @@ export const loginSuccess = (user, username) => ({
   username
 });
 
+
+// LOGIN PROCESS
 export const logoutSuccess = () => ({
     type:'LOGOUT_SUCCESS',
 });
@@ -66,13 +68,6 @@ export const startLogout = () => {
   };
 };
 
-export const updateDisplayName = (displayName) => {
-  return (dispatch) => {
-    return firebase.auth().currentUser.updateProfile({ displayName })
-      .catch(error => console.log('updateDisplayName() error:', error));
-  };
-};
-
 export const checkResetPassword = (actionCode) => {
   return (dispatch) => {
     return firebase.auth().verifyPasswordResetCode(actionCode)
@@ -82,5 +77,43 @@ export const checkResetPassword = (actionCode) => {
 export const confirmPasswordReset = (actionCode, password) => {
   return (dispatch) => {
     return firebase.auth().confirmPasswordReset(actionCode, password)
+  };
+};
+
+
+// GAME MANAGEMENT
+export const addGameInfo = ({username, playersUid, team}) => ({
+  type:'ADD_GAME_INFO',
+  username,
+  playersUid,
+  team
+});
+
+export const updateDisplayName = (displayName) => {
+  return (dispatch) => {
+    return firebase.auth().currentUser.updateProfile({ displayName })
+      .catch(error => console.log('updateDisplayName() error:', error));
+  };
+};
+
+export const startAddGameInfo = (userData) => {
+  return (dispatch, getState) => {
+    const {
+      username = '',
+      team = '',
+      hasPlayed = false,
+      isReady = false
+    } = userData;
+    
+    const user = { username, team, hasPlayed, isReady };   // uses deconstructed values from userData
+    return database.ref(`players`).push(user).then((ref) => {
+      const userObj = {
+        playersUid: ref.key,    // .then callback from .push gets called with ref, so can get id from this using .key
+        ...user
+      }
+      
+      // Add user to state.user
+      dispatch(addGameInfo(userObj));
+    });
   };
 };
