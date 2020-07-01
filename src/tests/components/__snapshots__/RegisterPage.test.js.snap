@@ -15,7 +15,7 @@ exports[`Should render RegisterPage correctly 1`] = `
       className="text-input"
       onChange={[Function]}
       placeholder="Name"
-      value=""
+      value="Joe"
     />
     <select
       className="select"
@@ -45,6 +45,29 @@ exports[`Should render RegisterPage correctly 1`] = `
         Already on Team A:
       </p>
       <TeamList
+        players={
+          Object {
+            "error": false,
+            "isLoading": false,
+            "players": Array [
+              Object {
+                "team": "A",
+                "uid": 1234,
+                "username": "Bob",
+              },
+              Object {
+                "team": "B",
+                "uid": 5678,
+                "username": "Bridget",
+              },
+              Object {
+                "team": "A",
+                "uid": 9012,
+                "username": "Amy",
+              },
+            ],
+          }
+        }
         team="A"
       />
       <p
@@ -53,6 +76,29 @@ exports[`Should render RegisterPage correctly 1`] = `
         Already on Team B:
       </p>
       <TeamList
+        players={
+          Object {
+            "error": false,
+            "isLoading": false,
+            "players": Array [
+              Object {
+                "team": "A",
+                "uid": 1234,
+                "username": "Bob",
+              },
+              Object {
+                "team": "B",
+                "uid": 5678,
+                "username": "Bridget",
+              },
+              Object {
+                "team": "A",
+                "uid": 9012,
+                "username": "Amy",
+              },
+            ],
+          }
+        }
         team="B"
       />
     </div>

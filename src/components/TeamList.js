@@ -24,4 +24,3 @@ export const TeamList = (props) => {
 }
 
 export default TeamList;
-

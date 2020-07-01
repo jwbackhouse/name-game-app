@@ -3,38 +3,74 @@ import { shallow } from 'enzyme';
 import { ChangeoverPage } from '../../components/ChangeoverPage';
 import testPlayers from '../fixtures/testPlayers';
 import testGame from '../fixtures/testGame';
-import testUser from '../fixtures/testUser';
+import testAuth from '../fixtures/testAuth';
 
-let wrapper, getNames, getPlayers, startSetActivePlayer, updateLocalScore, setStartTime;
-beforeEach(() => {
-  getNames = jest.fn();
-  getPlayers = jest.fn().mockResolvedValue();
-  startSetActivePlayer = jest.fn();
-  updateLocalScore = jest.fn();
-  setStartTime = jest.fn();
+describe('<ChangeoverPage />', () => {
+  let wrapper;
+  const fetchDataSpy = jest.fn();
+  const endFetchDataSpy = jest.fn();
+  const getNamesSpy = jest.fn();
+  const startTurnSpy = jest.fn();
+  const historySpy = { push: jest.fn() };
   
-  wrapper = shallow(
-    <ChangeoverPage
-      // State
-      players={ testPlayers }
-      game={ testGame }
-      user={ testUser }
-      // Props
-      getNames={ getNames }
-      getPlayers={ getPlayers }
-      startSetActivePlayer={ startSetActivePlayer }
-      updateLocalScore={ updateLocalScore }
-      setStartTime={ setStartTime }
-    />
-  )
+  beforeEach(() => {
+    wrapper = shallow(
+      <ChangeoverPage
+        // State
+        players={ testPlayers }
+        game={ testGame }
+        auth={ testAuth }
+        // Props
+        fetchData={ fetchDataSpy }
+        endFetchData={ endFetchDataSpy }
+        getNames={ getNamesSpy }
+        startTurn={ startTurnSpy }
+        history={ historySpy }
+      />
+    )
+  });
+
+  test('Should render ChangeoverPage', () => {
+    expect(wrapper).toMatchSnapshot();
+  });
+  
+  test('Should call fetchData() and getNames on mounting', () => {
+    expect(fetchDataSpy).toBeCalled;
+    expect(getNamesSpy).toBeCalled;
+  });
+  
+  test('Should redirect to /guess on game.startTurn change', () => {
+    wrapper.setProps({
+      game: {
+        ...testGame,
+        startTurn: true
+      }
+    });
+    expect(historySpy.push).lastCalledWith('/guess');
+  });
+  
+  test('Should redirect to /end on game.endGame change', () => {
+    wrapper.setProps({
+      game: {
+        ...testGame,
+        endGame: true
+      }
+    });
+    expect(historySpy.push).lastCalledWith('/end');
+  });
+  
+  test('Should call startTurn() and redirect to /play via <StartMessage /> onClick', () => {
+    // Set up spy on child component prop
+    const onClickSpy = ChangeoverPage.prototype.onClick;
+    wrapper.find('StartMessage').props().onClick();
+    expect(historySpy.push).lastCalledWith('/play');
+    expect(startTurnSpy).toBeCalled;
+  })
+  
+  test('Should pass true to thisUserPlaying prop of <StartMessage />', () => {
+    const thisUserPlaying = wrapper.find('StartMessage').props().thisUserPlaying;
+    // Check fixtures data is still providing identical uids
+    expect(testAuth.playersUid).toEqual(testGame.playingNow.uid);
+    expect(thisUserPlaying).toEqual(true);
+  })
 });
-
-
-test('Should render ChangeoverPage', () => {
-  expect(wrapper).toMatchSnapshot();
-});
-
-test('ChangeoverPage should call getPlayers then make state changes on mounting', () => {
-  const didMountSpy = jest.spyOn(ChangeoverPage.prototype, 'ComponentDidMount');
-  expect(didMountSpy).lastCalledWith(getPlayers);
-})

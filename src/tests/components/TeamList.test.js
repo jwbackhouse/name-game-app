@@ -22,7 +22,6 @@ test('Should render message saying "Loading..."', () => {
   expect(wrapper.text()).toEqual('Loading...');
 });
 
-
 test('Should render message saying "No one yet"', () => {
   const players = {
     ...testPlayers,
@@ -31,4 +30,15 @@ test('Should render message saying "No one yet"', () => {
   };
   const wrapper = shallow(<TeamList players={ players } team='A' />)
   expect(wrapper.text()).toEqual('No one yet');
+});
+
+
+test('Should render error message', () => {
+  const players = {
+    ...testPlayers,
+    error: 'test error',
+    isLoading: false
+  };
+  const wrapper = shallow(<TeamList players={ players } team='A' />)
+  expect(wrapper.text()).toEqual('Oops, something went wrong');
 });

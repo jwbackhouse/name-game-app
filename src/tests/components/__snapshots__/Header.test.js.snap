@@ -15,6 +15,9 @@ exports[`Should render Header correctly 1`] = `
       >
         The Name Game
       </h1>
+      <button>
+        Sign out
+      </button>
     </div>
   </div>
 </div>

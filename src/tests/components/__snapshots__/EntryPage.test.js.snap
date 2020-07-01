@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Should render login page 1`] = `
+exports[`Should render EntryPage 1`] = `
 <div
   className="box-layout"
 >
@@ -10,15 +10,22 @@ exports[`Should render login page 1`] = `
     <h1
       className="box-layout__title"
     >
-      Boilerplate app
+      The Name Game
     </h1>
     <p>
-      Tagline for app
+      The online version
     </p>
     <button
       className="button"
+      onClick={[Function]}
     >
-      Login with Google
+      Login
+    </button>
+    <button
+      className="button"
+      onClick={[Function]}
+    >
+      Sign up
     </button>
   </div>
 </div>

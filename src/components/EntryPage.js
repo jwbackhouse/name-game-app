@@ -11,7 +11,7 @@ const initialState = {
   passwordReset: false
 };
 
-export class LoginPage extends React.Component {
+export class EntryPage extends React.Component {
   state = initialState
   
   onClick = (show, hide) => {
@@ -56,4 +56,4 @@ const mapDispatchToProps = dispatch => ({
   clearLoginFailure: () => dispatch(clearLoginFailure())
 });
 
-export default connect(undefined, mapDispatchToProps)(LoginPage);
+export default connect(undefined, mapDispatchToProps)(EntryPage);

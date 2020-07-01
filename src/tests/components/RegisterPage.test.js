@@ -1,10 +1,39 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import auth, { authWithError, blankAuth } from '../fixtures/testAuth';
+import players from '../fixtures/testPlayers';
 import { RegisterPage } from '../../components/RegisterPage';
 
-let wrapper;
+
+let wrapper, startAddGameInfo, fetchData, endFetchData, updateDisplayName, history, newPlayer, defaultState;
 beforeEach(() => {
-  wrapper = shallow(<RegisterPage />);
+  startAddGameInfo = jest.fn();
+  fetchData = jest.fn();
+  endFetchData = jest.fn();
+  updateDisplayName= jest.fn();
+  history={ push: jest.fn() }
+  wrapper = shallow(
+    <RegisterPage
+      // Redux state
+      auth={ auth }
+      players={ players }
+      // Redux dispatch
+      startAddGameInfo={ startAddGameInfo }
+      fetchData={ fetchData }
+      endFetchData={ endFetchData }
+      updateDisplayName={ updateDisplayName }
+      history={ history }
+    />
+  );
+  newPlayer = {
+    username: 'Bob',
+    team: 'B',
+  };
+  defaultState = {
+    username: '',
+    team: 'A',
+    error: ''
+  };
 });
 
 test('Should render RegisterPage correctly', () => {
@@ -12,16 +41,16 @@ test('Should render RegisterPage correctly', () => {
 });
 
 // User name field
-test('Should update state.userName on input change', () => {
+test('Should update state.username on input change', () => {
   const value = 'Joe Bloggs';
   wrapper.find('input').simulate('change', {
     target: {value}    // pass second argument for 'e.target.value'
   });
-  expect(wrapper.state('userName')).toBe(value);   // this syntax is enzyme-specific
+  expect(wrapper.state('username')).toBe(value);   // this syntax is enzyme-specific
 });
 
 // Team selector
-test('Should update state.userName on input change', () => {
+test('Should update state.username on input change', () => {
   const value = 'B';
   wrapper.find('select').simulate('change', {
     target: {value}    // pass second argument for 'e.target.value'
@@ -30,42 +59,21 @@ test('Should update state.userName on input change', () => {
 });
 
 // On submit
-describe('Test onSubmit', () => {
-  let wrapper, history, onSubmitSpy, startAddUserSpy, mockState, defaultState;
-  beforeEach(() => {
-    onSubmitSpy = jest.fn();
-    startAddUserSpy = jest.fn();
-    history = {   // Have to use object to setup spy for history.push
-      push: jest.fn()
-    };
-    mockState = {
-      userName: 'Bob',
-      team: 'B'
-    };
-    defaultState = {
-      userName: '',
-      team: 'A',
-      teamAPlayers: [],
-      teamBPlayers: [],
-      error: ''
-    };
-    wrapper = shallow(<RegisterPage onSubmit={ onSubmitSpy } startAddUser={ startAddUserSpy } history={ history } />);
-  })
-  
-  test('Should render error if no name entered', () => {
-    wrapper.find('form').simulate('submit', {
-      preventDefault: () => {}
-    });
-    expect(wrapper.state('error')).toBe('^^Please enter your name');
+test('Should render error if no name entered', () => {
+  wrapper.setState({ ...blankAuth })
+  wrapper.find('form').simulate('submit', {
+    preventDefault: () => {}
   });
-  test('Should submit correctly when name & team entered', () => {
-    wrapper.setState({ ...mockState });
-    wrapper.find('form').simulate('submit', {
-      preventDefault: () => {}
-    });
-    expect(wrapper.state()).toEqual(defaultState);
-    expect(startAddUserSpy).lastCalledWith(mockState);
-    expect(history.push).lastCalledWith('/setup');
+  console.log(wrapper.state('username'));
+  expect(wrapper.state('error')).toBe('^^Please enter your name');
+});
+
+test('Should submit correctly when name & team entered', () => {
+  wrapper.setState({ ...newPlayer });
+  wrapper.find('form').simulate('submit', {
+    preventDefault: () => {}
   });
-  
+  expect(startAddGameInfo).lastCalledWith(newPlayer);
+  expect(updateDisplayName).lastCalledWith(newPlayer.username);
+  expect(history.push).lastCalledWith('/setup');
 });

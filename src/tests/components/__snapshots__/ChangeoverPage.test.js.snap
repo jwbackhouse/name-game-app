@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Should render ChangeoverPage 1`] = `
-<div>
+exports[`<ChangeoverPage /> Should render ChangeoverPage 1`] = `
+<div
+  className="content-container"
+>
   <h1>
     The scores on the doors
   </h1>
@@ -13,10 +15,17 @@ exports[`Should render ChangeoverPage 1`] = `
     Team B: 
     2
   </p>
-  <button
+  <StartMessage
+    errorMsg=""
     onClick={[Function]}
-  >
-    Go
-  </button>
+    playingNow={
+      Object {
+        "team": "B",
+        "uid": 1234,
+        "userName": "Bob",
+      }
+    }
+    thisUserPlaying={true}
+  />
 </div>
 `;

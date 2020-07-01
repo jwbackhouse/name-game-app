@@ -1,14 +1,14 @@
 export default {
   players: [{
-    userName: 'Bob',
+    username: 'Bob',
     team: 'A',
     uid: 1234
   }, {
-    userName: 'Bridget',
+    username: 'Bridget',
     team: 'B',
     uid: 5678
   }, {
-    userName: 'Amy',
+    username: 'Amy',
     team: 'A',
     uid: 9012
   }],
