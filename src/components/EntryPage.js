@@ -16,7 +16,7 @@ export class EntryPage extends React.Component {
   
   onClick = (show, hide) => {
     // Close <PasswordResetForm/> if still open
-    this.state.passwordReset && this.handlePasswordReset();
+    this.state.passwordReset && this.togglePasswordReset();
     
     // Clear any error left over from previous login attempt
     this.props.clearLoginFailure();
@@ -27,7 +27,7 @@ export class EntryPage extends React.Component {
     });
   }
   
-  handlePasswordReset = () => {
+  togglePasswordReset = () => {
     this.setState({
       ...initialState,
       passwordReset: !this.state.passwordReset
@@ -43,9 +43,9 @@ export class EntryPage extends React.Component {
           <p>The online version</p>
           <button onClick={ () => this.onClick('login', 'signup') } className='button'>Login</button>
           <button onClick={ () => this.onClick('signup', 'login') } className='button'>Sign up</button>
-          { this.state.login && <LoginForm showPasswordReset={ this.handlePasswordReset }/> }
+          { this.state.login && <LoginForm showPasswordReset={ this.togglePasswordReset }/> }
           { this.state.signup && <SignupForm /> }
-          { this.state.passwordReset && <PasswordResetForm showPasswordReset={ this.handlePasswordReset }/> }
+          { this.state.passwordReset && <PasswordResetForm showPasswordReset={ this.togglePasswordReset }/> }
         </div>
       </div>
     );
