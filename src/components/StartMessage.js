@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const StartMessage = (props) => {
+export const StartMessage = props => {
   let messageElement;
   
   // If user is playing next

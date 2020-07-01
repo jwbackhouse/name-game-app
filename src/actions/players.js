@@ -52,14 +52,13 @@ export const addPlayer = (player) => ({
 
 
 // Mark player as ready to play
-export const markPlayerReady = (uid) => {
+export const togglePlayerReady = (uid) => {
   return (dispatch, getState) => {
-    return database.ref(`players/${uid}/isReady`).set(true);
+    const players = getState().players.players;
+    const thisPlayer = players.find(player => player.uid === uid)
+    console.log(thisPlayer)
+    thisPlayer.isReady
+      ? database.ref(`players/${uid}/isReady`).set(false)
+      : database.ref(`players/${uid}/isReady`).set(true);
   }
 };
-
-// export const updatePlayers = (players) => ({
-//   type: 'UPDATE_PLAYERS',
-//   payload: players
-// });
-

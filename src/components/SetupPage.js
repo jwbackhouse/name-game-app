@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import NameListItem from './NameListItem';
 import NameEntry from './NameEntry';
 import { numberNames } from '../app';
-import { markPlayerReady } from '../actions/players';
+import { togglePlayerReady } from '../actions/players';
 import { startRemoveName, startAddName } from '../actions/names';
 import selectUsersNames from '../selectors/selectUsersNames';
 
@@ -17,7 +17,7 @@ export const SetupPage = (props) => {
   };
   
   const onClick = () => {
-    props.markPlayerReady(props.auth.playersUid);
+    props.togglePlayerReady(props.auth.playersUid);
     props.history.push('/start');
   };
   
@@ -78,7 +78,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  markPlayerReady: (uid) => dispatch(markPlayerReady(uid)),
+  togglePlayerReady: (uid) => dispatch(togglePlayerReady(uid)),
   startRemoveName: (id) => dispatch(startRemoveName(id)),
   startAddName: (name) => dispatch(startAddName(name))
 });

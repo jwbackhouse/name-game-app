@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import TeamList from './TeamList';
 import StartMessage from './StartMessage';
+import EditNamesButton from './EditNamesButton';
 import { fetchData, endFetchData, startTurn, setNextPlayer, resetNextPlayer } from '../actions/game';
 import selectPlayer from '../selectors/selectPlayer';
 
@@ -75,6 +76,7 @@ export class StartPage extends React.Component {
     return (
       <div className='content-container'>
         <h1>Ready to go?</h1>
+        <EditNamesButton />
         <h3>Team A</h3>
         <TeamList players={ this.props.players } team='A' />
         <br />
