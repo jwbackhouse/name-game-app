@@ -41,23 +41,37 @@ describe('<RegisterPage />', () => {
     expect(wrapper).toMatchSnapshot();
   });
   
-  // User name field
-  test('Should update state.username on input change', () => {
-    const value = 'Joe Bloggs';
-    wrapper.find('input').simulate('change', {
-      target: {value}    // pass second argument for 'e.target.value'
+  describe('input fields', () => {
+    // User name field
+    test('Should update state.username on input change', () => {
+      const value = 'Joe Bloggs';
+      wrapper.find('input').simulate('change', {
+        target: {value}    // pass second argument for 'e.target.value'
+      });
+      expect(wrapper.state('username')).toBe(value);   // this syntax is enzyme-specific
     });
-    expect(wrapper.state('username')).toBe(value);   // this syntax is enzyme-specific
+    
+    test('Should update field contents when state.auth.username changes', () => {
+      const newName = 'Joel'
+      wrapper.setProps({
+        auth: {
+          ...auth,
+          username: newName
+        }
+      });
+      expect(wrapper.find('input').props().value).toEqual(newName);
+    });
+  
+    // Team selector
+    test('Should update state.team on input change', () => {
+      const value = 'B';
+      wrapper.find('select').simulate('change', {
+        target: {value}    // pass second argument for 'e.target.value'
+      });
+      expect(wrapper.state('team')).toBe(value);   // this syntax is enzyme-specific
+    });
   });
   
-  // Team selector
-  test('Should update state.team on input change', () => {
-    const value = 'B';
-    wrapper.find('select').simulate('change', {
-      target: {value}    // pass second argument for 'e.target.value'
-    });
-    expect(wrapper.state('team')).toBe(value);   // this syntax is enzyme-specific
-  });
   
   // On submit
   describe('onSubmit', () => {
@@ -66,11 +80,10 @@ describe('<RegisterPage />', () => {
       wrapper.find('form').simulate('submit', {
         preventDefault: () => {}
       });
-      console.log(wrapper.state('username'));
       expect(wrapper.state('error')).toBe('^^Please enter your name');
     });
     
-    test('Should call startAddGameInfo() & updateDisplayName(), and redirect to /setup', () => {
+    test('Should call startAddGameInfo() & updateDisplayName() with correct args, and redirect to /setup', () => {
       wrapper.setState({ ...newPlayer });
       wrapper.find('form').simulate('submit', {
         preventDefault: () => {}
