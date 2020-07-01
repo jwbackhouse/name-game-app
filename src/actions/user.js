@@ -19,6 +19,7 @@ export const startAddUser = (userData) => {
       hasPlayed = false,
       isReady = false
     } = userData;   // Using destructuring to extract data from the user argument rather than doing it in function argument itself
+    
     const user = { username, team, hasPlayed, isReady };   // uses deconstructed values from userData
     return database.ref(`players`).push(user).then((ref) => {
       const userObj = {

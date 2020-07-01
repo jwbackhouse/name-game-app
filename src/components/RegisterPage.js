@@ -30,22 +30,22 @@ export class RegisterPage extends React.Component {
   
   onTextChange = (e) => {
     const username = e.target.value;
-    this.setState({username})
+    this.setState({username});
   }
   
   onSelectChange = (e) => {
-    const team = e.target.value
-    this.setState(() => ({team}))
+    const team = e.target.value;
+    this.setState({ team });
   }
   
   onSubmit = (e) => {
     e.preventDefault();
   
-    const {username, team} = this.state;
+    const { username, team } = this.state;
     
     // Check a name has been entered
     if (!username) {
-      this.setState({error: '^^Please enter your name'});
+      this.setState({ error: '^^Please enter your name' });
     } else {
       const user = {
         username,

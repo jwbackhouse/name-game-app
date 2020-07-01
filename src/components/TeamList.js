@@ -13,12 +13,12 @@ export const TeamList = (props) => {
     list = <li className='list__item list__item--message'>Oops, something went wrong</li>
   } else {
     // Generate list item for each player
-    list = teamRoster.map(player => <li className='list__item' key={player.uid}>{player.userName}</li>)
+    list = teamRoster.map(player => <li className='list__item' key={ player.uid }>{ player.username }</li>)
   }
   
   return (
     <ul className='list'>
-      {list}
+      { list }
     </ul>
   )
 }
