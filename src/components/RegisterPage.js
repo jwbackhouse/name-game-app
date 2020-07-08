@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import database from '../firebase/firebase';
 import TeamList from './TeamList';
 import { fetchData, endFetchData } from '../actions/game';
-import { updateDisplayName, startAddGameInfo } from '../actions/auth';
+import { updateDisplayName, startAddUserDetails } from '../actions/auth';
 
 
 export class RegisterPage extends React.Component {
@@ -49,7 +49,8 @@ export class RegisterPage extends React.Component {
         username,
         team
       };
-      this.props.startAddGameInfo(user);
+      // Add game-specific details to state.user and push to Firebase>Players
+      this.props.startAddUserDetails(user);
       
       // Update displayName in firebase.authUser if it doesn't match
       this.props.auth.username !== username && this.props.updateDisplayName(username);
@@ -96,7 +97,7 @@ export class RegisterPage extends React.Component {
 
 
 const mapDispatchToProps = (dispatch) => ({
-  startAddGameInfo: (user) => dispatch(startAddGameInfo(user)),
+  startAddUserDetails: (user) => dispatch(startAddUserDetails(user)),
   fetchData: () => dispatch(fetchData()),
   endFetchData: () => dispatch(endFetchData()),
   updateDisplayName: (displayName) => dispatch(updateDisplayName(displayName))

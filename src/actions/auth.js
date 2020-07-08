@@ -82,8 +82,8 @@ export const confirmPasswordReset = (actionCode, password) => {
 
 
 // GAME MANAGEMENT
-export const addGameInfo = ({username, playersUid, team}) => ({
-  type:'ADD_GAME_INFO',
+export const addUserDetails = ({username, playersUid, team}) => ({
+  type:'ADD_USER_DETAILS',
   username,
   playersUid,
   team
@@ -96,7 +96,7 @@ export const updateDisplayName = (displayName) => {
   };
 };
 
-export const startAddGameInfo = (userData) => {
+export const startAddUserDetails = (userData) => {
   return (dispatch, getState) => {
     const {
       username = '',
@@ -104,16 +104,17 @@ export const startAddGameInfo = (userData) => {
       hasPlayed = false,
       isReady = false
     } = userData;
-    
     const user = { username, team, hasPlayed, isReady };   // uses deconstructed values from userData
-    return database.ref(`players`).push(user).then((ref) => {
+    
+    // Add user to Firebase>Players
+    return database.ref(`players`).push(user).then(ref => {
       const userObj = {
         playersUid: ref.key,    // .then callback from .push gets called with ref, so can get id from this using .key
         ...user
       }
       
-      // Add user to state.user
-      dispatch(addGameInfo(userObj));
+      // Add game-specific info to state.auth
+      dispatch(addUserDetails(userObj));
     });
   };
 };

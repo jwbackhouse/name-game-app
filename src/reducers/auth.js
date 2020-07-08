@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
         ...state,
         passwordResetError: ''
       }
-    case 'ADD_GAME_INFO':
+    case 'ADD_USER_DETAILS':
         return {
           ...state,
           username: action.username,
