@@ -9,9 +9,6 @@ import { updateNames } from '../actions/names';
 import { startUpdateScore, endTurn, endGame, setNextPlayer } from '../actions/game';
 
 
-// TODO - is there a better way to deal with repeated code (e.g. index setting)
-
-
 export class GamePage extends React.Component {
   state = {
     index: undefined,
@@ -27,7 +24,7 @@ export class GamePage extends React.Component {
     const { names } = this.props;
     
     // Generate random index for name choice
-    const index = Math.floor(Math.random() * (names.length - 1));
+    const index = this.getIndex(names);
     this.setState({index});
     
     // Populate local state with unguessed names
@@ -35,7 +32,7 @@ export class GamePage extends React.Component {
   };
 
   // Handle name being guessed or passed
-  nextName = (type) => {
+  nextName = type => {
     this.setState(prevState => {
       const index = prevState.index;
       
@@ -54,19 +51,6 @@ export class GamePage extends React.Component {
       }
     });
     this.removeName('names');
-  };
-  
-  // Remove name from relevant state object + update index
-  removeName = (arrayName) => {
-    this.setState(prevState => {
-      const prevIndex = prevState.index;
-      const newArr = prevState[arrayName].filter((name, arrIndex) => arrIndex !== prevIndex);
-      const newIndex = Math.floor(Math.random() * (prevState[arrayName].length - 1));
-      return {
-        [arrayName]: newArr,
-        index: newIndex
-      };
-    });
   };
   
   // Update index to cycle through state.passedNames
@@ -93,6 +77,22 @@ export class GamePage extends React.Component {
     });
     this.removeName('passedNames');
   };
+  
+  // Remove name from relevant state object + update index
+  removeName = arrayName => {
+    this.setState(prevState => {
+      const prevIndex = prevState.index;
+      const newArr = prevState[arrayName].filter((name, arrIndex) => arrIndex !== prevIndex);
+      const newIndex = this.getIndex(prevState[arrayName]);
+      return {
+        [arrayName]: newArr,
+        index: newIndex
+      };
+    });
+  };
+  
+  // Recalculate random index
+  getIndex = arrayName => Math.floor(Math.random() * (arrayName.length - 1))
   
   // Handle button toggling whether to display unguessed or passed names
   toggleViewPassedNames = () => {
