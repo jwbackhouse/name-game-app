@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import TeamList from './TeamList';
-import { updateDisplayName, startAddUserDetails } from '../actions/auth';
 import withLiveData from '../helpers/withLiveData';
+import { updateDisplayName, startAddUserDetails } from '../actions/auth';
 
 
 export class RegisterPage extends React.Component {

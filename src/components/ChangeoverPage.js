@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import StartMessage from './StartMessage';
-import { fetchData, endFetchData, startTurn } from '../actions/game';
+import withLiveData from '../helpers/withLiveData';
+import { startTurn } from '../actions/game';
 import { getNames } from '../actions/names';
-import selectPlayer from '../selectors/selectPlayer';
-
 
 
 export class ChangeoverPage extends React.Component {
@@ -14,7 +14,6 @@ export class ChangeoverPage extends React.Component {
   }
   
   componentDidMount = () => {
-    this.props.fetchData();
     this.props.getNames();
   }
   
@@ -25,10 +24,6 @@ export class ChangeoverPage extends React.Component {
     if (this.props.game.endGame) {
       this.props.history.push('/end')
     }
-  }
-  
-  componentWillUnmount = () => {
-    this.props.endFetchData();
   }
 
   onClick = () => {
@@ -58,18 +53,18 @@ export class ChangeoverPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  players: state.players,
   game: state.game,
   auth: state.auth
 });
 
 const mapDispatchToProps = (dispatch) => ({
   startTurn: () => dispatch(startTurn()),
-  fetchData: () => dispatch(fetchData()),
-  getNames: () => dispatch(getNames()),
-  endFetchData: () => dispatch(endFetchData())
+  getNames: () => dispatch(getNames())
 });
 
+const connectedWithLiveData = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withLiveData,
+);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChangeoverPage);
-
+export default connectedWithLiveData(ChangeoverPage);

@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import TeamList from './TeamList';
 import StartMessage from './StartMessage';
 import EditNamesButton from './EditNamesButton';
-import { fetchData, endFetchData, startTurn, setNextPlayer, resetNextPlayer } from '../actions/game';
+import withLiveData from '../helpers/withLiveData';
+import { startTurn, setNextPlayer, resetNextPlayer } from '../actions/game';
 import selectPlayer from '../selectors/selectPlayer';
 
   
@@ -16,7 +18,6 @@ export class StartPage extends React.Component {
   }
   
   componentDidMount = () => {
-    this.props.fetchData();
     this.choosePlayer(this.props.players.players);
   }
   
@@ -30,10 +31,6 @@ export class StartPage extends React.Component {
     if (prevProps.players.players != this.props.players.players) {
       this.choosePlayer(this.props.players.players);
     }
-  }
-  
-  componentWillUnmount = () => {
-    this.props.endFetchData();
   }
 
   choosePlayer = (players) => {
@@ -102,10 +99,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   startTurn: () => dispatch(startTurn()),
-  fetchData: () => dispatch(fetchData()),
-  endFetchData: () => dispatch(endFetchData()),
   setNextPlayer: (player) => dispatch(setNextPlayer(player)),
   resetNextPlayer: () => dispatch(resetNextPlayer())
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(StartPage);
+const connectedWithLiveData = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withLiveData,
+);
+
+export default connectedWithLiveData(StartPage);
