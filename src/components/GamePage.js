@@ -24,13 +24,14 @@ export class GamePage extends React.Component {
   };
   
   componentDidMount = () => {
+    const { names } = this.props;
+    
     // Generate random index for name choice
-    const index = Math.floor(Math.random() * (this.props.names.length - 1));
+    const index = Math.floor(Math.random() * (names.length - 1));
     this.setState({index});
     
     // Populate local state with unguessed names
-    const names = this.props.names;
-    this.setState({ names});
+    this.setState({ names });
   };
 
   // Handle name being guessed or passed
@@ -70,13 +71,14 @@ export class GamePage extends React.Component {
   
   // Update index to cycle through state.passedNames
   passAgain = () => {
-    let index;
-    if (this.state.passedNames.length - 1 === this.state.index) {
-      index = 0;
+    const { index, passedNames } = this.state;
+    let newIndex;
+    if (passedNames.length - 1 === index) {
+      newIndex = 0;
     } else {
-      index = this.state.index + 1;
+      newIndex = index + 1;
     }
-    this.setState({ index });
+    this.setState({ index: newIndex });
   };
   
   // Add successfully-guessed passed name to state.guessedNames
@@ -94,11 +96,13 @@ export class GamePage extends React.Component {
   
   // Handle button toggling whether to display unguessed or passed names
   toggleViewPassedNames = () => {
-    if (this.state.viewPassedNames) {
+    const { viewPassedNames, unguessedIndex } = this.state;
+    
+    if (viewPassedNames) {
       this.setState(prevState => ({
         viewPassedNames: false,
         unguessedIndex: '',
-        index: this.state.unguessedIndex
+        index: unguessedIndex
       }));
     } else {
       this.setState(prevState => ({
@@ -112,24 +116,29 @@ export class GamePage extends React.Component {
   
   // Choose next player
   choosePlayer = (players) => {
-    const lastTeamPlayed = this.props.game.playingNow.team;
+    const { game, auth, endGame, setNextPlayer } = this.props;
+    
+    const lastTeamPlayed = game.playingNow.team;
     const nextPlayer = selectPlayer(lastTeamPlayed, players);
 
     // Check a player is returned
     if (!nextPlayer) {
-      this.props.endGame(this.props.auth.playersUid);
+      endGame(auth.playersUid);
     } else {
-      return this.props.setNextPlayer(nextPlayer);
+      return setNextPlayer(nextPlayer);
     }
   };
   
   // Handle timer expiry or all names being guessed
   onFinished = () => {
+    const { guessedNames, names } = this.state;
+    const { players, game, auth, history, endGame, endTurn, updateNames, startUpdateScore } = this.props;
+    
     // Await Firebase update
     const promisesArray = [
-      this.choosePlayer(this.props.players.players),
-      this.props.updateNames(this.state.guessedNames),
-      this.props.startUpdateScore(this.props.game.playingNow.team, this.state.guessedNames.length)
+      this.choosePlayer(players.players),
+      updateNames(guessedNames),
+      startUpdateScore(game.playingNow.team, guessedNames.length)
     ];
     
     const handleAllPromises = Promise.all(promisesArray);
@@ -137,41 +146,41 @@ export class GamePage extends React.Component {
     handleAllPromises
       .then(() => {
         // Check if game has ended
-        if (this.state.names.length === 0) {
-          this.props.endGame(this.props.auth.playersUid);
-          this.props.history.push('/end');
+        if (names.length === 0) {
+          endGame(auth.playersUid);
+          history.push('/end');
         } else {
-          this.props.endTurn(this.props.auth.playersUid);
-          this.props.history.push('/scores');
+          endTurn(auth.playersUid);
+          history.push('/scores');
         }
       })
       .catch((err) => console.log('onFinished(): error from promisesArray:', err));
   };
     
   render = () => {
-    const remainingNames = this.state.names.length;
-    const passedNames = this.state.passedNames.length;
-    const allowPass = (passesAllowed - this.state.numberPasses) > 0;
-    const score = this.state.guessedNames.length;
-    const showPassedNamesButton = this.state.passedNames.length > 0 && this.state.names.length > 0;
+    const { names, passedNames, guessedNames, index, prevIndex, numberPasses, viewPassedNames } = this.state;
+    
+    const allowPass = (passesAllowed - numberPasses) > 0;
+    const score = guessedNames.length;
+    const showPassedNamesButton = passedNames.length > 0 && names.length > 0;
     let guess;
         
-    if (remainingNames > 0 && !this.state.viewPassedNames) {
-      const index = this.state.prevIndex ? this.state.prevIndex : this.state.index;
+    if (names.length > 0 && !viewPassedNames) {
+      const newIndex = prevIndex ? prevIndex : index;
       guess =
         <LiveName
-          index={ index }
-          names={ this.state.names }
+          index={ newIndex }
+          names={ names }
           pass={ this.nextName }
           guessed={ this.nextName }
           allowPass={ allowPass }
           viewPassedNames={ false }
         />
-    } else if (passedNames > 0 || (passedNames > 0 && this.state.revisitPassed)) {
+    } else if (names.length > 0) {
       guess =
         <LiveName
-          index={ this.state.index }
-          names={ this.state.passedNames }
+          index={ index }
+          names={ passedNames }
           pass={ this.passAgain }
           guessed={ this.guessedAgain }
           allowPass={ true }
@@ -195,7 +204,7 @@ export class GamePage extends React.Component {
           />
           <div className='scores-block'>
             <p>Score: {score}</p>
-            <p>Passed: {passedNames}</p>
+            <p>Passed: {passedNames.length}</p>
           </div>
         </div>
         <div className='word-block'>
@@ -206,7 +215,7 @@ export class GamePage extends React.Component {
           { showPassedNamesButton &&
             <PassedNamesButton
               toggleViewPassedNames={ this.toggleViewPassedNames }
-              viewPassedNames={ this.state.viewPassedNames }
+              viewPassedNames={ viewPassedNames }
             />
           }
         </div>
