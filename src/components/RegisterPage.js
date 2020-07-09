@@ -18,17 +18,13 @@ export class RegisterPage extends React.Component {
     prevProps.auth.username !== this.props.auth.username && this.setState({ username: this.props.auth.username });
   }
   
-  onTextChange = (e) => {
-    const username = e.target.value;
-    this.setState({username});
+  onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
   
-  onSelectChange = (e) => {
-    const team = e.target.value;
-    this.setState({ team });
-  }
-  
-  onSubmit = (e) => {
+  onSubmit = e => {
     e.preventDefault();
   
     const { username, team } = this.state;
@@ -61,12 +57,14 @@ export class RegisterPage extends React.Component {
             autoFocus
             className='text-input'
             placeholder='Name'
-            onChange={ this.onTextChange }
+            name='username'
+            onChange={ this.onChange }
             value={ this.state.username }
           />
           <select
             className='select'
-            onChange={ this.onSelectChange }
+            name='team'
+            onChange={ this.onChange }
             value={ this.state.team }
           >
             <option value='A'>Team A</option>
