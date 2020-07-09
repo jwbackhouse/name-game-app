@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import database from '../firebase/firebase';
 import TeamList from './TeamList';
-import { fetchData, endFetchData } from '../actions/game';
 import { updateDisplayName, startAddUserDetails } from '../actions/auth';
-import withLiveData from '../components/withLiveData';
+import withLiveData from '../helpers/withLiveData';
 
 
 export class RegisterPage extends React.Component {
@@ -14,18 +12,10 @@ export class RegisterPage extends React.Component {
     error: ''
   }
   
-  // componentDidMount = () => {
-  //   this.props.fetchData();
-  // }
-  
   componentDidUpdate = (prevProps) => {
     // Needed to force username to be rendered in name input
     prevProps.auth.username !== this.props.auth.username && this.setState({ username: this.props.auth.username });
   }
-  
-  // componentWillUnmount = () => {
-  //   this.props.endFetchData();
-  // }
   
   onTextChange = (e) => {
     const username = e.target.value;
@@ -95,16 +85,13 @@ export class RegisterPage extends React.Component {
   }
 }
 
-
-
 const mapDispatchToProps = (dispatch) => ({
   startAddUserDetails: (user) => dispatch(startAddUserDetails(user)),
   updateDisplayName: (displayName) => dispatch(updateDisplayName(displayName))
 });
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
-  // players: state.players
+  auth: state.auth
 })
 
 export default withLiveData(connect(mapStateToProps, mapDispatchToProps)(RegisterPage));
