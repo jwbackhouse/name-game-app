@@ -176,7 +176,7 @@ export class GamePage extends React.Component {
           allowPass={ allowPass }
           viewPassedNames={ false }
         />
-    } else if (names.length > 0) {
+    } else if (passedNames.length > 0) {
       guess =
         <LiveName
           index={ index }
