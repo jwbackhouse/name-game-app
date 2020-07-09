@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import TeamList from './TeamList';
 import { updateDisplayName, startAddUserDetails } from '../actions/auth';
 import withLiveData from '../helpers/withLiveData';
@@ -94,4 +95,12 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 })
 
-export default withLiveData(connect(mapStateToProps, mapDispatchToProps)(RegisterPage));
+const connectedWithLiveData = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withLiveData,
+);
+
+export default connectedWithLiveData(RegisterPage);
+
+// NB alternative syntax for the above 5 lines:
+// export default withLiveData(connect(mapStateToProps, mapDispatchToProps)(RegisterPage));
