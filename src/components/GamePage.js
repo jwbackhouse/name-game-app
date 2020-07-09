@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import database from '../firebase/firebase';
 import LiveName from './LiveName';
 import Countdown from './Countdown';
+import PassedNamesButton from './PassedNamesButton';
 import { passesAllowed } from '../app';
 import selectPlayer from '../selectors/selectPlayer';
 import { updateNames } from '../actions/names';
@@ -19,7 +19,7 @@ export class GamePage extends React.Component {
     passedNames: [],
     guessedNames: [],
     numberPasses: 0,
-    viewingPassedNames: false,
+    viewPassedNames: false,
     unguessedIndex: undefined
   };
   
@@ -94,15 +94,15 @@ export class GamePage extends React.Component {
   
   // Handle button toggling whether to display unguessed or passed names
   toggleViewPassedNames = () => {
-    if (this.state.viewingPassedNames) {
+    if (this.state.viewPassedNames) {
       this.setState(prevState => ({
-        viewingPassedNames: false,
+        viewPassedNames: false,
         unguessedIndex: '',
         index: this.state.unguessedIndex
       }));
     } else {
       this.setState(prevState => ({
-        viewingPassedNames: true,
+        viewPassedNames: true,
         // Save index of the last unguessed name
         unguessedIndex: prevState.index,
         index: 0
@@ -123,7 +123,7 @@ export class GamePage extends React.Component {
     }
   };
   
-  // Handle timer expiry or all names being guesses
+  // Handle timer expiry or all names being guessed
   onFinished = () => {
     // Await Firebase update
     const promisesArray = [
@@ -149,13 +149,14 @@ export class GamePage extends React.Component {
   };
     
   render = () => {
-    // Render name for guessing
-    let guess;
     const remainingNames = this.state.names.length;
     const passedNames = this.state.passedNames.length;
     const allowPass = (passesAllowed - this.state.numberPasses) > 0;
-    
-    if (remainingNames > 0 && !this.state.viewingPassedNames) {
+    const score = this.state.guessedNames.length;
+    const showPassedNamesButton = this.state.passedNames.length > 0 && this.state.names.length > 0;
+    let guess;
+        
+    if (remainingNames > 0 && !this.state.viewPassedNames) {
       const index = this.state.prevIndex ? this.state.prevIndex : this.state.index;
       guess =
         <LiveName
@@ -164,7 +165,7 @@ export class GamePage extends React.Component {
           pass={ this.nextName }
           guessed={ this.nextName }
           allowPass={ allowPass }
-          viewingPassedNames={ false }
+          viewPassedNames={ false }
         />
     } else if (passedNames > 0 || (passedNames > 0 && this.state.revisitPassed)) {
       guess =
@@ -174,7 +175,7 @@ export class GamePage extends React.Component {
           pass={ this.passAgain }
           guessed={ this.guessedAgain }
           allowPass={ true }
-          viewingPassedNames={ true }
+          viewPassedNames={ true }
         />
     } else {
       guess = (
@@ -184,20 +185,7 @@ export class GamePage extends React.Component {
         </div>
       )
     }
-    
-    // Render button to toggle between unguessed & passed names
-    let viewPassedNamesButton;
-    if (this.state.passedNames.length > 0 && this.state.names.length > 0) {
-      viewPassedNamesButton = (
-        <button onClick={ this.toggleViewPassedNames }>
-          { this.state.viewingPassedNames ? 'Return to unguessed names' : 'Re-try your passed names' }
-        </button>
-      );
-    }
-    
-    // Set score
-    const score = this.state.guessedNames.length
-    
+
     return (
       <div className='content-container'>
         <div className='timer-block'>
@@ -212,8 +200,15 @@ export class GamePage extends React.Component {
         </div>
         <div className='word-block'>
           <h4>Your word:</h4>
-          <span className='word-block__word'>{guess}</span>
-          { viewPassedNamesButton }
+          <span className='word-block__word'>
+            {guess}
+          </span>
+          { showPassedNamesButton &&
+            <PassedNamesButton
+              toggleViewPassedNames={ this.toggleViewPassedNames }
+              viewPassedNames={ this.state.viewPassedNames }
+            />
+          }
         </div>
       </div>
     )
