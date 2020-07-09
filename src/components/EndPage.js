@@ -1,7 +1,6 @@
 import React from 'react';
 
-export const EndPageRender = (props) => {
-  console.log('EndPageRender mounted. message is', props.message, 'teamAScore is', props.teamAScore);
+export const EndPage = (props) => {
   return (
     <div>
       <h1>{ props.message }</h1>
@@ -12,4 +11,4 @@ export const EndPageRender = (props) => {
   );
 };
 
-export default EndPageRender;
+export default EndPage;

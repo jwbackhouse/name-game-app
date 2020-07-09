@@ -6,33 +6,37 @@ import { resetGame, initialiseGame, fetchScores } from '../actions/game';
 import { removeAllNames } from '../actions/names';
 
 
-export class EndPageBase extends React.Component {
+export class EndPageContainer extends React.Component {
   state = {
     ready: false
   }
   
   async componentDidMount() {
-    console.log('componentDidMount. state.ready is', this.state.ready);
     await this.props.fetchScores();
     this.setState({ ready: true });
-    console.log('fetchScores executed successfully. state.ready is', this.state.ready);
   }
     
   onClick = () => {
+    const { initialiseGame, removeAllNames, resetGame, history } = this.props;
+    
     // Clear database & initialise new game
     database.ref().remove()
-      .then(() => this.props.initialiseGame());
-    // Necessary as db update on Register page doesn't over-write names / all game data
-    this.props.removeAllNames();
-    this.props.resetGame();
-    this.props.history.push('/');
+      .then(() => initialiseGame());
+      
+    // Clear redux store
+    removeAllNames();
+    resetGame();
+    
+    history.push('/');
   }
   
   render = () => {
+    const { teamAScore, teamBScore } = this.props.game;
+    
     let message;
-    if (this.props.game.teamAScore > this.props.game.teamBScore) {
+    if (teamAScore > teamBScore) {
       message = 'Team A has it!';
-    } else if (this.props.game.teamBScore > this.props.game.teamAScore) {
+    } else if (teamAScore < teamBScore) {
       message = 'Team B has it!';
     } else {
       message = "It's a draw!";
@@ -41,15 +45,13 @@ export class EndPageBase extends React.Component {
     const renderComponent = this.state.ready && (
       <EndPage
           message={ message }
-          teamAScore={ this.props.game.teamAScore }
-          teamBScore={ this.props.game.teamBScore }
+          teamAScore={ teamAScore }
+          teamBScore={ teamBScore }
           onClick={ this.onClick }
       />
     )
     
-    return (
-      <span>{ renderComponent }</span>
-    )
+    return <div>{ renderComponent }</div>
   }
 }
 
@@ -58,12 +60,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchData: () => dispatch(fetchData()),
   fetchScores: () => dispatch(fetchScores()),
   removeAllNames: () => dispatch(removeAllNames()),
   resetGame: () => dispatch(resetGame()),
   initialiseGame: () => dispatch(initialiseGame())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EndPageBase);
-
+export default connect(mapStateToProps, mapDispatchToProps)(EndPageContainer);
