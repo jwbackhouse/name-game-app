@@ -2,7 +2,15 @@ import React from 'react';
 import TeamList from './TeamList';
 
 export const RegisterPage = props => {
-  const { error, username, team, players, onSubmit, onChange } = props;
+  const {
+    error,
+    username,
+    team,
+    players,
+    onSubmit,
+    onNameChange,
+    onTeamChange,
+  } = props;
   
   const errorMsg = error && <p className='error'>{error}</p>
   
@@ -15,14 +23,14 @@ export const RegisterPage = props => {
           className='text-input'
           placeholder='Name'
           name='username'
-          onChange={ onChange }
+          onChange={ onNameChange }
           value={ username }
         />
         
         <select
           className='select'
           name='team'
-          onChange={ onChange }
+          onChange={ onTeamChange }
           value={ team }
         >
           <option value='A'>Team A</option>

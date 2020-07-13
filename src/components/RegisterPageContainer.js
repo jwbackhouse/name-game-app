@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import RegisterPage from './RegisterPage';
@@ -6,61 +6,52 @@ import withLiveData from '../helpers/withLiveData';
 import { updateDisplayName, startAddUserDetails } from '../actions/auth';
 
 
-export class RegisterPageContainer extends React.Component {
-  state = {
-    username: this.props.auth.username || '',
-    team: 'A',
-    error: ''
-  }
+export const RegisterPageContainer = (props) => {
+  const [username, setUsername] = useState(props.auth.username || '');
+  const [team, setTeam] = useState('A');
+  const [error, setError] = useState('');
+  const { players } = props;
+
+  useEffect(() => setUsername(props.auth.username), [props.auth.username]);
   
-  componentDidUpdate = (prevProps) => {
-    // Needed to force username to be rendered in name input
-    prevProps.auth.username !== this.props.auth.username && this.setState({ username: this.props.auth.username });
-  }
-  
-  onChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-  
-  onSubmit = (e) => {
+  const onNameChange = (e) => setUsername(e.target.value);
+  const onTeamChange = (e) => setTeam(e.target.value);
+  const onSubmit = (e) => {
+    const {
+      startAddUserDetails,
+      auth,
+      updateDisplayName,
+      history
+    } = props;
     e.preventDefault();
-  
-    const { username, team } = this.state;
-    
+
     // Check a name has been entered
     if (!username) {
-      this.setState({ error: '^^Please enter your name' });
+      setError('^^Please enter your name');
     } else {
       const user = {
         username,
         team
       };
       // Add game-specific details to state.user and push to Firebase>Players
-      this.props.startAddUserDetails(user);
-      
+      startAddUserDetails(user);
       // Update displayName in firebase.authUser if it doesn't match
-      this.props.auth.username !== username && this.props.updateDisplayName(username);
-      
-      this.props.history.push('/setup');
+      auth.username !== username && updateDisplayName(username);
+      history.push('/setup');
     }
-  }
-  
-  render() {
-    const { error, username, team } = this.state;
-    const { players } = this.props;
-    return (
-      <RegisterPage
-        error={ error }
-        username={ username }
-        team={ team }
-        players={ players }
-        onSubmit={ this.onSubmit }
-        onChange={ this.onChange }
-      />
-    )
-  }
+  };
+
+  return (
+    <RegisterPage
+      error={ error }
+      username={ username }
+      team={ team }
+      players={ players }
+      onSubmit={ onSubmit }
+      onNameChange={ onNameChange }
+      onTeamChange={ onTeamChange }
+    />
+  );
 }
 
 const mapDispatchToProps = (dispatch) => ({
