@@ -46,16 +46,13 @@ export class StartPage extends React.Component {
         setNextPlayer(nextPlayer);
       } else {
         this.setState({ error: 'Waiting for more people to join.' });
-        console.log('No one in team A - nextPlayer:', nextPlayer);
       }
     } else if (players.length > 0) {
       resetNextPlayer();
       this.setState({ error: 'Waiting for other players to choose their names.' });
-      console.log('Players length > 0 BUT not all ready');
     } else {
       resetNextPlayer();
       this.setState({ error: 'Waiting for more people to join.' });
-      console.log('Players.length = 0');
     }
   }
 
