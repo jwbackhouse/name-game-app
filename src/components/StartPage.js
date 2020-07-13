@@ -9,85 +9,88 @@ import { startTurn, setNextPlayer, resetNextPlayer } from '../actions/game';
 import selectPlayer from '../selectors/selectPlayer';
 
 
-  
 export class StartPage extends React.Component {
   state = {
-    error: ''
+    error: '',
   }
-  
+
   componentDidMount() {
     this.choosePlayer(this.props.players.players);
   }
-  
+
   componentDidUpdate = prevProps => {
+    const { game, players, history } = this.props;
     // Push to game page when the 'playing user' starts the timer
-    if (prevProps.game.startTurn != this.props.game.startTurn) {
-      this.props.game.startTurn && this.props.history.push('/guess');
+    if (prevProps.game.startTurn !== game.startTurn) {
+      game.startTurn && history.push('/guess');
     }
 
     // Choose new player if player data has changed
-    if (prevProps.players.players != this.props.players.players) {
-      this.choosePlayer(this.props.players.players);
+    if (prevProps.players.players !== players.players) {
+      this.choosePlayer(players.players);
     }
   }
 
   choosePlayer = players => {
+    const { setNextPlayer, resetNextPlayer } = this.props;
     // Use selector to choose next player
     const allReady = !players.some(player => player.isReady === false);
-    
+
     if (players.length > 0 && allReady) {
       this.setState({ error: '' });
-      
+
       // Team left as undefined, so defaults to A
       const nextPlayer = selectPlayer(undefined, players);
-      
+
       if (nextPlayer) {
-        this.props.setNextPlayer(nextPlayer)
+        setNextPlayer(nextPlayer);
       } else {
         this.setState({ error: 'Waiting for more people to join.' });
         console.log('No one in team A - nextPlayer:', nextPlayer);
       }
     } else if (players.length > 0) {
-      this.props.resetNextPlayer();
+      resetNextPlayer();
       this.setState({ error: 'Waiting for other players to choose their names.' });
-      console.log('Players length > 0 BUT not all ready')
+      console.log('Players length > 0 BUT not all ready');
     } else {
-      this.props.resetNextPlayer();
+      resetNextPlayer();
       this.setState({ error: 'Waiting for more people to join.' });
-      console.log('Players.length = 0')
+      console.log('Players.length = 0');
     }
   }
-  
+
   onClick = () => {
+    const { startTurn, history } = this.props;
     // Update Firebase with startGame & startTime
-    this.props.startTurn();
-    this.props.history.push('/play')
+    startTurn();
+    history.push('/play');
   }
-  
-  
+
   render() {
-    const thisUserPlaying = this.props.auth.playersUid === this.props.game.playingNow.uid;
-    
+    const { players, game, auth } = this.props;
+    const { error } = this.state;
+    const thisUserPlaying = auth.playersUid === game.playingNow.uid;
+
     return (
       <div className='content-container'>
         <h1>Ready to go?</h1>
         <EditNamesButton />
         <h3>Team A</h3>
-        <TeamList players={ this.props.players } team='A' />
+        <TeamList players={ players } team='A' />
         <br />
         <h3>Team B</h3>
-        <TeamList players={ this.props.players } team='B' />
+        <TeamList players={ players } team='B' />
         <br />
         <StartMessage
           thisUserPlaying={ thisUserPlaying }
-          playingNow={ this.props.game.playingNow }
-          errorMsg={ this.state.error }
+          playingNow={ game.playingNow }
+          errorMsg={ error }
           onClick={ this.onClick }
         />
       </div>
-    )
-  };
-};
+    );
+  }
+}
 
 const mapStateToProps = (state) => ({
   players: state.players,
@@ -98,7 +101,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   startTurn: () => dispatch(startTurn()),
   setNextPlayer: (player) => dispatch(setNextPlayer(player)),
-  resetNextPlayer: () => dispatch(resetNextPlayer())
+  resetNextPlayer: () => dispatch(resetNextPlayer()),
 });
 
 const connectedWithLiveData = compose(

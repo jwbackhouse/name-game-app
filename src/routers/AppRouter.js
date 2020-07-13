@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Route, Switch} from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';   // This allows us to access history outside a component - in this case for the Firebase login in app.js
 import RegisterPage from '../components/RegisterPageContainer';
 import SetupPage from '../components/SetupPageContainer';
@@ -20,22 +20,21 @@ const AppRouter = () => (
   <Router history={ history }>
     <div>
       <Switch>
-        <PublicRoute exact path='/' component={EntryPage} />
-        <PublicRoute path='/reset' component={ResetPage} />
-        <PrivateRoute path='/join' component={RegisterPage} />
-        <PrivateRoute path='/setup' component={SetupPage} />
-        <PrivateRoute path='/start' component={StartPage} />
-        <PrivateRoute path='/play' component={GamePage} />
-        <PrivateRoute path='/guess' component={GuessingPage} />
-        <PrivateRoute path='/scores' component={ChangeoverPage} />
-        <PrivateRoute path='/end' component={EndPage} />
-        <Route component={ErrorPage} />
+        <PublicRoute exact path='/' component={ EntryPage } />
+        <PublicRoute path='/reset' component={ ResetPage } />
+        <PrivateRoute path='/join' component={ RegisterPage } />
+        <PrivateRoute path='/setup' component={ SetupPage } />
+        <PrivateRoute path='/start' component={ StartPage } />
+        <PrivateRoute path='/play' component={ GamePage } />
+        <PrivateRoute path='/guess' component={ GuessingPage } />
+        <PrivateRoute path='/scores' component={ ChangeoverPage } />
+        <PrivateRoute path='/end' component={ EndPage } />
+        <Route component={ ErrorPage } />
       </Switch>
     </div>
   </Router>
-)
+);
 
 export default AppRouter;
-
 
 // NOTE: <BrowserRouter> has in-built history, so need to use <Router> to define own history package

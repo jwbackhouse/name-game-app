@@ -10,56 +10,64 @@ import { getNames } from '../actions/names';
 export class ChangeoverPage extends React.Component {
   state = {
     error: '',
-    nextPlayer: undefined
+    nextPlayer: undefined,
   }
-  
+
   componentDidMount = () => {
     this.props.getNames();
   }
-  
+
   componentDidUpdate = (prevProps) => {
+    const { game, history } = this.props;
+
     if (!prevProps.game.startTurn) {
-      this.props.game.startTurn && this.props.history.push('/guess');
+      game.startTurn && history.push('/guess');
     }
-    if (this.props.game.endGame) {
-      this.props.history.push('/end')
+    if (game.endGame) {
+      history.push('/end');
     }
   }
 
   onClick = () => {
+    const { startTurn, history } = this.props;
     // Update Firebase with startGame & startTime
-    this.props.startTurn();
-    this.props.history.push('/play')
+    startTurn();
+    history.push('/play');
   }
-  
+
   render = () => {
+    const { game, auth } = this.props;
     // Check if this user is playing next
-    const thisUserPlaying = this.props.auth.playersUid === this.props.game.playingNow.uid;
+    const thisUserPlaying = auth.playersUid === game.playingNow.uid;
 
     return (
       <div className='content-container'>
         <h1>The scores on the doors</h1>
-        <p>Team A: {this.props.game.teamAScore}</p>
-        <p>Team B: {this.props.game.teamBScore}</p>
+        <p>
+          Team A: {game.teamAScore}
+        </p>
+        <p>
+          Team B: {game.teamBScore}
+        </p>
         <StartMessage
           thisUserPlaying={ thisUserPlaying }
-          playingNow={ this.props.game.playingNow }
+          playingNow={ game.playingNow }
           errorMsg={ '' }
           onClick={ this.onClick }
         />
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => ({
   game: state.game,
-  auth: state.auth
+  auth: state.auth,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   startTurn: () => dispatch(startTurn()),
-  getNames: () => dispatch(getNames())
+  getNames: () => dispatch(getNames()),
 });
 
 const connectedWithLiveData = compose(
