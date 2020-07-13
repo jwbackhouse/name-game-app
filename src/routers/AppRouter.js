@@ -4,7 +4,7 @@ import { createBrowserHistory } from 'history';   // This allows us to access hi
 import RegisterPage from '../components/RegisterPageContainer';
 import SetupPage from '../components/SetupPageContainer';
 import StartPage from '../components/StartPage';
-import GamePage from '../components/GamePage';
+import GamePage from '../components/GamePageContainer';
 import GuessingPage from '../components/GuessingPage';
 import ChangeoverPage from '../components/ChangeoverPage';
 import EndPage from '../components/EndPageContainer';
