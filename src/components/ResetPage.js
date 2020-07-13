@@ -37,7 +37,7 @@ export class ResetPage extends React.Component {
   }
 
   onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   onSubmit = (e) => {
@@ -45,7 +45,7 @@ export class ResetPage extends React.Component {
     const { startPasswordLogin, confirmPasswordReset } = this.props;
 
     e.preventDefault();
-    
+
     confirmPasswordReset(actionCode, passwordOne)
       .then(() => startPasswordLogin(email, passwordOne))
       .catch(error => this.setState({ error }));
@@ -57,7 +57,7 @@ export class ResetPage extends React.Component {
       passwordTwo,
       email,
       error,
-      mode
+      mode,
     } = this.state;
     const { authError } = this.props.auth;
 
@@ -106,7 +106,7 @@ export class ResetPage extends React.Component {
     } else {
       pageContent = (
         <div>
-          <p>Sorry, that link doesn't seem valid</p>
+          <p>Sorry, that link doesn&apos;t seem valid</p>
           <Link to='/'>Return to login page</Link>
         </div>
       );
@@ -121,7 +121,7 @@ export class ResetPage extends React.Component {
       </div>
     );
   }
-};
+}
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
