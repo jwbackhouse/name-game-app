@@ -8,21 +8,19 @@ import withLiveData from '../helpers/withLiveData';
 import { startTurn, setNextPlayer, resetNextPlayer } from '../actions/game';
 import selectPlayer from '../selectors/selectPlayer';
 
-  
-// TODO: routing depends on who's playing
-// TODO: force redirect for guessing users
+
   
 export class StartPage extends React.Component {
   state = {
     error: ''
   }
   
-  componentDidMount = () => {
+  componentDidMount() {
     this.choosePlayer(this.props.players.players);
   }
   
-  componentDidUpdate = (prevProps) => {
-    // Push to game page when player user starts the timer
+  componentDidUpdate = prevProps => {
+    // Push to game page when the 'playing user' starts the timer
     if (prevProps.game.startTurn != this.props.game.startTurn) {
       this.props.game.startTurn && this.props.history.push('/guess');
     }
@@ -33,7 +31,7 @@ export class StartPage extends React.Component {
     }
   }
 
-  choosePlayer = (players) => {
+  choosePlayer = players => {
     // Use selector to choose next player
     const allReady = !players.some(player => player.isReady === false);
     
