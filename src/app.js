@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import AppRouter, { history } from './routers/AppRouter';
-import database, { firebase } from './firebase/firebase';
+import { firebase } from './firebase/firebase';
 import { loginSuccess, logoutSuccess } from './actions/auth';
 import { initialiseGame } from './actions/game';
 import configureStore from './store/configureStore';
@@ -31,29 +31,29 @@ const jsx = (
 let hasRendered = false;
 const renderApp = () => {
   if (!hasRendered) {
-    ReactDOM.render(jsx,document.getElementById('body'));
+    ReactDOM.render(jsx, document.getElementById('body'));
     hasRendered = true;
   }
-}
+};
 
 // Render loading page
-ReactDOM.render(<LoadingPage />,document.getElementById('body'));
+ReactDOM.render(<LoadingPage />, document.getElementById('body'));
 
 // Authenticate user
 try {
   firebase.auth().onAuthStateChanged((user) => {    // fires once user logs in
     if (user) {
-      console.log('app.js: Logged in. Current user:', user)
-      store.dispatch(loginSuccess(user, user.displayName))
+      console.log('app.js: Logged in. Current user:', user);
+      store.dispatch(loginSuccess(user, user.displayName));
       renderApp();
       if (history.location.pathname === '/') {
         history.push('/join');
       }
     } else {
-      console.log('app.js: Logged out.')
+      console.log('app.js: Logged out.');
       store.dispatch(logoutSuccess());
       renderApp();
-      if (!history.location.pathname === '/'  && !history.location.pathname === '/reset') {
+      if (!history.location.pathname === '/' && !history.location.pathname === '/reset') {
         history.push('/');
       }
     }
