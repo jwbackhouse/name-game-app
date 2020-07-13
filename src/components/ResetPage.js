@@ -10,54 +10,61 @@ const initialState = {
   passwordOne: '',
   passwordTwo: '',
   email: '',
-  error: ''
+  error: '',
 };
 
 export class ResetPage extends React.Component {
-  state = initialState
-  
+  state = initialState;
+
   componentDidMount() {
+    const { location, checkResetPassword } = this.props;
     // Extract URL parameters
-    const urlString = this.props.location.search;
+    const urlString = location.search;
     const urlParams = queryString.parse(urlString);
     const mode = urlParams.mode;
     const actionCode = urlParams.oobCode;
     this.setState({
       mode,
-      actionCode
+      actionCode,
     });
 
     // Check user has arrived from a reset password link
     if (mode === 'resetPassword') {
-      this.props.checkResetPassword(actionCode)
+      checkResetPassword(actionCode)
         .then(email => this.setState({ email }))
         .catch(error => this.setState({ error }));
     }
   }
-  
-  onChange = e => {
+
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value })
   }
-  
-  onSubmit = e => {
+
+  onSubmit = (e) => {
+    const { actionCode, email, passwordOne } = this.state;
+    const { startPasswordLogin, confirmPasswordReset } = this.props;
+
     e.preventDefault();
     
-    const { actionCode, email, passwordOne } = this.state
-    
-    this.props.confirmPasswordReset(actionCode, passwordOne)
-      .then(() => this.props.startPasswordLogin(email, passwordOne))
+    confirmPasswordReset(actionCode, passwordOne)
+      .then(() => startPasswordLogin(email, passwordOne))
       .catch(error => this.setState({ error }));
   }
-  
-  render() {
-    const { passwordOne, passwordTwo, email, error } = this.state;
 
-    const isInvalid =
-      passwordOne.length < 6 ||
-      passwordOne !== passwordTwo;
-    
+  render() {
+    const {
+      passwordOne,
+      passwordTwo,
+      email,
+      error,
+      mode
+    } = this.state;
+    const { authError } = this.props.auth;
+
+    const isInvalid = passwordOne.length < 6 || passwordOne !== passwordTwo;
+
     let pageContent;
-    if (this.state.email) {
+    if (email) {
       pageContent = (
         <div>
           <p>{ email }</p>
@@ -79,24 +86,32 @@ export class ResetPage extends React.Component {
             <button type='submit' disabled={ isInvalid }>
               Go
             </button>
-            { error && <p>Oops. { error.message }</p> }
-            { this.props.auth.error && <p>Doh. { this.props.auth.error.message }</p> }
+            { error && (
+              <p>
+                Oops. { error.message }
+              </p>
+            )}
+            { authError && (
+              <p>
+                Doh. { authError.message }
+              </p>
+            )}
           </form>
         </div>
       );
-    } else if (!this.state.mode) {
+    } else if (!mode) {
       pageContent = (
         <Link to='/'>Return to login page</Link>
-      )
+      );
     } else {
       pageContent = (
         <div>
           <p>Sorry, that link doesn't seem valid</p>
           <Link to='/'>Return to login page</Link>
         </div>
-      )
+      );
     }
-    
+
     return (
       <div className='box-layout'>
         <div className='box-layout__box'>
@@ -108,14 +123,14 @@ export class ResetPage extends React.Component {
   }
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth
-})
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   checkResetPassword: (actionCode) => dispatch(checkResetPassword(actionCode)),
   confirmPasswordReset: (actionCode, email) => dispatch(confirmPasswordReset(actionCode, email)),
-  startPasswordLogin: (email, password) => dispatch(startPasswordLogin(email, password))
-})
+  startPasswordLogin: (email, password) => dispatch(startPasswordLogin(email, password)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResetPage);
