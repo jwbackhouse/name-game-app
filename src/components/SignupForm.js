@@ -16,11 +16,11 @@ const initialState = {
 export class SignupFormBase extends React.Component {
   state = { ...initialState };
   
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     
     const { email, passwordOne, username } = this.state;

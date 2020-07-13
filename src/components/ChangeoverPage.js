@@ -52,7 +52,7 @@ export class ChangeoverPage extends React.Component {
         <StartMessage
           thisUserPlaying={ thisUserPlaying }
           playingNow={ game.playingNow }
-          errorMsg={ '' }
+          errorMsg=''
           onClick={ this.onClick }
         />
       </div>

@@ -18,13 +18,13 @@ export class RegisterPageContainer extends React.Component {
     prevProps.auth.username !== this.props.auth.username && this.setState({ username: this.props.auth.username });
   }
   
-  onChange = e => {
+  onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
   
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
   
     const { username, team } = this.state;

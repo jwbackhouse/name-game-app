@@ -14,18 +14,18 @@ const initialState = {
 export class LoginFormBase extends React.Component {
   state = { ...initialState };
   
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     
     const { email, password } = this.state;
     this.props.startPasswordLogin(email, password);
   }
   
-  onResetPasswordClick = e => {
+  onResetPasswordClick = (e) => {
     e.preventDefault();
     this.props.showPasswordReset();
   }

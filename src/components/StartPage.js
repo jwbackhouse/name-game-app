@@ -18,7 +18,7 @@ export class StartPage extends React.Component {
     this.choosePlayer(this.props.players.players);
   }
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps) => {
     const { game, players, history } = this.props;
     // Push to game page when the 'playing user' starts the timer
     if (prevProps.game.startTurn !== game.startTurn) {
@@ -31,7 +31,7 @@ export class StartPage extends React.Component {
     }
   }
 
-  choosePlayer = players => {
+  choosePlayer = (players) => {
     const { setNextPlayer, resetNextPlayer } = this.props;
     // Use selector to choose next player
     const allReady = !players.some(player => player.isReady === false);
