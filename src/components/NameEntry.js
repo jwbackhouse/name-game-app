@@ -24,23 +24,23 @@ export class NameEntry extends React.Component {
   
   render() {
     return (
-      <form
-        onSubmit={ this.onSubmit }
-      >
-        <input
-          autoFocus
-          className='text-input'
-          disabled={ this.props.disabled }
-          placeholder='Your name'
-          onChange={ this.onNameChange }
-          value={ this.state.newName }
-        />
-        <button
-          className='button button--input'
-          disabled={ this.props.disabled }
-        >Add</button>
-        { this.state.error && <p>{ this.state.error }</p> }
-      </form>
+      <div className='row'>
+        <form onSubmit={ this.onSubmit } >
+          <input
+            autoFocus
+            className='text-input'
+            disabled={ this.props.disabled }
+            placeholder='Your name'
+            onChange={ this.onNameChange }
+            value={ this.state.newName }
+          />
+          <button
+            className='button button--input'
+            disabled={ this.props.disabled }
+          >Add</button>
+          { this.state.error && <p>{ this.state.error }</p> }
+        </form>
+      </div>
     )
   };
 };
