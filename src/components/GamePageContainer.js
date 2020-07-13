@@ -92,6 +92,8 @@ export class GamePageContainer extends React.Component {
       return { guessedNames };
     });
     this.removeName('passedNames');
+    // Reset state.viewPassedNames so return to remaining unguessed names
+    this.state.passedNames.length === 1 && this.setState(() => ({ viewPassedNames: false }));
   };
   
   // Handle button toggling whether to display unguessed or passed names
