@@ -1,6 +1,173 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<RegisterPage /> Should render RegisterPage correctly 1`] = `
+exports[`<RegisterPage /> mount Should render RegisterPage & child components correctly 1`] = `
+<RegisterPage
+  onNameChange={[MockFunction]}
+  onSubmit={[MockFunction]}
+  onTeamChange={[MockFunction]}
+  players={
+    Object {
+      "error": false,
+      "isLoading": false,
+      "players": Array [
+        Object {
+          "team": "A",
+          "uid": 1234,
+          "username": "Bob",
+        },
+        Object {
+          "team": "B",
+          "uid": 5678,
+          "username": "Bridget",
+        },
+        Object {
+          "team": "A",
+          "uid": 9012,
+          "username": "Amy",
+        },
+      ],
+    }
+  }
+  team="A"
+  username="Alex"
+>
+  <div
+    className="content-container"
+  >
+    <h1>
+      Sign up here
+    </h1>
+    <form
+      onSubmit={[MockFunction]}
+    >
+      <input
+        autoFocus={true}
+        className="text-input"
+        name="username"
+        onChange={[MockFunction]}
+        placeholder="Name"
+        value="Alex"
+      />
+      <select
+        className="select"
+        name="team"
+        onChange={[MockFunction]}
+        value="A"
+      >
+        <option
+          value="A"
+        >
+          Team A
+        </option>
+        <option
+          value="B"
+        >
+          Team B
+        </option>
+      </select>
+      <button
+        className="button button--input"
+      >
+        Go
+      </button>
+      <div>
+        <p
+          className="list-header"
+        >
+          Already on Team A:
+        </p>
+        <TeamList
+          players={
+            Object {
+              "error": false,
+              "isLoading": false,
+              "players": Array [
+                Object {
+                  "team": "A",
+                  "uid": 1234,
+                  "username": "Bob",
+                },
+                Object {
+                  "team": "B",
+                  "uid": 5678,
+                  "username": "Bridget",
+                },
+                Object {
+                  "team": "A",
+                  "uid": 9012,
+                  "username": "Amy",
+                },
+              ],
+            }
+          }
+          team="A"
+        >
+          <ul
+            className="list"
+          >
+            <li
+              className="list__item"
+              key="1234"
+            >
+              Bob
+            </li>
+            <li
+              className="list__item"
+              key="9012"
+            >
+              Amy
+            </li>
+          </ul>
+        </TeamList>
+        <p
+          className="list-header"
+        >
+          Already on Team B:
+        </p>
+        <TeamList
+          players={
+            Object {
+              "error": false,
+              "isLoading": false,
+              "players": Array [
+                Object {
+                  "team": "A",
+                  "uid": 1234,
+                  "username": "Bob",
+                },
+                Object {
+                  "team": "B",
+                  "uid": 5678,
+                  "username": "Bridget",
+                },
+                Object {
+                  "team": "A",
+                  "uid": 9012,
+                  "username": "Amy",
+                },
+              ],
+            }
+          }
+          team="B"
+        >
+          <ul
+            className="list"
+          >
+            <li
+              className="list__item"
+              key="5678"
+            >
+              Bridget
+            </li>
+          </ul>
+        </TeamList>
+      </div>
+    </form>
+  </div>
+</RegisterPage>
+`;
+
+exports[`<RegisterPage /> shallow render Should render RegisterPage correctly 1`] = `
 <div
   className="content-container"
 >
@@ -8,19 +175,21 @@ exports[`<RegisterPage /> Should render RegisterPage correctly 1`] = `
     Sign up here
   </h1>
   <form
-    onSubmit={[Function]}
+    onSubmit={[MockFunction]}
   >
     <input
       autoFocus={true}
       className="text-input"
-      onChange={[Function]}
+      name="username"
+      onChange={[MockFunction]}
       placeholder="Name"
-      value="Joe"
+      value="Jonathan"
     />
     <select
       className="select"
-      onChange={[Function]}
-      value="A"
+      name="team"
+      onChange={[MockFunction]}
+      value="B"
     >
       <option
         value="A"

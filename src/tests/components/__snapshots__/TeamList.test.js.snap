@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Should render player list with two teamA players 1`] = `
+exports[`<TeamList /> Should render player list with two teamA players 1`] = `
 <ul
   className="list"
 >

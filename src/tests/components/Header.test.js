@@ -4,7 +4,19 @@ import { Header } from '../../components/Header';
 import { firebase } from '../../firebase/firebase';
 
 
-test('Should render Header correctly', () => {
-  const wrapper = shallow(<Header />);
-  expect(wrapper).toMatchSnapshot();
+describe('<Header />', () => {
+  let wrapper;
+  const startLogoutSpy = jest.fn();
+  beforeEach(() => {
+    wrapper = shallow(<Header startLogout={ startLogoutSpy }/>);
+  });
+    
+  test('Should render Header correctly', () => {
+    expect(wrapper).toMatchSnapshot();
+  });
+  
+  test('Click on button should call startLogout()', () => {
+    wrapper.find('button').simulate('click');
+    expect(startLogoutSpy).toBeCalled;
+  });
 });

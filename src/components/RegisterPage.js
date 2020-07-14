@@ -1,7 +1,7 @@
 import React from 'react';
 import TeamList from './TeamList';
 
-export const RegisterPage = props => {
+const RegisterPage = props => {
   const {
     error,
     username,

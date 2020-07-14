@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Should render Header correctly 1`] = `
+exports[`<Header /> Should render Header correctly 1`] = `
 <div
   className="header"
 >
@@ -15,7 +15,9 @@ exports[`Should render Header correctly 1`] = `
       >
         The Name Game
       </h1>
-      <button>
+      <button
+        onClick={[MockFunction]}
+      >
         Sign out
       </button>
     </div>
