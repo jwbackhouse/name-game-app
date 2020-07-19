@@ -12,7 +12,7 @@ export const RegisterPageContainer = (props) => {
   const [error, setError] = useState('');
   const { players } = props;
 
-  useEffect(() => setUsername(props.auth.username), [props.auth.username]);
+  // useEffect(() => setUsername(props.auth.username), [props.auth.username]);
   
   const onNameChange = (e) => setUsername(e.target.value);
   const onTeamChange = (e) => setTeam(e.target.value);

@@ -1,0 +1,211 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RegisterPageContainer mounted /> Should render RegisterPageContainer correctly 1`] = `
+<RegisterPageContainer
+  auth={
+    Object {
+      "error": "",
+      "passwordResetError": "",
+      "playersUid": 1234,
+      "uid": "abc1",
+      "username": "Joe",
+    }
+  }
+  history={
+    Object {
+      "push": [MockFunction],
+    }
+  }
+  players={
+    Object {
+      "error": false,
+      "isLoading": false,
+      "players": Array [
+        Object {
+          "team": "A",
+          "uid": 1234,
+          "username": "Bob",
+        },
+        Object {
+          "team": "B",
+          "uid": 5678,
+          "username": "Bridget",
+        },
+        Object {
+          "team": "A",
+          "uid": 9012,
+          "username": "Amy",
+        },
+      ],
+    }
+  }
+  startAddUserDetails={[MockFunction]}
+  updateDisplayName={[MockFunction]}
+>
+  <RegisterPage
+    error=""
+    onNameChange={[Function]}
+    onSubmit={[Function]}
+    onTeamChange={[Function]}
+    players={
+      Object {
+        "error": false,
+        "isLoading": false,
+        "players": Array [
+          Object {
+            "team": "A",
+            "uid": 1234,
+            "username": "Bob",
+          },
+          Object {
+            "team": "B",
+            "uid": 5678,
+            "username": "Bridget",
+          },
+          Object {
+            "team": "A",
+            "uid": 9012,
+            "username": "Amy",
+          },
+        ],
+      }
+    }
+    team="A"
+    username="Joe"
+  >
+    <div
+      className="content-container"
+    >
+      <h1>
+        Sign up here
+      </h1>
+      <form
+        onSubmit={[Function]}
+      >
+        <input
+          autoFocus={true}
+          className="text-input"
+          name="username"
+          onChange={[Function]}
+          placeholder="Name"
+          value="Joe"
+        />
+        <select
+          className="select"
+          name="team"
+          onChange={[Function]}
+          value="A"
+        >
+          <option
+            value="A"
+          >
+            Team A
+          </option>
+          <option
+            value="B"
+          >
+            Team B
+          </option>
+        </select>
+        <button
+          className="button button--input"
+        >
+          Go
+        </button>
+        <div>
+          <p
+            className="list-header"
+          >
+            Already on Team A:
+          </p>
+          <TeamList
+            players={
+              Object {
+                "error": false,
+                "isLoading": false,
+                "players": Array [
+                  Object {
+                    "team": "A",
+                    "uid": 1234,
+                    "username": "Bob",
+                  },
+                  Object {
+                    "team": "B",
+                    "uid": 5678,
+                    "username": "Bridget",
+                  },
+                  Object {
+                    "team": "A",
+                    "uid": 9012,
+                    "username": "Amy",
+                  },
+                ],
+              }
+            }
+            team="A"
+          >
+            <ul
+              className="list"
+            >
+              <li
+                className="list__item"
+                key="1234"
+              >
+                Bob
+              </li>
+              <li
+                className="list__item"
+                key="9012"
+              >
+                Amy
+              </li>
+            </ul>
+          </TeamList>
+          <p
+            className="list-header"
+          >
+            Already on Team B:
+          </p>
+          <TeamList
+            players={
+              Object {
+                "error": false,
+                "isLoading": false,
+                "players": Array [
+                  Object {
+                    "team": "A",
+                    "uid": 1234,
+                    "username": "Bob",
+                  },
+                  Object {
+                    "team": "B",
+                    "uid": 5678,
+                    "username": "Bridget",
+                  },
+                  Object {
+                    "team": "A",
+                    "uid": 9012,
+                    "username": "Amy",
+                  },
+                ],
+              }
+            }
+            team="B"
+          >
+            <ul
+              className="list"
+            >
+              <li
+                className="list__item"
+                key="5678"
+              >
+                Bridget
+              </li>
+            </ul>
+          </TeamList>
+        </div>
+      </form>
+    </div>
+  </RegisterPage>
+</RegisterPageContainer>
+`;
