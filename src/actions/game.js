@@ -18,7 +18,9 @@ export const initialiseGame = () => {
       },
       startTime: '',
       startTurn: false,
-      endGame: false
+      endGame: false,
+      numPasses: 3,
+      timerLength: 60000,
     });
   };
 };

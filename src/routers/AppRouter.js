@@ -11,6 +11,7 @@ import EndPage from '../components/EndPageContainer';
 import ErrorPage from '../components/ErrorPage';
 import EntryPage from '../components/EntryPage';
 import ResetPage from '../components/ResetPage';
+import AdminPage from '../components/AdminPage';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 
@@ -29,6 +30,7 @@ const AppRouter = () => (
         <PrivateRoute path='/guess' component={ GuessingPage } />
         <PrivateRoute path='/scores' component={ ChangeoverPage } />
         <PrivateRoute path='/end' component={ EndPage } />
+        <PrivateRoute path='/admin' component={ AdminPage } />
         <Route component={ ErrorPage } />
       </Switch>
     </div>

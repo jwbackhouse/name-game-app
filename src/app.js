@@ -31,13 +31,14 @@ const jsx = (
 let hasRendered = false;
 const renderApp = () => {
   if (!hasRendered) {
-    ReactDOM.render(jsx, document.getElementById('body'));
+    // Added 'div' alternative for testing purposes
+    ReactDOM.render(jsx, document.getElementById('body') || document.createElement('div'));
     hasRendered = true;
   }
 };
 
 // Render loading page
-ReactDOM.render(<LoadingPage />, document.getElementById('body'));
+ReactDOM.render(<LoadingPage />, document.getElementById('body') || document.createElement('div'));
 
 // Authenticate user
 try {
