@@ -11,9 +11,9 @@ export class EndPageContainer extends React.Component {
     ready: false
   }
   
-  async componentDidMount() {
-    await this.props.fetchScores();
-    this.setState({ ready: true });
+  componentDidMount() {
+    this.props.fetchScores()
+      .then(() => this.setState({ ready: true }));
   }
     
   onClick = () => {

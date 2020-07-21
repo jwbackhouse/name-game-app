@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EndPageContainer mounted /> Should render empty component 1`] = `
+<EndPageContainer
+  fetchScores={
+    [MockFunction] {
+      "calls": Array [
+        Array [],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": Promise {},
+        },
+      ],
+    }
+  }
+  game={
+    Object {
+      "endGame": false,
+      "error": "",
+      "isLoading": false,
+      "numPasses": 1,
+      "playingNow": Object {
+        "team": "B",
+        "uid": 1234,
+        "userName": "Bob",
+      },
+      "startTime": undefined,
+      "startTurn": false,
+      "teamAScore": 4,
+      "teamBScore": 2,
+      "timerLength": 30000,
+    }
+  }
+  history={
+    Object {
+      "push": [MockFunction],
+    }
+  }
+  initialiseGame={[MockFunction]}
+  removeAllNames={[MockFunction]}
+  resetGame={[MockFunction]}
+>
+  <div />
+</EndPageContainer>
+`;
