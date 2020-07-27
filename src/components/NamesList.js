@@ -1,13 +1,11 @@
 import React from 'react';
 
-export const NamesList = props => {
-  const { names, onDelete } = props;
-  
+export const NamesList = ({ names, onDeleteName }) => {
   if (names.length > 0) {
     return names.map(name =>
       <div key={ name.id } className='list-names'>
         <p className='list-names__name'>{ name.name }</p>
-        <button className = 'button button--delete' onClick={ () => onDelete(name.id) }>
+        <button className = 'button button--delete' onClick={ () => onDeleteName(name.id) }>
           x
         </button>
       </div>

@@ -15,7 +15,7 @@ export const GamePage = props => {
     viewPassedNames,
     nextName,
     passAgain,
-    guessPassed,
+    guessPassedName,
     onFinished,
     toggleViewPassedNames
   } = props;
@@ -32,7 +32,7 @@ export const GamePage = props => {
         index={ newIndex }
         names={ names }
         pass={ nextName }
-        guessed={ nextName }
+        guess={ nextName }
         allowPass={ allowPass }
         viewPassedNames={ false }
       />
@@ -43,7 +43,7 @@ export const GamePage = props => {
         index={ index }
         names={ passedNames }
         pass={ passAgain }
-        guessed={ guessPassed }
+        guess={ guessPassedName }
         allowPass={ true }
         viewPassedNames={ true }
       />

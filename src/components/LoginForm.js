@@ -9,7 +9,6 @@ const initialState = {
   email: '',
   password: ''
 };
-  
 
 export class LoginFormBase extends React.Component {
   state = { ...initialState };

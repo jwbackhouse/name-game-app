@@ -6,7 +6,7 @@ export class NameEntry extends React.Component {
     error: ''
   };
   
-  onNameChange = (e) => {
+  onChange = (e) => {
     const newName = e.target.value;
     this.setState(() => ({ newName }));
   };
@@ -31,7 +31,7 @@ export class NameEntry extends React.Component {
             className='text-input'
             disabled={ this.props.disabled }
             placeholder='Your name'
-            onChange={ this.onNameChange }
+            onChange={ this.onChange }
             value={ this.state.newName }
           />
           <button

@@ -7,25 +7,25 @@ import { updateDisplayName, startAddUserDetails } from '../actions/auth';
 
 
 export const RegisterPageContainer = (props) => {
-  const [username, setUsername] = useState(props.auth.username || '');
+  const {
+    players,
+    auth,
+    updateDisplayName,
+    startAddUserDetails,
+    history,
+  } = props;
+  
+  const [username, setUsername] = useState(auth.username || '');
   const [team, setTeam] = useState('A');
   const [error, setError] = useState('');
-  const { players } = props;
 
   // useEffect(() => setUsername(props.auth.username), [props.auth.username]);
   
   const onNameChange = (e) => setUsername(e.target.value);
   const onTeamChange = (e) => setTeam(e.target.value);
   const onSubmit = (e) => {
-    const {
-      startAddUserDetails,
-      auth,
-      updateDisplayName,
-      history
-    } = props;
     e.preventDefault();
 
-    // Check a name has been entered
     if (!username) {
       setError('^^Please enter your name');
     } else {
@@ -33,10 +33,11 @@ export const RegisterPageContainer = (props) => {
         username,
         team
       };
-      // Add game-specific details to state.user and push to Firebase>Players
       startAddUserDetails(user);
+      
       // Update displayName in firebase.authUser if it doesn't match
-      auth.username !== username && updateDisplayName(username);
+      if (auth.username !== username) updateDisplayName(username);
+      
       history.push('/setup');
     }
   };

@@ -19,11 +19,8 @@ export class EndPageContainer extends React.Component {
   onClick = () => {
     const { initialiseGame, removeAllNames, resetGame, history } = this.props;
     
-    // Clear database & initialise new game
     database.ref().remove()
       .then(() => initialiseGame());
-      
-    // Clear redux store
     removeAllNames();
     resetGame();
     

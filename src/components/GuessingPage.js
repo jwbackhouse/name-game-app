@@ -10,9 +10,8 @@ export class GuessingPage extends React.Component {
   }
   
   componentDidUpdate = (prevProps) => {
-    // Listen for game ending (as all names guessed)
-    this.props.game.endGame && this.props.history.push('/end');
-  };
+    if (this.props.game.endGame) this.props.history.push('/end');
+  }
   
   componentWillUnmount = () => {
     this.props.endFetchEndGame;
@@ -28,7 +27,7 @@ export class GuessingPage extends React.Component {
         <h1>Guessing time</h1>
         <Countdown onFinished={ this.onFinished } />
       </div>
-    )
+    );
   }
 }
 

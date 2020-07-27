@@ -20,9 +20,10 @@ export class StartPage extends React.Component {
 
   componentDidUpdate = (prevProps) => {
     const { game, players, history } = this.props;
+    
     // Push to game page when the 'playing user' starts the timer
     if (prevProps.game.startTurn !== game.startTurn) {
-      game.startTurn && history.push('/guess');
+      if (game.startTurn) history.push('/guess');
     }
 
     // Choose new player if player data has changed

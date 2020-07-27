@@ -17,10 +17,7 @@ export class EntryPage extends React.Component {
   onClick = (show, hide) => {
     // Close <PasswordResetForm/> if still open
     this.state.passwordReset && this.togglePasswordReset();
-    
-    // Clear any error left over from previous login attempt
     this.props.clearLoginFailure();
-    
     this.setState({
       [show]: !this.state[show],
       [hide]: false
@@ -33,7 +30,6 @@ export class EntryPage extends React.Component {
       passwordReset: !this.state.passwordReset
     })
   }
-    
   
   render() {
     return (

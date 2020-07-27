@@ -30,14 +30,12 @@ export class ChangeoverPage extends React.Component {
 
   onClick = () => {
     const { startTurn, history } = this.props;
-    // Update Firebase with startGame & startTime
     startTurn();
     history.push('/play');
   }
 
   render = () => {
     const { game, auth } = this.props;
-    // Check if this user is playing next
     const thisUserPlaying = auth.playersUid === game.playingNow.uid;
 
     return (

@@ -37,12 +37,11 @@ export class SignupFormBase extends React.Component {
       error
     } = this.state;
     
-     const isInvalid =
+    const isInvalid =
       !checkEmail(email) ||
       passwordOne.length < 6 ||
       passwordOne !== passwordTwo ||
-      username === ''
-    
+      username === '';
     
     return (
       <form onSubmit={ this.onSubmit }>
@@ -92,7 +91,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   startPasswordSignup: (email, password, username) => dispatch(startPasswordSignup(email, password, username))
 });
-
 
 // withRouter required to access history
 const SignupForm = withRouter(SignupFormBase);

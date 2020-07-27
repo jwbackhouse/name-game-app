@@ -9,7 +9,6 @@ const initialState = {
   message: ''
 };
   
-
 export class PasswordResetFormBase extends React.Component {
   state = { ...initialState };
   

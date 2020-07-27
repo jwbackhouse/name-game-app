@@ -11,7 +11,14 @@ import selectUsersNames from '../selectors/selectUsersNames';
 // TODO - check for duplicate names
 
 export const SetupPageContainer = (props) => {
-  const { names, auth, history, togglePlayerReady, startRemoveName, startAddName } = props;
+  const {
+    names,
+    auth,
+    history,
+    togglePlayerReady,
+    startRemoveName,
+    startAddName
+  } = props;
   
   const remainingNames = () => {
     const namesSubmitted = names.length;
@@ -23,17 +30,17 @@ export const SetupPageContainer = (props) => {
     history.push('/start');
   };
 
-  const onDelete = (id) => startRemoveName(id);
+  const onDeleteName = (id) => startRemoveName(id);
   
   const onAddName = (name) => startAddName(name);
   
   let word;
   if (remainingNames() === 1) {
-    word = 'name still'
+    word = 'name still';
   } else if (remainingNames() === numberNames) {
-    word = 'names'
+    word = 'names';
   } else {
-    word = 'names still'
+    word = 'names still';
   };
   
   return (
@@ -49,7 +56,7 @@ export const SetupPageContainer = (props) => {
       { names.length === numberNames && <button className='button' onClick={ onClick }>Go </button> }
       <NamesList
         names={ names }
-        onDelete={ onDelete }
+        onDeleteName={ onDeleteName }
       />
     </div>
   )
