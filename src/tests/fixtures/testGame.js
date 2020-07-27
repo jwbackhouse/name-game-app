@@ -10,5 +10,7 @@ export default {
   },
   startTime: undefined,
   startTurn: false,
-  endGame: false
+  endGame: false,
+  timerLength: 30000,
+  numPasses: 1,
 };
