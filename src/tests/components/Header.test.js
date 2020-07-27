@@ -16,7 +16,7 @@ describe('<Header />', () => {
   });
   
   test('Click on button should call startLogout()', () => {
-    wrapper.find('button').simulate('click');
+    wrapper.find('button').at(0).simulate('click');
     expect(startLogoutSpy).toBeCalled;
   });
 });

@@ -20,6 +20,11 @@ exports[`<Header /> Should render Header correctly 1`] = `
       >
         Sign out
       </button>
+      <button
+        onClick={[Function]}
+      >
+        Settings
+      </button>
     </div>
   </div>
 </div>

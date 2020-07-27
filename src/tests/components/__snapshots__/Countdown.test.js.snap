@@ -1,17 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Countdown /> Should call onFinished when timer expires 1`] = `
-<div>
-  <p>
-    Hang on a second...
-  </p>
-  <h3>
-    Time left: 
-    0:00
-  </h3>
-</div>
-`;
-
 exports[`<Countdown /> Should render Countdown with please wait message 1`] = `
 <div>
   <p>

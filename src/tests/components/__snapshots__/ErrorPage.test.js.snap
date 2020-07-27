@@ -2,13 +2,13 @@
 
 exports[`Should render ErrorPage 1`] = `
 <div>
-  <p>
-    Doh! 404
-  </p>
-  <[object Object]
+  <h1>
+    Doh! That's a 404
+  </h1>
+  <Link
     to="/"
   >
     Go home
-  </[object Object]>
+  </Link>
 </div>
 `;

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EditNamesButton /> Should render EditNamesButton 1`] = `
+<button
+  onClick={[Function]}
+>
+  Edit your names
+</button>
+`;
