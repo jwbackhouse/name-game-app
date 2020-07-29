@@ -26,18 +26,19 @@ export const startAddName = (name='') => {
   };
 };
 
+
 // Remove a name
+export const removeName = (id) => ({
+  type:'REMOVE_NAME',
+  id
+});
+
 export const startRemoveName = (id) => {
   return (dispatch, getState) => {
     return database.ref(`names/${id}`).remove()
       .then(() => dispatch(removeName(id)));
   };
 };
-
-export const removeName = (id) => ({
-  type:'REMOVE_NAME',
-  id
-});
 
 
 // Remove all names
@@ -95,8 +96,3 @@ export const updateNames = (names) => {
     });
   };
 };
-
-export const dummyFunction = async (name) => {
-  await database.ref('dummy').set(name);
-  return true;
-}
