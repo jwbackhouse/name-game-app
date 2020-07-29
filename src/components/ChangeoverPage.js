@@ -13,9 +13,9 @@ export class ChangeoverPage extends React.Component {
     nextPlayer: undefined,
   }
 
-  componentDidMount = () => {
-    this.props.getNames();
-  }
+  // componentDidMount = () => {
+  //   this.props.getNames();
+  // }
 
   componentDidUpdate = (prevProps) => {
     const { game, history } = this.props;
