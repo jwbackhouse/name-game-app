@@ -52,17 +52,23 @@ export const getNames = () => {
     dispatch(getNamesBegin());
     return database.ref('names').once('value')
       .then((snapshot) => {
-        const namesArr = [];
-        snapshot.forEach(childSnapshot => {
-          const output = childSnapshot.val();
-          namesArr.push({
-            id: childSnapshot.key,
-            ...output
-          });
-        })
-        dispatch(getNamesSuccess(namesArr));
+        dispatch(processNames(snapshot));
       })
       .catch(err => dispatch(getNamesFailure(err)));
+  };
+};
+
+export const processNames = (snapshot) => {
+  return (dispatch, getState) => {
+    const namesArr = [];
+    snapshot.forEach(childSnapshot => {
+      const output = childSnapshot.val();
+      namesArr.push({
+        id: childSnapshot.key,
+        ...output
+      });
+    });
+    dispatch(getNamesSuccess(namesArr));
   };
 };
 
@@ -89,3 +95,8 @@ export const updateNames = (names) => {
     });
   };
 };
+
+export const dummyFunction = async (name) => {
+  await database.ref('dummy').set(name);
+  return true;
+}
