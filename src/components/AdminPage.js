@@ -10,17 +10,15 @@ const AdminPage = ({ game, history }) => {
   const [submitMsg, setSubmitMsg] = useState('');
   
   // Number of passes allowed per player
-  const [numPasses, setNumPasses] = useState(2);
+  const [numPasses, setNumPasses] = useState(game.numPasses);
   const onPassesChange = (e) => setNumPasses(e.target.value);
-  useEffect(() => game.numPasses && setNumPasses(game.numPasses), [game.numPasses]);
   
   // Length of timer for guesses
-  const [timerLength, setTimerLength] = useState(60);
+  const [timerLength, setTimerLength] = useState(game.timerLength);
   const onTimerChange = (e) => {
     const milliseconds = e.target.value * 1000;
     setTimerLength(milliseconds);
   };
-  useEffect(() => game.timerLength && setTimerLength(game.timerLength), [game.timerLength]);
   
   // Very basic password protection for page access
   const [access, setAccess] = useState(undefined);
@@ -50,7 +48,7 @@ const AdminPage = ({ game, history }) => {
             id='numPasses'
             value={ numPasses }
             onChange={ onPassesChange }
-            placeholder='Suggest starting with 2'
+            placeholder='Suggest 2'
             type='number'
           />
         </label>
