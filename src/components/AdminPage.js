@@ -62,10 +62,11 @@ const AdminPage = ({ game, history }) => {
           />
         </label>
         <button type='submit'>
-          Submit
+          Save
         </button>
       </form>
       { submitMsg && <p>{ submitMsg }</p> }
+      <br />
       <Link
         to='/'
         className='button'
