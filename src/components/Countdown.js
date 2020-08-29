@@ -76,7 +76,6 @@ export class Countdown extends React.Component {
   }
 };
 
-// export default Countdown;
 
 const mapStateToProps = (state) => ({
   game: state.game,
