@@ -4,9 +4,11 @@ import { compose } from 'redux';
 import { Link, useHistory } from 'react-router-dom';
 import database from '../firebase/firebase';
 import withLiveData from '../helpers/withLiveData';
+import { resetGame, initialiseGame } from '../actions/game';
+import { removeAllNames } from '../actions/names';
 
 
-const AdminPage = ({ game, history }) => {
+const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history }) => {
   const [submitMsg, setSubmitMsg] = useState('');
   
   // Number of passes allowed per player
@@ -28,8 +30,22 @@ const AdminPage = ({ game, history }) => {
     password === pass1 ? setAccess(true): setAccess(false);
   }
   
+  const onReset = () => {
+    const confirm = window.confirm('Are you sure you want to reset the game? This can\'t be undone...');
+    if (confirm) {
+      database.ref().remove()
+        .then(() => {
+          initialiseGame();
+          setSubmitMsg('Data successfully reset.');
+        });
+      removeAllNames();
+      resetGame();
+    }
+  }
+  
   const onSubmit = (e) => {
     e.preventDefault();
+    
     database.ref('game').update({
       numPasses,
       timerLength,
@@ -67,6 +83,11 @@ const AdminPage = ({ game, history }) => {
       </form>
       { submitMsg && <p>{ submitMsg }</p> }
       <br />
+      <button onClick={ onReset }>
+        Reset the game
+      </button>
+      <br />
+      <br />
       <Link
         to='/'
         className='button'
@@ -83,8 +104,15 @@ const mapStateToProps = (state) => ({
   game: state.game,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  removeAllNames: () => dispatch(removeAllNames()),
+  resetGame: () => dispatch(resetGame()),
+  initialiseGame: () => dispatch(initialiseGame())
+});
+
+
 const connectedWithLiveData = compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withLiveData,
 );
 
