@@ -4,38 +4,64 @@ import { compose } from 'redux';
 import { Link, useHistory } from 'react-router-dom';
 import database from '../firebase/firebase';
 import withLiveData from '../helpers/withLiveData';
+import { resetGame, initialiseGame } from '../actions/game';
+import { removeAllNames } from '../actions/names';
 
 
-const AdminPage = ({ game, history }) => {
+const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history }) => {
   const [submitMsg, setSubmitMsg] = useState('');
   
   // Number of passes allowed per player
-  const [numPasses, setNumPasses] = useState(2);
+  const [numPasses, setNumPasses] = useState(game.numPasses || 2);
   const onPassesChange = (e) => setNumPasses(e.target.value);
-  useEffect(() => game.numPasses && setNumPasses(game.numPasses), [game.numPasses]);
+  useEffect(() => {
+    if (game.numPasses !== undefined) setNumPasses(game.numPasses)  // needed otherwise input becomes uncontrolled
+  }, [game.numPasses]);
+
+  // Number of names each player needs to submit
+  const [numNames, setNumNames] = useState(game.numNames || 5);
+  const onNamesChange = (e) => setNumNames(e.target.value);
+  useEffect(() => {
+    if (game.numNames !== undefined) setNumNames(game.numNames)  // needed otherwise input becomes uncontrolled
+  }, [game.numNames]);
   
   // Length of timer for guesses
-  const [timerLength, setTimerLength] = useState(60);
-  const onTimerChange = (e) => {
-    const milliseconds = e.target.value * 1000;
-    setTimerLength(milliseconds);
-  };
-  useEffect(() => game.timerLength && setTimerLength(game.timerLength), [game.timerLength]);
+  const [timerLength, setTimerLength] = useState(game.timerLength || 60);
+  const onTimerChange = (e) => setTimerLength(e.target.value);
   
   // Very basic password protection for page access
   const [access, setAccess] = useState(undefined);
-  useEffect(() => !access && history.goBack(), [access]);
   if (access === undefined ) {
     const password = prompt('Please enter your password to view this page');
     const pass1 = 'namegame';
     password === pass1 ? setAccess(true): setAccess(false);
   }
   
+  const onReset = () => {
+    const confirm = window.confirm('Are you sure you want to reset the game? This can\'t be undone...');
+    if (confirm) {
+      database.ref().remove()
+        .then(() => {
+          initialiseGame();
+          setSubmitMsg('Data successfully reset.');
+        });
+      removeAllNames();
+      resetGame();
+    }
+  }
+  
   const onSubmit = (e) => {
     e.preventDefault();
+    
+    if (+numNames <= 0 || timerLength <= 10 ) {
+      setSubmitMsg('Sorry, something\'s not right with your figures.');
+      return;
+    }
+    
     database.ref('game').update({
-      numPasses,
-      timerLength,
+      numPasses: +numPasses,
+      numNames: +numNames,
+      timerLength: +timerLength,
     });
     setSubmitMsg('All saved for you.');
   };
@@ -50,7 +76,15 @@ const AdminPage = ({ game, history }) => {
             id='numPasses'
             value={ numPasses }
             onChange={ onPassesChange }
-            placeholder='Suggest starting with 2'
+            type='number'
+          />
+        </label>
+        <label>Number of names for each player to submit
+          <input
+            name='numNames'
+            id='numNames'
+            value={ numNames }
+            onChange={ onNamesChange }
             type='number'
           />
         </label>
@@ -58,17 +92,22 @@ const AdminPage = ({ game, history }) => {
           <input
             name='timerLength'
             id='timerLength'
-            value={ timerLength / 1000 }
+            value={ timerLength }
             onChange={ onTimerChange }
-            placeholder='60 seconds works for most games'
             type='number'
           />
         </label>
         <button type='submit'>
-          Submit
+          Save
         </button>
       </form>
       { submitMsg && <p>{ submitMsg }</p> }
+      <br />
+      <button onClick={ onReset }>
+        Reset the game
+      </button>
+      <br />
+      <br />
       <Link
         to='/'
         className='button'
@@ -85,8 +124,15 @@ const mapStateToProps = (state) => ({
   game: state.game,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  removeAllNames: () => dispatch(removeAllNames()),
+  resetGame: () => dispatch(resetGame()),
+  initialiseGame: () => dispatch(initialiseGame())
+});
+
+
 const connectedWithLiveData = compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withLiveData,
 );
 

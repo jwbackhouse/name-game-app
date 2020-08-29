@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
-import withLiveData from '../helpers/withLiveData';
 import LiveName from './LiveName';
 import Countdown from './Countdown';
 import PassedNamesButton from './PassedNamesButton';
@@ -92,9 +90,4 @@ const mapStateToProps = (state) => ({
   game: state.game,
 });
 
-const connectedWithLiveData = compose(
-  connect(mapStateToProps),
-  withLiveData,
-);
-
-export default connectedWithLiveData(GamePage);
+export default connect(mapStateToProps)(GamePage);

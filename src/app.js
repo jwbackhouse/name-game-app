@@ -14,12 +14,6 @@ import './styles/styles.scss';
 
 // Set up store
 const store = configureStore();
-store.dispatch(initialiseGame());
-
-// Set game rules
-export const numberNames = 5;
-export const timerLength = 120000;   // in milliseconds
-export const passesAllowed = 3;
 
 // Setup rendering
 const jsx = (
@@ -27,7 +21,6 @@ const jsx = (
     <AppRouter />
   </Provider>
 );
-
 let hasRendered = false;
 const renderApp = () => {
   if (!hasRendered) {

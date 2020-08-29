@@ -1,15 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
-// import { timerLength } from '../app';
 import database from '../firebase/firebase';
 
-// TODO - link state.timerLength to admin page
 export class Countdown extends React.Component {
   state = {
     timerOn: false,
     timerTime: 0,
     timerStart: 0,
-    timerLength: 120000,
+    timerLength: this.props.game.timerLength * 1000,
     message: '',
   }
   
@@ -32,17 +31,14 @@ export class Countdown extends React.Component {
   }
   
   startTimer = () => {
-    const { timerTime, timerLength, timerStart } = this.state;
-    
     this.setState({
       timerOn: true,
-      timerTime: timerTime
     });
     
     this.timer = setInterval(() => {
-      const timeLeft = timerLength - timerTime;
+      const timeLeft = this.state.timerLength - this.state.timerTime;
       if (timeLeft >= 0)  {
-        this.setState({ timerTime: Date.now() - timerStart });
+        this.setState({ timerTime: Date.now() - this.state.timerStart });
       } else {
         clearInterval(this.timer);
         this.setState({ timerOn: false });
@@ -78,17 +74,8 @@ export class Countdown extends React.Component {
   }
 };
 
-<<<<<<< Updated upstream
-export default Countdown;
-=======
 const mapStateToProps = (state) => ({
   game: state.game,
 });
 
-const connectedWithLiveData = compose(
-  connect(mapStateToProps),
-  withLiveData,
-);
-
-export default connectedWithLiveData(Countdown);
->>>>>>> Stashed changes
+export default connect(mapStateToProps)(Countdown);
