@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import SetupPageIntro from './SetupPageIntro';
 import NameEntry from './NameEntry';
 import NamesList from './NamesList';
-import { numberNames } from '../app';
 import { togglePlayerReady } from '../actions/players';
 import { startRemoveName, startAddName } from '../actions/names';
 import selectUsersNames from '../selectors/selectUsersNames';
@@ -14,11 +13,14 @@ export const SetupPageContainer = (props) => {
   const {
     names,
     auth,
+    game,
     history,
     togglePlayerReady,
     startRemoveName,
     startAddName
   } = props;
+  
+  const numberNames = game.numNames;
   
   const remainingNames = () => {
     const namesSubmitted = names.length;
@@ -64,13 +66,14 @@ export const SetupPageContainer = (props) => {
 
 const mapStateToProps = (state) => ({
   names: selectUsersNames(state.names.names, state.auth.playersUid),
-  auth: state.auth
+  auth: state.auth,
+  game: state.game,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   togglePlayerReady: (uid) => dispatch(togglePlayerReady(uid)),
   startRemoveName: (id) => dispatch(startRemoveName(id)),
-  startAddName: (name) => dispatch(startAddName(name))
+  startAddName: (name) => dispatch(startAddName(name)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetupPageContainer);

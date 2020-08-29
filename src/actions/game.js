@@ -20,6 +20,7 @@ export const initialiseGame = () => {
       startTurn: false,
       endGame: false,
       numPasses: 3,
+      numNames: 5,
       timerLength: 60000,
     });
   };

@@ -17,6 +17,13 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
   useEffect(() => {
     if (game.numPasses !== undefined) setNumPasses(game.numPasses)  // needed otherwise input becomes uncontrolled
   }, [game.numPasses]);
+
+  // Number of names each player needs to submit
+  const [numNames, setNumNames] = useState(game.numNames || 5);
+  const onNamesChange = (e) => setNumNames(+e.target.value);
+  useEffect(() => {
+    if (game.numNames !== undefined) setNumNames(game.numNames)  // needed otherwise input becomes uncontrolled
+  }, [game.numNames]);
   
   // Length of timer for guesses
   const [timerLength, setTimerLength] = useState(game.timerLength || 60000);
@@ -51,6 +58,7 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
     
     database.ref('game').update({
       numPasses,
+      numNames,
       timerLength,
     });
     setSubmitMsg('All saved for you.');
@@ -66,6 +74,15 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
             id='numPasses'
             value={ numPasses }
             onChange={ onPassesChange }
+            type='number'
+          />
+        </label>
+        <label>Number of names for each player to submit
+          <input
+            name='numNames'
+            id='numNames'
+            value={ numNames }
+            onChange={ onNamesChange }
             type='number'
           />
         </label>
