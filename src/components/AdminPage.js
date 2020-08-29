@@ -13,24 +13,21 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
   
   // Number of passes allowed per player
   const [numPasses, setNumPasses] = useState(game.numPasses || 2);
-  const onPassesChange = (e) => setNumPasses(+e.target.value);
+  const onPassesChange = (e) => setNumPasses(e.target.value);
   useEffect(() => {
     if (game.numPasses !== undefined) setNumPasses(game.numPasses)  // needed otherwise input becomes uncontrolled
   }, [game.numPasses]);
 
   // Number of names each player needs to submit
   const [numNames, setNumNames] = useState(game.numNames || 5);
-  const onNamesChange = (e) => setNumNames(+e.target.value);
+  const onNamesChange = (e) => setNumNames(e.target.value);
   useEffect(() => {
     if (game.numNames !== undefined) setNumNames(game.numNames)  // needed otherwise input becomes uncontrolled
   }, [game.numNames]);
   
   // Length of timer for guesses
-  const [timerLength, setTimerLength] = useState(game.timerLength || 60000);
-  const onTimerChange = (e) => {
-    const milliseconds = e.target.value * 1000;
-    setTimerLength(milliseconds);
-  };
+  const [timerLength, setTimerLength] = useState(game.timerLength || 60);
+  const onTimerChange = (e) => setTimerLength(e.target.value);
   
   // Very basic password protection for page access
   const [access, setAccess] = useState(undefined);
@@ -56,10 +53,15 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
   const onSubmit = (e) => {
     e.preventDefault();
     
+    if (+numNames <= 0 || timerLength <= 10 ) {
+      setSubmitMsg('Sorry, something\'s not right with your figures.');
+      return;
+    }
+    
     database.ref('game').update({
-      numPasses,
-      numNames,
-      timerLength,
+      numPasses: +numPasses,
+      numNames: +numNames,
+      timerLength: +timerLength,
     });
     setSubmitMsg('All saved for you.');
   };
@@ -90,7 +92,7 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
           <input
             name='timerLength'
             id='timerLength'
-            value={ timerLength / 1000 }
+            value={ timerLength }
             onChange={ onTimerChange }
             type='number'
           />
