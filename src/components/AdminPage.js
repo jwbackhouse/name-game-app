@@ -14,6 +14,9 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
   // Number of passes allowed per player
   const [numPasses, setNumPasses] = useState(game.numPasses || 2);
   const onPassesChange = (e) => setNumPasses(e.target.value);
+  useEffect(() => {
+    if (game.numPasses !== undefined) setNumPasses(game.numPasses)  // needed otherwise input becomes uncontrolled
+  }, [game.numPasses]);
   
   // Length of timer for guesses
   const [timerLength, setTimerLength] = useState(game.timerLength || 60000);
@@ -63,7 +66,6 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
             id='numPasses'
             value={ numPasses }
             onChange={ onPassesChange }
-            placeholder='Suggest 2'
             type='number'
           />
         </label>
@@ -73,7 +75,6 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
             id='timerLength'
             value={ timerLength / 1000 }
             onChange={ onTimerChange }
-            placeholder='60 seconds works for most games'
             type='number'
           />
         </label>
