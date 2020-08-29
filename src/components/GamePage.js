@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import withLiveData from '../helpers/withLiveData';
 import LiveName from './LiveName';
 import Countdown from './Countdown';
 import PassedNamesButton from './PassedNamesButton';
-import { passesAllowed } from '../app';
 
 export const GamePage = props => {
   const {
@@ -17,9 +19,10 @@ export const GamePage = props => {
     passAgain,
     guessPassedName,
     onFinished,
-    toggleViewPassedNames
+    toggleViewPassedNames,
+    game,
   } = props;
-  const allowPass = (passesAllowed - numberPasses) > 0;
+  const allowPass = (game.numPasses - numberPasses) > 0;
   const score = guessedNames.length;
   const showPassedNamesButton = passedNames.length > 0 && names.length > 0;
   let guess;
@@ -85,4 +88,13 @@ export const GamePage = props => {
   )
 };
 
-export default GamePage;
+const mapStateToProps = (state) => ({
+  game: state.game,
+});
+
+const connectedWithLiveData = compose(
+  connect(mapStateToProps),
+  withLiveData,
+);
+
+export default connectedWithLiveData(GamePage);

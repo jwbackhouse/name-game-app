@@ -78,4 +78,17 @@ export class Countdown extends React.Component {
   }
 };
 
+<<<<<<< Updated upstream
 export default Countdown;
+=======
+const mapStateToProps = (state) => ({
+  game: state.game,
+});
+
+const connectedWithLiveData = compose(
+  connect(mapStateToProps),
+  withLiveData,
+);
+
+export default connectedWithLiveData(Countdown);
+>>>>>>> Stashed changes
