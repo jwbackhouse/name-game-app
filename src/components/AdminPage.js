@@ -13,7 +13,7 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
   
   // Number of passes allowed per player
   const [numPasses, setNumPasses] = useState(game.numPasses || 2);
-  const onPassesChange = (e) => setNumPasses(e.target.value);
+  const onPassesChange = (e) => setNumPasses(+e.target.value);
   useEffect(() => {
     if (game.numPasses !== undefined) setNumPasses(game.numPasses)  // needed otherwise input becomes uncontrolled
   }, [game.numPasses]);
