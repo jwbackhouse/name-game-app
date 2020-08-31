@@ -23,6 +23,12 @@ export const RegisterPageContainer = (props) => {
 
   const [error, setError] = useState('');
 
+  // Redirect to /setup if already registered
+  useEffect(() => {
+    const alreadyRegistered = players.players.some(player => player.uid === auth.uid);
+    if (alreadyRegistered) history.push('/setup');
+  }, [players.players]);
+  
   const onSubmit = (e) => {
     e.preventDefault();
 
