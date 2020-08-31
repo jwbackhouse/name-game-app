@@ -1,5 +1,5 @@
 const initialState = {
-  players: [],
+  data: [],
   isLoading: false,
   error: ''
 };
@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        players: action.payload
+        data: action.payload
       }
     case 'GET_PLAYERS_FAILURE':
       return {
@@ -27,14 +27,14 @@ export default (state = initialState, action) => {
     case 'ADD_PLAYER':
       return {
         ...state,
-        players: [...state.players, action.player]
+        data: [...state.data, action.player]
       };
     case 'REMOVE_ALL_PLAYERS':
-      return state.players = [];
+      return state.data = [];
     case 'UPDATE_PLAYERS':
       return {
         ...state,
-        players: action.payload
+        data: action.payload
       }
     default:
       return state;

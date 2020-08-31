@@ -139,7 +139,7 @@ export class GamePageContainer extends React.Component {
     
     // Await Firebase update
     const promisesArray = [
-      this.choosePlayer(players.players),
+      this.choosePlayer(players.data),
       updateNames(guessedNames),
       startUpdateScore(game.playingNow.team, guessedNames.length)
     ];
