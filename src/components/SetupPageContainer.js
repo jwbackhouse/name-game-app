@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import withLiveData from '../helpers/withLiveData';
 import SetupPageIntro from './SetupPageIntro';
 import NameEntry from './NameEntry';
 import NamesList from './NamesList';
@@ -78,4 +80,11 @@ const mapDispatchToProps = (dispatch) => ({
   startAddName: (name) => dispatch(startAddName(name)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SetupPageContainer);
+// export default connect(mapStateToProps, mapDispatchToProps)(SetupPageContainer);
+
+const connectedWithLiveData = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withLiveData,
+);
+
+export default connectedWithLiveData(SetupPageContainer);

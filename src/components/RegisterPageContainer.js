@@ -31,7 +31,8 @@ export const RegisterPageContainer = (props) => {
     } else {
       const user = {
         username,
-        team
+        team,
+        uid: auth.uid,
       };
       startAddUserDetails(user);
       

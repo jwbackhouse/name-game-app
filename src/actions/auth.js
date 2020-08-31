@@ -101,10 +101,11 @@ export const startAddUserDetails = (userData) => {
     const {
       username = '',
       team = '',
+      uid = '',
       hasPlayed = false,
       isReady = false
     } = userData;
-    const user = { username, team, hasPlayed, isReady };   // uses deconstructed values from userData
+    const user = { username, team, uid, hasPlayed, isReady };   // uses deconstructed values from userData
     
     // Add user to Firebase>Players
     return database.ref(`players`).push(user).then(ref => {
