@@ -37,7 +37,7 @@ ReactDOM.render(<LoadingPage />, document.getElementById('body') || document.cre
 try {
   firebase.auth().onAuthStateChanged((user) => {    // fires once user logs in
     if (user) {
-      console.log('app.js: Logged in. Current user:', user);
+      console.log('app.js: Logged in. Current user:', user.uid);
       store.dispatch(loginSuccess(user, user.displayName));
       renderApp();
       if (history.location.pathname === '/') {
