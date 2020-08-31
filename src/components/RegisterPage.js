@@ -42,10 +42,10 @@ const RegisterPage = props => {
         { errorMsg }
         
         <div>
-          <p className='list-header'>Already on Team A:</p>
+          <p className='list__header'>Already on Team A:</p>
           <TeamList players={ players } team='A' />
           
-          <p className='list-header'>Already on Team B:</p>
+          <p className='list__header'>Already on Team B:</p>
           <TeamList players={ players } team='B' />
         </div>
       </form>
