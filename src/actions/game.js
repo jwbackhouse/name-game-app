@@ -3,6 +3,7 @@
 import database from '../firebase/firebase';
 import { getPlayersBegin, getPlayersSuccess, getPlayersFailure  } from './players';
 import { addName, getNamesBegin, getNamesSuccess, getNamesFailure  } from './names';
+import { addUserDetails } from './auth';
 
 
 // Populate Firebase with initial game state
@@ -40,8 +41,16 @@ export const fetchData = () => {
         const playerData = childSnapshot.val();
         playersArr.push({
           uid: childSnapshot.key,
-          ...playerData
+          ...playerData,
         });
+        
+        // Pass this player's existing data to the auth state object
+        if (playerData.uid === getState().auth.uid) {
+          dispatch(addUserDetails({
+            playersUid: childSnapshot.key,
+            ...playerData,
+          }));
+        };
       });
       dispatch(getPlayersSuccess(playersArr));
     }, err => dispatch(getPlayersFailure(err)));
