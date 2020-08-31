@@ -10,7 +10,7 @@ export const addName = (nameObj) => ({
 
 export const startAddName = (name='') => {
   return (dispatch, getState) => {    // Redux-thunk allows us to return a function, which is called with dispatch
-    const uid = getState().auth.playersUid;
+    const uid = getState().auth.firebaseUID;
     const nameObj = {
       uid,
       name,

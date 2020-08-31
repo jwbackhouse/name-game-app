@@ -28,7 +28,7 @@ export const SetupPageContainer = (props) => {
   };
   
   const onClick = () => {
-    togglePlayerReady(auth.playersUid);
+    togglePlayerReady(auth.firebaseUID);
     history.push('/start');
   };
 
@@ -67,7 +67,7 @@ export const SetupPageContainer = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  names: selectUsersNames(state.names.names, state.auth.playersUid),
+  names: selectUsersNames(state.names.names, state.auth.firebaseUID),
   auth: state.auth,
   game: state.game,
 });

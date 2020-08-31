@@ -6,7 +6,7 @@ import { togglePlayerReady } from '../actions/players';
 
 export const EditNamesButtonBase = props => {
   const onTogglePlayerReady = () => {
-    props.togglePlayerReady(props.auth.playersUid);
+    props.togglePlayerReady(props.auth.firebaseUID);
     props.history.push('/setup');
   };
   

@@ -2,7 +2,7 @@
 
 const initialState = {
   uid: '',
-  playersUid: '',
+  firebaseUID: '',
   username: '',
   error: '',
   passwordResetError: ''
@@ -43,7 +43,7 @@ export default (state = initialState, action) => {
           ...state,
           username: action.username,
           team: action.team,
-          playersUid: action.playersUid
+          firebaseUID: action.firebaseUID
         }
     default:
       return state;

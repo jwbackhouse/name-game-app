@@ -53,7 +53,7 @@ describe('Adding names', () => {
   test('Should push nameObj into Firebase', async () => {
     const dispatch = jest.fn();
     const getState = jest.fn(() => ({
-      auth: { playersUid: uid }
+      auth: { firebaseUID: uid }
     }));
     const push = database
       .ref()

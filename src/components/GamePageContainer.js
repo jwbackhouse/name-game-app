@@ -117,7 +117,7 @@ export class GamePageContainer extends React.Component {
 
     // Check a player is returned
     if (!nextPlayer) {
-      endGame(auth.playersUid);
+      endGame(auth.firebaseUID);
     } else {
       return setNextPlayer(nextPlayer);
     }
@@ -148,10 +148,10 @@ export class GamePageContainer extends React.Component {
     handleAllPromises
       .then(() => {
         if (names.length === 0) {
-          endGame(auth.playersUid);
+          endGame(auth.firebaseUID);
           history.push('/end');
         } else {
-          endTurn(auth.playersUid);
+          endTurn(auth.firebaseUID);
           history.push('/scores');
         }
       })

@@ -82,10 +82,10 @@ export const confirmPasswordReset = (actionCode, password) => {
 
 
 // GAME MANAGEMENT
-export const addUserDetails = ({username, playersUid, team}) => ({
+export const addUserDetails = ({username, firebaseUID, team}) => ({
   type:'ADD_USER_DETAILS',
   username,
-  playersUid,
+  firebaseUID,
   team
 });
 
@@ -109,7 +109,7 @@ export const startAddUserDetails = (userData) => {
     // Add user to Firebase>Players
     return database.ref(`players`).push(user).then(ref => {
       const userObj = {
-        playersUid: ref.key,    // .then callback from .push gets called with ref, so can get id from this using .key
+        firebaseUID: ref.key,    // .then callback from .push gets called with ref, so can get id from this using .key
         ...user
       }
       

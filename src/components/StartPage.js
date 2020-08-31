@@ -67,7 +67,7 @@ export class StartPage extends React.Component {
   render() {
     const { players, game, auth } = this.props;
     const { error } = this.state;
-    const thisUserPlaying = auth.playersUid === game.playingNow.uid;
+    const thisUserPlaying = auth.firebaseUID === game.playingNow.uid;
 
     return (
       <div className='content-container'>
