@@ -34,10 +34,9 @@ export class StartPage extends React.Component {
 
   choosePlayer = (players) => {
     const { setNextPlayer, resetNextPlayer } = this.props;
+    
     // Use selector to choose next player
     const allReady = !players.some(player => player.isReady === false);
-    debugger;
-
     if (players.length > 0 && allReady) {
       this.setState({ error: '' });
 
