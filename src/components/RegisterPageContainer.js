@@ -16,13 +16,13 @@ export const RegisterPageContainer = (props) => {
   } = props;
   
   const [username, setUsername] = useState(auth.username || '');
+  const onNameChange = (e) => setUsername(e.target.value);
+
   const [team, setTeam] = useState('A');
+  const onTeamChange = (e) => setTeam(e.target.value);
+
   const [error, setError] = useState('');
 
-  // useEffect(() => setUsername(props.auth.username), [props.auth.username]);
-  
-  const onNameChange = (e) => setUsername(e.target.value);
-  const onTeamChange = (e) => setTeam(e.target.value);
   const onSubmit = (e) => {
     e.preventDefault();
 
