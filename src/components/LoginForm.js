@@ -10,7 +10,7 @@ const initialState = {
   password: ''
 };
 
-export class LoginForm extends React.Component {
+export class LoginFormBase extends React.Component {
   state = { ...initialState };
   
   onChange = (e) => {
@@ -83,5 +83,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // withRouter required to access history
-const LoginForm = withRouter(LoginForm);
+const LoginForm = withRouter(LoginFormBase);
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
