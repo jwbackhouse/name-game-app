@@ -88,7 +88,7 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
             type='number'
           />
         </label>
-        <label>Time allowed for guessing (in seconds)
+        <label>Time allowed for guessing (in minutes)
           <input
             name='timerLength'
             id='timerLength'
@@ -108,12 +108,9 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
       </button>
       <br />
       <br />
-      <Link
-        to='/'
-        className='button'
-      >
-        Go home
-      </Link>
+      <button onClick={ history.goBack } className='button'>
+        Back
+      </button>
     </div>
   );
   
