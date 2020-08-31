@@ -12,22 +12,25 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
   const [submitMsg, setSubmitMsg] = useState('');
   
   // Number of passes allowed per player
-  const [numPasses, setNumPasses] = useState(game.numPasses || 2);
+  const [numPasses, setNumPasses] = useState(game.numPasses || '');
   const onPassesChange = (e) => setNumPasses(e.target.value);
   useEffect(() => {
     if (game.numPasses !== undefined) setNumPasses(game.numPasses)  // needed otherwise input becomes uncontrolled
   }, [game.numPasses]);
 
   // Number of names each player needs to submit
-  const [numNames, setNumNames] = useState(game.numNames || 5);
+  const [numNames, setNumNames] = useState(game.numNames || '');
   const onNamesChange = (e) => setNumNames(e.target.value);
   useEffect(() => {
-    if (game.numNames !== undefined) setNumNames(game.numNames)  // needed otherwise input becomes uncontrolled
+    if (game.numNames !== undefined) setNumNames(game.numNames)  // as above
   }, [game.numNames]);
   
   // Length of timer for guesses
-  const [timerLength, setTimerLength] = useState(game.timerLength || 60);
+  const [timerLength, setTimerLength] = useState(game.timerLength || '');
   const onTimerChange = (e) => setTimerLength(e.target.value);
+  useEffect(() => {
+    if (game.timerLength !== undefined) setTimerLength(game.timerLength)  // as above
+  }, [game.timerLength]);
   
   // Very basic password protection for page access
   const [access, setAccess] = useState(undefined);
@@ -88,7 +91,7 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
             type='number'
           />
         </label>
-        <label>Time allowed for guessing (in minutes)
+        <label>Time allowed for guessing (in seconds)
           <input
             name='timerLength'
             id='timerLength'
