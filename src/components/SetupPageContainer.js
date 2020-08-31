@@ -30,7 +30,7 @@ export const SetupPageContainer = (props) => {
   };
   
   const onClick = () => {
-    togglePlayerReady(auth.playersUid);
+    togglePlayerReady(auth.uid);
     history.push('/start');
   };
 
