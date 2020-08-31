@@ -7,7 +7,7 @@ export const SetupPageIntro = ({ remainingNames, word }) => (
     <p className='tip'>Friendly tip: It's a good idea to pick names everyone has heard of</p>
     { remainingNames !== 0
         ? <p className=''>{ `You have ${ remainingNames } ${ word } to add` }</p>
-        : <p>You're good to go</p>
+        : <p><b>You're good to go</b></p>
     }
   </div>
 );
