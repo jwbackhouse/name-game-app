@@ -29,7 +29,7 @@ export const SetupPageContainer = (props) => {
   };
   
   const onClick = () => {
-    togglePlayerReady(auth.uid);
+    togglePlayerReady(auth.uid, auth.playersUid);
     history.push('/start');
   };
 
@@ -74,7 +74,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  togglePlayerReady: (uid) => dispatch(togglePlayerReady(uid)),
+  togglePlayerReady: (uid, playersUid) => dispatch(togglePlayerReady(uid, playersUid)),
   startRemoveName: (id) => dispatch(startRemoveName(id)),
   startAddName: (name) => dispatch(startAddName(name)),
 });

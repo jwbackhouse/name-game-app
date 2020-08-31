@@ -36,6 +36,7 @@ export class StartPage extends React.Component {
     const { setNextPlayer, resetNextPlayer } = this.props;
     // Use selector to choose next player
     const allReady = !players.some(player => player.isReady === false);
+    debugger;
 
     if (players.length > 0 && allReady) {
       this.setState({ error: '' });
@@ -67,7 +68,7 @@ export class StartPage extends React.Component {
   render() {
     const { players, game, auth } = this.props;
     const { error } = this.state;
-    const thisUserPlaying = auth.playersUid === game.playingNow.uid;
+    const thisUserPlaying = auth.uid === game.playingNow.uid;
 
     return (
       <div className='content-container'>

@@ -6,7 +6,7 @@ import { togglePlayerReady } from '../actions/players';
 
 export const EditNamesButtonBase = props => {
   const onTogglePlayerReady = () => {
-    props.togglePlayerReady(props.auth.playersUid);
+    props.togglePlayerReady(props.auth.uid, props.auth.playersUid);
     props.history.push('/setup');
   };
   
@@ -22,7 +22,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  togglePlayerReady: uid => dispatch(togglePlayerReady(uid))
+  togglePlayerReady: (uid, playersUid) => dispatch(togglePlayerReady(uid, playersUid)),
 })
 
 // withRouter required to access history
