@@ -12,6 +12,7 @@
   text-decoration: none;
   transition: background 250ms ease-in-out,
               transform 150ms ease;
+  white-space: nowrap;
   -webkit-appearance: none;
   -moz-appearance: none;
   
@@ -37,7 +38,7 @@
   }
 }
 
-.button--input {
+.button--primary {
   background: $blue;
   border: 2px solid $blue;
   margin: 0 $s-size;
@@ -48,6 +49,24 @@
   }
 }
 
+.button--secondary {
+  background: $mid-grey;
+  border: 2px solid $dark-grey;
+  margin: 0 $xs-size;
+  padding: $xs-size $s-size;
+  &:hover, &:focus {
+    background: $white;
+    border: 2px solid $dark-grey;
+    color: $dark-grey;
+  }
+}
+
+.button--secondary-last {
+  @extend .button--secondary;
+  margin-right: 0;
+}
+
+// Circular button
 .button--delete {
   background: $white;
   border: 2px solid $dark-grey;
