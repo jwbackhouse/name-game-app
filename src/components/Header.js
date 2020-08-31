@@ -14,8 +14,10 @@ export const Header = ({ startLogout, history }) => {
       <div className='content-container'>
         <div className='header__content'>
           <h1 className='header__title'>The Name Game</h1>
-          <button onClick={ startLogout }>Sign out</button>
-          <button onClick = { onClick }>Settings</button>
+          <div className='header__links'>
+            <button className='button button--secondary' onClick={ startLogout }>Sign out</button>
+            <button className='button button--secondary-last' onClick = { onClick }>Settings</button>
+          </div>
         </div>
       </div>
     </div>
