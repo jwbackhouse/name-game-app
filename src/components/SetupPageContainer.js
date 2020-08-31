@@ -9,7 +9,6 @@ import { togglePlayerReady } from '../actions/players';
 import { startRemoveName, startAddName } from '../actions/names';
 import selectUsersNames from '../selectors/selectUsersNames';
 
-// TODO - check for duplicate names
 
 export const SetupPageContainer = (props) => {
   const {
@@ -79,8 +78,6 @@ const mapDispatchToProps = (dispatch) => ({
   startRemoveName: (id) => dispatch(startRemoveName(id)),
   startAddName: (name) => dispatch(startAddName(name)),
 });
-
-// export default connect(mapStateToProps, mapDispatchToProps)(SetupPageContainer);
 
 const connectedWithLiveData = compose(
   connect(mapStateToProps, mapDispatchToProps),
