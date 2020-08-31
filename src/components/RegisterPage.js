@@ -12,7 +12,7 @@ const RegisterPage = props => {
     onTeamChange,
   } = props;
   
-  const errorMsg = error && <p className='error'>{error}</p>
+  const errorMsg = error && <p className='error'>{error}</p>;
   
   return (
     <div className='content-container'>
@@ -20,7 +20,7 @@ const RegisterPage = props => {
       <form onSubmit={ onSubmit }>
         <input
           autoFocus
-          className='text-input'
+          className='input'
           placeholder='Name'
           name='username'
           onChange={ onNameChange }

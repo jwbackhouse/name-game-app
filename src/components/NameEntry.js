@@ -27,7 +27,7 @@ export class NameEntry extends React.Component {
       <form onSubmit={ this.onSubmit } >
         <input
           autoFocus
-          className='text-input'
+          className='input'
           disabled={ this.props.disabled }
           placeholder='Your name'
           onChange={ this.onChange }

@@ -1,15 +1,31 @@
-.text-input {
+.input {
   border: 1px solid #CACCCB;
   color: $dark-grey;
   height: 50px;
-  margin-right: $s-size;
   padding: 1rem;
   width: 20rem;
 }
 
-// NOTE: can use @extend to copy properties from another class
 .select {
-  @extend .text-input;
+  @extend .input;
   background: $white;
+  margin-left: $s-size;
   width: 10rem;
+}
+
+.input__group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: $m-size;
+  @media (min-width: $desktop-breakpoint) {
+    flex-direction: row;
+    margin-bottom: $l-size;
+  }
+}
+
+.input__group-item {
+  margin-bottom: $s-size;
+  @media (min-width: $desktop-breakpoint) {
+    margin: 0 $s-size 0 0;
+  }
 }
