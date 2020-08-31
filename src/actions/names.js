@@ -9,20 +9,14 @@ export const addName = (nameObj) => ({
 });
 
 export const startAddName = (name='') => {
-  return (dispatch, getState) => {    // Redux-thunk allows us to return a function, which is called with dispatch
-    const uid = getState().auth.playersUid;
+  return (dispatch, getState) => {
+    const playerUid = getState().auth.uid;
     const nameObj = {
-      uid,
+      playerUid,
       name,
       isGuessed: false
     };
-  
-    return database.ref('names').push(nameObj).then((ref) => {
-      dispatch(addName({
-        id: ref.key,    // .then callback from .push gets called with ref, so can get id from this
-        ...nameObj
-      }));
-    });
+    return database.ref('names').push(nameObj);
   };
 };
 

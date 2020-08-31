@@ -69,7 +69,7 @@ export const SetupPageContainer = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  names: selectUsersNames(state.names.names, state.auth.playersUid),
+  names: selectUsersNames(state.names.names, state.auth.uid),
   auth: state.auth,
   game: state.game,
 });
