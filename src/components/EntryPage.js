@@ -37,8 +37,10 @@ export class EntryPage extends React.Component {
         <div className='box-layout__box'>
           <h1 className='box-layout__title'>The Name Game</h1>
           <p>The online version</p>
-          <button onClick={ () => this.onClick('login', 'signup') } className='button'>Login</button>
-          <button onClick={ () => this.onClick('signup', 'login') } className='button'>Sign up</button>
+          <div className='button-column'>
+            <button onClick={ () => this.onClick('login', 'signup') } className='button__starts-row'>Login</button>
+            <button onClick={ () => this.onClick('signup', 'login') } className='button'>Sign up</button>
+          </div>
           { this.state.login && <LoginForm showPasswordReset={ this.togglePasswordReset }/> }
           { this.state.signup && <SignupForm /> }
           { this.state.passwordReset && <PasswordResetForm showPasswordReset={ this.togglePasswordReset }/> }

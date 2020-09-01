@@ -34,7 +34,7 @@ export class NameEntry extends React.Component {
           value={ this.state.newName }
         />
         <button
-          className='button button--input'
+          className='button__mid-row'
           disabled={ this.props.disabled }
         >Add</button>
         { this.state.error && <p>{ this.state.error }</p> }

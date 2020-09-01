@@ -17,27 +17,29 @@ const RegisterPage = props => {
   return (
     <div className='content-container'>
       <h1>Sign up here</h1>
-      <form onSubmit={ onSubmit }>
-        <input
-          autoFocus
-          className='input'
-          placeholder='Name'
-          name='username'
-          onChange={ onNameChange }
-          value={ username }
-        />
-        
-        <select
-          className='select'
-          name='team'
-          onChange={ onTeamChange }
-          value={ team }
-        >
-          <option value='A'>Team A</option>
-          <option value='B'>Team B</option>
-        </select>
-        
-        <button className='button button--input'>Go</button>
+      <form className='form' onSubmit={ onSubmit }>
+        <div className='row-container'>
+          <input
+            autoFocus
+            className='input'
+            placeholder='Name'
+            name='username'
+            onChange={ onNameChange }
+            value={ username }
+          />
+          
+          <select
+            className='select'
+            name='team'
+            onChange={ onTeamChange }
+            value={ team }
+          >
+            <option value='A'>Team A</option>
+            <option value='B'>Team B</option>
+          </select>
+          
+          <button className='button button--no-margin'>Go</button>
+        </div>
         
         { errorMsg }
         

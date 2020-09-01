@@ -6,7 +6,7 @@ export const EndPage = (props) => {
       <h1>{ props.message }</h1>
       <p>Team A scored { props.teamAScore }</p>
       <p>Team B scored { props.teamBScore }</p>
-      <button onClick={ props.onClick }>Play again</button>
+      <button className='button' onClick={ props.onClick }>Play again</button>
     </div>
   );
 };

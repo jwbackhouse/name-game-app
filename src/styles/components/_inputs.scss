@@ -1,8 +1,8 @@
 .input {
   border: 1px solid #CACCCB;
+  border-radius: 0.25rem;
   color: $dark-grey;
   height: 50px;
-  margin-bottom: $s-size;
   padding: 1rem;
   width: 20rem;
 }
@@ -10,7 +10,8 @@
 .select {
   @extend .input;
   background: $white;
-  margin-left: $s-size;
+  border-radius: 0.25rem;
+  margin: 0 $s-size;
   width: 10rem;
 }
 

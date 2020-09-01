@@ -5,7 +5,7 @@ export const NamesList = ({ names, onDeleteName }) => {
     return names.map(name =>
       <div key={ name.id } className='list__names'>
         <p className='list__names-item'>{ name.name } </p>
-        <button className = 'button button--delete' onClick={ () => onDeleteName(name.id) }>
+        <button className = 'button button__circular' onClick={ () => onDeleteName(name.id) }>
           x
         </button>
       </div>

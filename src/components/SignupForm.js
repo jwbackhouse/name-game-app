@@ -73,7 +73,7 @@ export class SignupFormBase extends React.Component {
           placeholder='Confirm password'
           type='password'
         />
-        <button type='submit' disabled={ isInvalid }>
+        <button className='button button--hero' type='submit' disabled={ isInvalid }>
           Sign up
         </button>
         

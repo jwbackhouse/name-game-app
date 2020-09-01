@@ -68,7 +68,7 @@ const AdminPage = ({ initialiseGame, startResetGame, game, history }) => {
   };
   
   const pageContent = (
-    <div>
+    <div className='content-container'>
       <h1>Game settings</h1>
       <form onSubmit={ onSubmit }>
         <label>Number of passes allowed
@@ -98,13 +98,13 @@ const AdminPage = ({ initialiseGame, startResetGame, game, history }) => {
             type='number'
           />
         </label>
-        <button type='submit'>
+        <button className='button button--hero' type='submit'>
           Save
         </button>
       </form>
       { submitMsg && <p>{ submitMsg }</p> }
       <br />
-      <button onClick={ onReset }>
+      <button className='button button--background' onClick={ onReset }>
         Reset the game
       </button>
       <br />

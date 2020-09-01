@@ -57,7 +57,7 @@ export const SetupPageContainer = (props) => {
           onAddName={ onAddName }
           disabled={ names.length === numberNames }
         />
-        { names.length === numberNames && <button className='button' onClick={ onClick }>Go</button> }
+        { names.length === numberNames && <button className='button button--hero' onClick={ onClick }>Go</button> }
       </div>
       <NamesList
         names={ names }

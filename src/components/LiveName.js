@@ -13,11 +13,13 @@ export const LiveName = ({ index, names, pass, guess, viewPassedNames, allowPass
       { prevPassedMsg }
       <p>{ names[index].name }</p>
       <button
+        className='button__starts-row button--hero'
         onClick={ () => guess('guess') }
       >
-        Guessed correctly
+        Got it!
       </button>
       <button
+        className='button'
         onClick={ () => pass('pass') }
         disabled={ !allowPass && !viewPassedNames}
       >

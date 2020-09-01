@@ -62,7 +62,7 @@ export class LoginFormBase extends React.Component {
           placeholder='Password'
           type='password'
         />
-        <button type='submit' disabled={ isInvalid }>
+        <button className='button button--hero' type='submit' disabled={ isInvalid }>
           Login
         </button>
         

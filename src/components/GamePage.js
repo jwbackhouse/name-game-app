@@ -53,7 +53,7 @@ export const GamePage = props => {
     guess = (
       <div>
         <p>All finished</p>
-        <button onClick={onFinished}>To the scores</button>
+        <button className='button button--hero' onClick={onFinished}>To the scores</button>
       </div>
     )
   }
