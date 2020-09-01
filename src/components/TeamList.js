@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 export const TeamList = ({ players, team }) => {
   let list;
-  const teamRoster = players.players.filter(player => player.team === team);
+  const teamRoster = players.data.filter(player => player.team === team);
   
   // Render loading message whilst db call runs
   if (teamRoster.length === 0 && !players.isLoading) {

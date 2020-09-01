@@ -15,7 +15,7 @@ export class StartPage extends React.Component {
   }
 
   componentDidMount() {
-    this.choosePlayer(this.props.players.players);
+    this.choosePlayer(this.props.players.data);
   }
 
   componentDidUpdate = (prevProps) => {
@@ -27,8 +27,8 @@ export class StartPage extends React.Component {
     }
 
     // Choose new player if player data has changed
-    if (prevProps.players.players !== players.players) {
-      this.choosePlayer(players.players);
+    if (prevProps.players.data !== players.data) {
+      this.choosePlayer(players.data);
     }
   }
 

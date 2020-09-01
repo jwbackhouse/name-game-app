@@ -29,7 +29,7 @@ export const SetupPageContainer = (props) => {
   };
   
   const onClick = () => {
-    togglePlayerReady(auth.uid, auth.playersUid);
+    togglePlayerReady(auth.uid, auth.firebaseUID);
     history.push('/start');
   };
 

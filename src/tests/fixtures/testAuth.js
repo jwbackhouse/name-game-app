@@ -1,6 +1,6 @@
 export const auth = {
   uid: 'abc1',
-  playersUid: 1234,
+  firebaseUID: 1234,
   username: 'Joe',
   error: '',
   passwordResetError: ''
@@ -14,7 +14,7 @@ export const authWithError = {
 
 export const blankAuth = {
   uid: '',
-  playersUid: '',
+  firebaseUID: '',
   username: '',
   error: '',
   passwordResetError: ''
