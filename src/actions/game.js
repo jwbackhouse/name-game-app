@@ -22,7 +22,7 @@ export const initialiseGame = () => {
       endGame: false,
       numPasses: 3,
       numNames: 5,
-      timerLength: 60000,
+      timerLength: 60,
     });
   };
 };
@@ -220,5 +220,6 @@ export const startResetGame = () => {
     dispatch(resetNames());
     dispatch(resetPlayers());
     dispatch(resetGame());
+
   }
 }
