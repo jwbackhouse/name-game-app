@@ -1,7 +1,7 @@
 // *** NAMES REDUCER ***
 
 const initialState = {
-  names: [],
+  data: [],
   isLoading: false,
   error: ''
 };
@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        names: action.payload
+        data: action.payload
       }
     case 'GET_NAMES_FAILURE':
       return {
@@ -29,12 +29,12 @@ export default (state = initialState, action) => {
     case 'ADD_NAME':
       return {
         ...state,
-        names: [...state.names, action.nameObj]
+        data: [...state.data, action.nameObj]
       }
     case 'REMOVE_NAME':
       return {
         ...state,
-        names: state.names.filter(name => name.id !== action.id)
+        data: state.data.filter(name => name.id !== action.id)
       }
     case 'RESET_NAMES':
       return initialState
