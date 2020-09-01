@@ -106,3 +106,20 @@
   display: inline-block;
   width: 35%;
 }
+
+// Header buttons
+.button__header {
+  @extend .button;
+  background: $dark-grey;
+  border: 1px solid $light-grey;
+  color: $light-grey;
+  font-size: $font-small;
+  font-weight: 100;
+  margin-left: $xs-size;
+  padding: $xxs-size $xs-size;
+  &:hover, &:focus {
+    background: $white;
+    border: 1px solid $dark-grey;
+    color: $dark-grey;
+  }
+}
