@@ -15,7 +15,7 @@ body, input, select, button {
   line-height: 2;
 }
 
-h1, h2, h3 {
+h1, h2 {
   font-family: Playfair Display, Verdana, Sans-Serif;
   font-weight: 900;
   letter-spacing: 0;
@@ -35,7 +35,12 @@ h2 {
 }
 
 h3 {
+  font-family: Fauna One, Garamond, sans-serif;
   font-size: 0.875rem;
+  font-style: uppercase;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 2;
 }
 
 a {

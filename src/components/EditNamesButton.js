@@ -11,7 +11,7 @@ export const EditNamesButtonBase = props => {
   };
   
   return (
-    <button onClick={ onTogglePlayerReady }>
+    <button className='button button--background' onClick={ onTogglePlayerReady }>
       Edit your names
     </button>
   );

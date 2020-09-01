@@ -9,7 +9,9 @@ export const StartMessage = ({ thisUserPlaying, playingNow, onClick, errorMsg })
       <div>
         <p>You're up!</p>
         <p>Once everyone has joined the game, click the button to start your turn...</p>
-        <button onClick={ onClick }>Let's play</button>
+        <button className='button button--hero' onClick={ onClick }>
+          Let's play
+        </button>
       </div>
     )
     

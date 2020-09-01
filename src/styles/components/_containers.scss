@@ -3,3 +3,24 @@
   max-width: 1000px;
   padding: 0 $m-size;
 }
+
+.column-container {
+  display: flex;
+}
+
+.column__left {
+  display: block;
+  padding-right: $m-size;
+  width: 70%;
+}
+
+.column__right {
+  background-color: $light-grey;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px $dark-grey;
+  display: block;
+  font-size: $font-small;
+  margin-left: $s-size;
+  padding: $xs-size $s-size;
+  width: 25%;
+}

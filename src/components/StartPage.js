@@ -71,20 +71,25 @@ export class StartPage extends React.Component {
 
     return (
       <div className='content-container'>
-        <h1>Ready to go?</h1>
-        <EditNamesButton />
-        <h3>Team A</h3>
-        <TeamList players={ players } team='A' />
-        <br />
-        <h3>Team B</h3>
-        <TeamList players={ players } team='B' />
-        <br />
-        <StartMessage
-          thisUserPlaying={ thisUserPlaying }
-          playingNow={ game.playingNow }
-          errorMsg={ error }
-          onClick={ this.onClick }
-        />
+        <h1>Ready to play?</h1>
+        <div className='column-container'>
+          <div className='column__left'>
+            <StartMessage
+              thisUserPlaying={ thisUserPlaying }
+              playingNow={ game.playingNow }
+              errorMsg={ error }
+              onClick={ this.onClick }
+            />
+            <EditNamesButton />
+          </div>
+          <div className='column__right'>
+            <h3>The teams</h3>
+            <p className='list__header'>Team A</p>
+            <TeamList players={ players } team='A' />
+            <p className='list__header'>Team B</p>
+            <TeamList players={ players } team='B' />
+          </div>
+        </div>
       </div>
     );
   }
