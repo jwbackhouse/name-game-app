@@ -30,16 +30,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         names: [...state.names, action.nameObj]
-      };
+      }
     case 'REMOVE_NAME':
       return {
         ...state,
         names: state.names.filter(name => name.id !== action.id)
       }
-    // case 'SET_EXPENSES':
-    //   return action.expenses;   // Overwrites all existing expenses
-    case 'REMOVE_ALL_NAMES':
-      return state.names = [];
+    case 'RESET_NAMES':
+      return state.names = []
     default:
       return state;
   }

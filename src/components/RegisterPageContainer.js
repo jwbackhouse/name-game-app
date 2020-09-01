@@ -7,6 +7,7 @@ import { updateDisplayName, startAddUserDetails } from '../actions/auth';
 
 
 export const RegisterPageContainer = (props) => {
+  console.log('RegisterPageContainer here');
   const {
     players,
     auth,
@@ -25,9 +26,10 @@ export const RegisterPageContainer = (props) => {
 
   // Redirect to /setup if already registered
   useEffect(() => {
-    const alreadyRegistered = players.players.some(player => player.uid === auth.uid);
-    if (alreadyRegistered) history.push('/setup');
-  }, [players.players]);
+    const alreadyRegistered = players.data.some(player => player.uid === auth.uid);
+    console.log('players.data', players.data);
+    // if (alreadyRegistered) history.push('/setup');
+  }, [players.data]);
   
   const onSubmit = (e) => {
     e.preventDefault();

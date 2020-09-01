@@ -1,8 +1,8 @@
 // *** GAME ACTION CREATORS ***
 
 import database from '../firebase/firebase';
-import { getPlayersBegin, getPlayersSuccess, getPlayersFailure  } from './players';
-import { addName, getNamesBegin, getNamesSuccess, getNamesFailure  } from './names';
+import { getPlayersBegin, getPlayersSuccess, getPlayersFailure, resetPlayers  } from './players';
+import { addName, getNamesBegin, getNamesSuccess, getNamesFailure, resetNames } from './names';
 import { addUserDetails } from './auth';
 
 
@@ -47,7 +47,7 @@ export const fetchData = () => {
         // Pass this player's existing data to the auth state object
         if (playerData.uid === getState().auth.uid) {
           dispatch(addUserDetails({
-            playersUid: childSnapshot.key,
+            firebaseUID: childSnapshot.key,
             ...playerData,
           }));
         };
@@ -214,3 +214,11 @@ export const endGame = (uid) => {
 export const resetGame = () => ({
   type: 'RESET_GAME'
 });
+
+export const startResetGame = () => {
+  return (dispatch, getState) => {
+    dispatch(resetNames());
+    dispatch(resetPlayers());
+    dispatch(resetGame());
+  }
+}

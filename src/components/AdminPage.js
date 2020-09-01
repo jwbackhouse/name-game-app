@@ -4,11 +4,10 @@ import { compose } from 'redux';
 import { Link, useHistory } from 'react-router-dom';
 import database from '../firebase/firebase';
 import withLiveData from '../helpers/withLiveData';
-import { resetGame, initialiseGame } from '../actions/game';
-import { removeAllNames } from '../actions/names';
+import { startResetGame, initialiseGame } from '../actions/game';
 
 
-const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history }) => {
+const AdminPage = ({ initialiseGame, startResetGame, game, history }) => {
   const [submitMsg, setSubmitMsg] = useState('');
   
   // Number of passes allowed per player
@@ -45,11 +44,10 @@ const AdminPage = ({ initialiseGame, removeAllNames, resetGame, game, history })
     if (confirm) {
       database.ref().remove()
         .then(() => {
+          startResetGame();
           initialiseGame();
           setSubmitMsg('Data successfully reset.');
         });
-      removeAllNames();
-      resetGame();
     }
   }
   
@@ -125,8 +123,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  removeAllNames: () => dispatch(removeAllNames()),
-  resetGame: () => dispatch(resetGame()),
+  startResetGame: () => dispatch(startResetGame()),
   initialiseGame: () => dispatch(initialiseGame())
 });
 

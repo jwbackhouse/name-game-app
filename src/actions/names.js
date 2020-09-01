@@ -36,8 +36,8 @@ export const startRemoveName = (id) => {
 
 
 // Remove all names
-export const removeAllNames = () => ({
-  type: 'REMOVE_ALL_NAMES'
+export const resetNames = () => ({
+  type: 'RESET_NAMES'
 });
 
 

@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import database from '../firebase/firebase';
 import EndPage from './EndPage';
-import { resetGame, initialiseGame, fetchScores } from '../actions/game';
-import { removeAllNames } from '../actions/names';
+import { startResetGame, initialiseGame, fetchScores } from '../actions/game';
 
 
 export class EndPageContainer extends React.Component {
@@ -17,19 +16,17 @@ export class EndPageContainer extends React.Component {
   }
     
   onClick = () => {
-    const { initialiseGame, removeAllNames, resetGame, history } = this.props;
-    
+    const { initialiseGame, removeAllNames, startResetGame, history } = this.props;
     database.ref().remove()
-      .then(() => initialiseGame());
-    removeAllNames();
-    resetGame();
-    
-    history.push('/');
+      .then(() => {
+        startResetGame();
+        initialiseGame();
+        history.push('/');
+      });
   }
   
   render = () => {
     const { teamAScore, teamBScore } = this.props.game;
-    
     let message;
     if (teamAScore > teamBScore) {
       message = 'Team A has it!';
@@ -54,12 +51,13 @@ export class EndPageContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   game: state.game,
+  players: state.players,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchScores: () => dispatch(fetchScores()),
   removeAllNames: () => dispatch(removeAllNames()),
-  resetGame: () => dispatch(resetGame()),
+  startResetGame: () => dispatch(startResetGame()),
   initialiseGame: () => dispatch(initialiseGame())
 });
 

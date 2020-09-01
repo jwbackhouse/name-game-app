@@ -39,8 +39,8 @@ export const getPlayersFailure = error => ({
 
 
 // Remove all players
-export const removeAllPlayers = () => ({
-  type: 'REMOVE_ALL_PLAYERS'
+export const resetPlayers = () => ({
+  type: 'RESET_PLAYERS'
 });
 
 

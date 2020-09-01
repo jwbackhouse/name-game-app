@@ -28,15 +28,15 @@ export default (state = initialState, action) => {
       return {
         ...state,
         data: [...state.data, action.player]
-      };
-    case 'REMOVE_ALL_PLAYERS':
-      return state.data = [];
+      }
+    case 'RESET_PLAYERS':
+      return initialState
     case 'UPDATE_PLAYERS':
       return {
         ...state,
         data: action.payload
       }
     default:
-      return state;
+      return state
   }
 };
