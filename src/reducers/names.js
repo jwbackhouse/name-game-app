@@ -37,7 +37,7 @@ export default (state = initialState, action) => {
         names: state.names.filter(name => name.id !== action.id)
       }
     case 'RESET_NAMES':
-      return state.names = []
+      return initialState
     default:
       return state;
   }
