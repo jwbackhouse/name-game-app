@@ -3,9 +3,9 @@
   flex-direction: column;
   margin-top: $xs-size;
   
-  >* {
-    margin-bottom: $xs-size;  // NOTE: select all direct children
-    width: 100%;
+  >* {  // NOTE: select all direct children
+    margin: 0 auto $xs-size auto;
+    width: calc(80% + #{$s-size});
   }
   
   >.button {

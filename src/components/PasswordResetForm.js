@@ -41,15 +41,16 @@ export class PasswordResetFormBase extends React.Component {
     let form;
     if (!message) {
       form = (
-        <form onSubmit={ this.onSubmit }>
+        <form className='form' onSubmit={ this.onSubmit }>
           <input
+            className='input'
             name='email'
             value={ this.state.email }
             onChange={ this.onChange }
             placeholder='Email'
             type='text'
           />
-          <button type='submit' disabled={ isInvalid }>
+          <button className='button button--hero' type='submit' disabled={ isInvalid }>
             Go
           </button>
         </form>
@@ -58,7 +59,7 @@ export class PasswordResetFormBase extends React.Component {
     
     return (
       <div>
-        <p>Reset your password</p>
+        <p><b>Reset your password</b></p>
         { form }
         { alertMsg }
       </div>
