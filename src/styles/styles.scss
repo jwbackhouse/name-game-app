@@ -2,14 +2,11 @@
 @import './base/settings';
 @import './base/base';
 @import './components/box-layout';
-@import './components/button';
+@import './components/buttons';
 @import './components/header';
 @import './components/containers';
-@import './components/page-header';
-@import './components/inputs';
-@import './components/form';
+@import './components/forms';
 @import './components/lists';
 @import './components/visibility';
 @import './components/loader';
-@import './components/react-dates-override';
-@import './components/error';
+@import './components/messages';
