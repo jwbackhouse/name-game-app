@@ -63,31 +63,26 @@ export const GamePage = props => {
   return (
     <div className='content-container'>
       <h1>You're up!</h1>
+
+      <div className='guess-block'>
+        { guess }
+        <button className='button button--text-link' onClick={ toggleViewPassedNames }>
+          { showPassedNamesButton ? passedNamesText : String.fromCharCode(160) }
+        </button>
+      </div>
       
-      <div className='gamePage-container'>
-        <div className='guess-block'>
-          { guess }
-          <button className='button button--text-link' onClick={ toggleViewPassedNames }>
-            { showPassedNamesButton ? passedNamesText : String.fromCharCode(160) }
-          </button>
+      <div className='timer-block'>
+        <Countdown
+          onFinished={onFinished}
+        />
+        <div className='timer-block__score timer-block--borders'>
+          <h3>Score</h3>
+          <p>{score}</p>
         </div>
-        
-        <div className='timing-block'>
-          <Countdown
-            onFinished={onFinished}
-          />
-          <div className='timing-block__container'>
-            <div className='timing-block__score'>
-              <h3>Score</h3>
-              <p>{score}</p>
-            </div>
-            <div className='timing-block__score'>
-              <h3>Number passed</h3>
-              <p>{passedNames.length}</p>
-            </div>
-          </div>
+        <div className='timer-block__score'>
+          <h3>Names passed</h3>
+          <p>{passedNames.length}</p>
         </div>
-        
       </div>
     </div>
   )

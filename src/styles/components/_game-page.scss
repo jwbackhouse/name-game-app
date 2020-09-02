@@ -1,58 +1,34 @@
-.gamePage-container {
-  display: flex;
-}
-
-.timing-block {
+.timer-block {
   background: $light-grey;
+  color: $dark-grey;
   display: flex;
-  flex-direction: column;
-  width: 20rem;
-}
-
-.timing-block__timer {
-  background: $dark-grey;
-  border: 2px solid $dark-grey;
-  border-bottom: none;
-  color: $white;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
-  text-align: center;
-  > p {
-    align-items: center;
-    background: $light-grey;
-    color: $green;
-    display: flex;
-    font-size: $font-medium;
-    height: 100%;
-    justify-content: center;
-    margin: 0;
-  }
-}
-
-.timing-block__container {
-  background: $dark-grey;
-  border: 2px solid $dark-grey;
-  color: $white;
-  display: flex;
+  font-weight: 900;
   justify-content: space-between;
-  & :first-child {
-    border-right: 1px solid $dark-grey;
-  }
+  padding: $xs-size 0 0 0;
 }
 
-.timing-block__score {
+.timer-block__timer {
   text-align: center;
-  width: 50%;
-  > p {
-    background: $light-grey;
-    color: $dark-grey;
-    font-weight: 900;
-    margin: 0;
-    padding: $xs-size 0;
-    width: 100%;
-  }
+  width: 33%;
+  margin: 0;
+}
+
+.timer-block__score {
+  text-align: center;
+  width: 33%;
+}
+
+.timer-block--background {
+  color: $dark-grey;
+}
+
+.timer-block--highlight {
+  color: $green;
+}
+
+.timer-block--borders {
+  border-left: 3px solid $white;
+  border-right: 3px solid $white;
 }
 
 .guess-block {
@@ -65,7 +41,6 @@
   flex-direction: column;
   justify-content: center;
   padding: $xs-size;
-  width: 20rem;
 }
 
 .guess-block__msg {

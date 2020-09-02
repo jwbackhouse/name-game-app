@@ -71,11 +71,11 @@ export class Countdown extends React.Component {
     const { timerLength, timerTime, message } = this.state;
     const timeLeft = Math.max(0, timerLength - timerTime);
     return (
-      <div className='timing-block__timer'>
+      <div className='timer-block__timer'>
         <h3>Time left</h3>
         { message
           ? <p className='timing-block--background'>{ message }</p>
-          : <p className='timing-block--hero'>{ moment(timeLeft).format('m:ss') }</p>
+          : <p className='timing-block--highlight'>{ moment(timeLeft).format('m:ss') }</p>
         }
       </div>
     )
