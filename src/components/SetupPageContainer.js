@@ -52,12 +52,12 @@ export const SetupPageContainer = (props) => {
         remainingNames={ remainingNames() }
         word={ word }
       />
-      <div className='form-container'>
+      <div className='form__container'>
         <NameEntry
           onAddName={ onAddName }
           disabled={ names.length === numberNames }
         />
-        { names.length === numberNames && <button className='button button--hero' onClick={ onClick }>Go</button> }
+        { names.length === numberNames && <button className='button button--hero button--no-margin' onClick={ onClick }>Go</button> }
       </div>
       <NamesList
         names={ names }

@@ -25,18 +25,20 @@ export class NameEntry extends React.Component {
   render() {
     return (
       <form onSubmit={ this.onSubmit } >
-        <input
-          autoFocus
-          className='input'
-          disabled={ this.props.disabled }
-          placeholder='Your name'
-          onChange={ this.onChange }
-          value={ this.state.newName }
-        />
-        <button
-          className='button__mid-row'
-          disabled={ this.props.disabled }
-        >Add</button>
+        <div className='form__container'>
+          <input
+            autoFocus
+            className='input'
+            disabled={ this.props.disabled }
+            placeholder='Your name'
+            onChange={ this.onChange }
+            value={ this.state.newName }
+          />
+          <button
+            className='button__mid-row button--no-margin'
+            disabled={ this.props.disabled }
+          >Add</button>
+        </div>
         { this.state.error && <p>{ this.state.error }</p> }
       </form>
     )

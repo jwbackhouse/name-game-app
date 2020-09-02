@@ -18,7 +18,7 @@ const RegisterPage = props => {
     <div className='content-container'>
       <h1>Sign up here</h1>
       <form onSubmit={ onSubmit }>
-        <div className='row-container'>
+        <div className='form__container'>
           <input
             autoFocus
             className='input'
