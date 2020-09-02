@@ -36,26 +36,18 @@
   width: 10rem;
 }
 
-.input__group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: $m-size;
-  @media (min-width: $desktop-breakpoint) {
-    flex-direction: row;
-    margin-bottom: $l-size;
-  }
-}
-
-.input__group-item {
-  margin-bottom: $s-size;
-  @media (min-width: $desktop-breakpoint) {
-    margin: 0 $s-size 0 0;
-  }
-}
-
   
 // Mobile screens
 @media all and (max-width: $mobile-breakpoint) {
+  .form__container {
+    align-items: flex-start;
+    flex-direction: column;
+    
+    > button {
+      margin: $xs-size 0;
+    }
+  }
+  
   .select {
     margin: $xs-size 0;
   }
