@@ -58,3 +58,17 @@
   }
 }
 
+@media all and (max-width: $tablet-breakpoint) {
+  .column-container {
+    flex-direction: column;
+  }
+  
+  .column__left {
+    width: 100%;
+  }
+  
+  .column__right {
+    width: 60%;
+    margin: $s-size 0 0 0;
+  }
+}

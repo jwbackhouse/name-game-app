@@ -100,6 +100,12 @@
   }
 }
 
+// Single column layout for login transform-style:
+.button--column {
+  margin: $xs-size auto;
+  width: 40%;
+}
+
 // 'X' for delete buttons
 .button__circular {
   background: $green;

@@ -1,17 +1,7 @@
-.form {
+.form__column {
   display: flex;
   flex-direction: column;
   margin-top: $xs-size;
-  
-  > input {
-    margin: 0 auto $xs-size auto;
-    width: calc(80% + #{$s-size});
-  }
-  
-  > .button {
-    margin: $xs-size auto;
-    width: 40%;
-  }
 }
 
 .form__container {
@@ -26,6 +16,11 @@
   height: 50px;
   padding: 1rem;
   width: 20rem;
+}
+
+.input--column {
+  margin: 0 auto $xs-size auto;
+  width: calc(80% + #{$s-size});
 }
 
 .select {

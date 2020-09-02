@@ -46,7 +46,7 @@ export class SignupFormBase extends React.Component {
     return (
       <form className='form' onSubmit={ this.onSubmit }>
         <input
-          className='input'
+          className='input input--column'
           name='username'
           value={ username }
           onChange={ this.onChange }
@@ -54,7 +54,7 @@ export class SignupFormBase extends React.Component {
           type='text'
         />
         <input
-          className='input'
+          className='input input--column'
           name='email'
           value={ email }
           onChange={ this.onChange }
@@ -62,7 +62,7 @@ export class SignupFormBase extends React.Component {
           type='text'
         />
         <input
-          className='input'
+          className='input input--column'
           name='passwordOne'
           value={ passwordOne }
           onChange={ this.onChange }
@@ -70,14 +70,14 @@ export class SignupFormBase extends React.Component {
           type='password'
         />
         <input
-          className='input'
+          className='input input--column'
           name='passwordTwo'
           value={ passwordTwo }
           onChange={ this.onChange }
           placeholder='Confirm password'
           type='password'
         />
-        <button className='button button--hero' type='submit' disabled={ isInvalid }>
+        <button className='button button--column button--hero' type='submit' disabled={ isInvalid }>
           Go
         </button>
         
