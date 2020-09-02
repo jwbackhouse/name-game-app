@@ -4,7 +4,7 @@
 
 .header__title {
   color: $white;
-  font-size: 5rem;
+  font-size: $font-xxlarge;
   font-style: unset;
   margin: $xs-size 0 $s-size 0;
 }
@@ -20,4 +20,12 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
+}
+
+
+// Smaller screens
+@media all and (max-width: $desktop-breakpoint) {
+  .header__title {
+    font-size: $font-xlarge;
+  }
 }

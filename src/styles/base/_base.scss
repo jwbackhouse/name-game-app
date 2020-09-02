@@ -25,14 +25,14 @@ h1, h2 {
 
 h1 {
   color: $pink;
-  font-size: 2rem;
+  font-size: $font-large;
   font-style: italic;
   margin-bottom: $m-size;
 }
 
 h2 {
   color: $dark-grey;
-  font-size: 1.5rem;
+  font-size: $font-medium;
 }
 
 h3 {
@@ -52,4 +52,16 @@ a {
 
 .is-active {
   font-weight: bold;
+}
+
+
+// Smaller screens
+@media all and (max-width: $desktop-breakpoint) {
+  h1 {
+    font-size: $font-medium;
+  }
+  
+  h2 {
+    font-size: $font-small;
+  }
 }
