@@ -17,7 +17,7 @@ const RegisterPage = props => {
   return (
     <div className='content-container'>
       <h1>Sign up here</h1>
-      <form className='form' onSubmit={ onSubmit }>
+      <form onSubmit={ onSubmit }>
         <div className='row-container'>
           <input
             autoFocus
@@ -40,17 +40,17 @@ const RegisterPage = props => {
           
           <button className='button button--no-margin'>Go</button>
         </div>
-        
-        { errorMsg }
-        
-        <div>
-          <p className='list__header'>Already on Team A:</p>
-          <TeamList players={ players } team='A' />
-          
-          <p className='list__header'>Already on Team B:</p>
-          <TeamList players={ players } team='B' />
-        </div>
       </form>
+
+      { errorMsg }
+
+      <div className='block'>
+        <p className='list__header'>Already on Team A:</p>
+        <TeamList players={ players } team='A' />
+        
+        <p className='list__header'>Already on Team B:</p>
+        <TeamList players={ players } team='B' />
+      </div>
     </div>
   )
 }
