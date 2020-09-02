@@ -26,10 +26,28 @@
   width: 25%;
 }
 
+.column__single {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 70%;
+}
+
 .row-container {
   display: flex;
 }
 
 .block {
   padding: $s-size 0;
+}
+
+// Equal-width buttons in a row
+.button-column {
+  display: flex;
+  justify-content: center;
+}
+.button-column button {
+  display: flex;
+  justify-content: center;
+  width: 40%;
 }

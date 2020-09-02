@@ -1,11 +1,16 @@
 .form {
   display: flex;
   flex-direction: column;
-  margin-top: $m-size;
+  margin-top: $xs-size;
   
-  // NOTE: select all direct children
   >* {
-    margin-bottom: $m-size;
+    margin-bottom: $xs-size;  // NOTE: select all direct children
+    width: 100%;
+  }
+  
+  >.button {
+    margin: $xs-size auto;
+    width: 40%;
   }
 }
 

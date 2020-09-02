@@ -47,8 +47,9 @@ export class LoginFormBase extends React.Component {
     }
     
     return (
-      <form onSubmit={ this.onSubmit }>
+      <form className='form' onSubmit={ this.onSubmit }>
         <input
+          className='input'
           name='email'
           value={ email }
           onChange={ this.onChange }
@@ -56,6 +57,7 @@ export class LoginFormBase extends React.Component {
           type='text'
         />
         <input
+          className='input'
           name='password'
           value={ password }
           onChange={ this.onChange }
@@ -63,7 +65,7 @@ export class LoginFormBase extends React.Component {
           type='password'
         />
         <button className='button button--hero' type='submit' disabled={ isInvalid }>
-          Login
+          Go
         </button>
         
         { error && <p>Oops. { error.message }</p> }

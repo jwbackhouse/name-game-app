@@ -97,16 +97,6 @@
   }
 }
 
-// Equal-width buttons in a row
-.button-column {
-  display: flex;
-  justify-content: center;
-}
-.button-column button {
-  display: inline-block;
-  width: 35%;
-}
-
 // Header buttons
 .button__header {
   @extend .button;
