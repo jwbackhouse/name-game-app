@@ -57,7 +57,6 @@
 .button--hero {
   background: $pink;
   border: 2px solid $pink;
-  // margin: 0 $s-size;
   &:hover, &:focus {
     background: $white;
     border: 2px solid $pink;
@@ -68,7 +67,6 @@
 .button--background {
   background: $mid-grey;
   border: 2px solid $mid-grey;
-  // margin: 0 $xs-size;
   padding: $xs-size $s-size;
   &:hover, &:focus {
     background: $white;
@@ -80,6 +78,26 @@
 .button--background-last {
   @extend .button--background;
   margin-right: 0;
+}
+
+.button--fixed-width {
+  display: flex;
+  justify-content: center;
+  width: 40%;
+}
+
+.button--text-link {
+  background: none;
+  border: none;
+  font-size: $font-small;
+  margin: 0;
+  min-height: $font-small;
+  padding: 0;
+  &:hover, &:focus {
+    background: inherit;
+    border: none;
+    color: $mid-grey;
+  }
 }
 
 // 'X' for delete buttons

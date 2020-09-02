@@ -64,11 +64,13 @@ export class Countdown extends React.Component {
   render = () => {
     const { timerLength, timerTime, message } = this.state;
     const timeLeft = Math.max(0, timerLength - timerTime);
-    const messageElement = message && message;
     return (
-      <div>
-        <p>{ messageElement }</p>
-        <h3>Time left: {moment(timeLeft).format('m:ss')}</h3>
+      <div className='timing-block__timer'>
+        <h3>Time left</h3>
+        { message
+          ? <p className='timing-block--background'>{ message }</p>
+          : <p className='timing-block--hero'>{ moment(timeLeft).format('m:ss') }</p>
+        }
       </div>
     )
   }

@@ -51,36 +51,43 @@ export const GamePage = props => {
   // No names left
   } else {
     guess = (
-      <div>
-        <p>All finished</p>
-        <button className='button button--hero' onClick={onFinished}>To the scores</button>
-      </div>
+      <>
+        <p className='guess-block__msg guess-block--hero'>All finished</p>
+        <button className='button button--hero button--fixed-width' onClick={onFinished}>To the scores</button>
+      </>
     )
   }
+  
+  const passedNamesText = toggleViewPassedNames ? 'Return to unguessed names >>' : 'Re-try your passed names >>'
 
   return (
     <div className='content-container'>
-      <div className='timer-block'>
-        <Countdown
-          onFinished={onFinished}
-          className='timer-block__timer'
-        />
-        <div className='scores-block'>
-          <p>Score: {score}</p>
-          <p>Passed: {passedNames.length}</p>
+      <h1>You're up!</h1>
+      
+      <div className='gamePage-container'>
+        <div className='guess-block'>
+          { guess }
+          <button className='button button--text-link' onClick={ toggleViewPassedNames }>
+            { showPassedNamesButton ? passedNamesText : String.fromCharCode(160) }
+          </button>
         </div>
-      </div>
-      <div className='word-block'>
-        <h4>Your word:</h4>
-        <span className='word-block__word'>
-          {guess}
-        </span>
-        { showPassedNamesButton &&
-          <PassedNamesButton
-            toggleViewPassedNames={ toggleViewPassedNames }
-            viewPassedNames={ viewPassedNames }
+        
+        <div className='timing-block'>
+          <Countdown
+            onFinished={onFinished}
           />
-        }
+          <div className='timing-block__container'>
+            <div className='timing-block__score'>
+              <h3>Score</h3>
+              <p>{score}</p>
+            </div>
+            <div className='timing-block__score'>
+              <h3>Number passed</h3>
+              <p>{passedNames.length}</p>
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
   )
