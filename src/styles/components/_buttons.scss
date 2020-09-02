@@ -1,0 +1,115 @@
+.button {
+  background: $green;
+  border: 2px solid $green;
+  border-radius: 0.25rem;
+  color: $white;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  margin: $xs-size 0;
+  padding: 0.5rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background 250ms ease-in-out,
+              transform 150ms ease;
+  white-space: nowrap;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  
+  &:hover, &:focus {
+    background: $white;
+    border: 2px solid $green;
+    color: $green;
+  }
+
+  &:focus {
+    outline: 1px solid $white;
+    outline-offset: -4px;
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+  
+  &:disabled {
+    background: $white;
+    border: 2px solid $light-grey;
+    color: $mid-grey;
+  }
+}
+
+.button__starts-row {
+  @extend .button;
+  margin-right: $s-size;
+}
+
+.button__mid-row {
+  @extend .button;
+  margin-left: $xs-size;
+  margin-right: $xs-size;
+}
+
+.button--no-margin {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.button--hero {
+  background: $pink;
+  border: 2px solid $pink;
+  // margin: 0 $s-size;
+  &:hover, &:focus {
+    background: $white;
+    border: 2px solid $pink;
+    color: $pink;
+  }
+}
+
+.button--background {
+  background: $mid-grey;
+  border: 2px solid $mid-grey;
+  // margin: 0 $xs-size;
+  padding: $xs-size $s-size;
+  &:hover, &:focus {
+    background: $white;
+    border: 2px solid $mid-grey;
+    color: $dark-grey;
+  }
+}
+
+.button--background-last {
+  @extend .button--background;
+  margin-right: 0;
+}
+
+// 'X' for delete buttons
+.button__circular {
+  background: $green;
+  border-radius: 50%;
+  display: inline-block;
+  height: 40px;
+  margin-right: $xs-size;
+  padding: 0.2rem;
+  width: 40px;
+  &:hover, &:focus {
+    background: $white;
+    color: $green;
+  }
+}
+
+// Header buttons
+.button__header {
+  @extend .button;
+  background: $dark-grey;
+  border: 1px solid $light-grey;
+  color: $light-grey;
+  font-size: $font-small;
+  font-weight: 100;
+  margin-left: $xs-size;
+  padding: $xxs-size $xs-size;
+  &:hover, &:focus {
+    background: $white;
+    border: 1px solid $dark-grey;
+    color: $dark-grey;
+  }
+}
