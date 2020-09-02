@@ -6,6 +6,7 @@ import database from '../firebase/firebase';
 export class Countdown extends React.Component {
   state = {
     timerOn: false,
+    timerEnded: false,
     timerTime: 0,
     timerStart: 0,
     timerLength: this.props.game.timerLength * 1000,
@@ -19,6 +20,8 @@ export class Countdown extends React.Component {
       if (startTime) {
         this.setState({ timerStart: startTime, message: '' });
         this.startTimer();
+      } else if (this.state.timerEnded) {
+        this.setState({ message: 'Time\'s up'});
       } else {
         this.setState({ message: 'Hang on a second...' });
       }
@@ -41,7 +44,10 @@ export class Countdown extends React.Component {
         this.setState({ timerTime: Date.now() - this.state.timerStart });
       } else {
         clearInterval(this.timer);
-        this.setState({ timerOn: false });
+        this.setState({
+          timerOn: false,
+          timerEnded: true,
+        });
         this.props.onFinished();
       }
     }, 50);
