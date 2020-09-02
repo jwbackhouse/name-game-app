@@ -29,3 +29,10 @@
     font-size: $font-xlarge;
   }
 }
+  
+// Mobile screens
+@media all and (max-width: $mobile-breakpoint) {
+  .header__links {
+    flex-direction: column;
+  }
+}
