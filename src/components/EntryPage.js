@@ -38,7 +38,7 @@ export class EntryPage extends React.Component {
           <h1 className='box-layout__title'>The Name Game</h1>
           <p>The online version</p>
           <div className='column__single'>
-            <div className='button-column'>
+            <div className='button-container'>
               <button onClick={ () => this.onClick('login', 'signup') } className='button__starts-row'>Login</button>
               <button onClick={ () => this.onClick('signup', 'login') } className='button'>Sign up</button>
             </div>

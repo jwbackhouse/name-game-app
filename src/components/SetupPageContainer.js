@@ -52,7 +52,7 @@ export const SetupPageContainer = (props) => {
         remainingNames={ remainingNames() }
         word={ word }
       />
-      <div className='form__holder'>
+      <div className='form-container'>
         <NameEntry
           onAddName={ onAddName }
           disabled={ names.length === numberNames }

@@ -42,12 +42,18 @@
 }
 
 // Equal-width buttons in a row
-.button-column {
+.button-container {
   display: flex;
   justify-content: center;
+  
+  > button {
+    display: flex;
+    justify-content: center;
+    width: 40%;
+  }
 }
-.button-column button {
+
+.form-container {
+  align-items: baseline;
   display: flex;
-  justify-content: center;
-  width: 40%;
 }
