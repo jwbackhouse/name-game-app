@@ -25,9 +25,9 @@ describe('<TeamList />', () => {
   
   test('Should render message saying "No one yet"', () => {
     const players = {
-      ...testPlayers,
-      players: [],
-      isLoading: false
+      data: [],
+      error: '',
+      isLoading: false,
     };
     const wrapper = shallow(<TeamList players={ players } team='A' />)
     expect(wrapper.text()).toEqual('No one yet');

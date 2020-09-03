@@ -2,6 +2,7 @@
 
 exports[`<EditNamesButton /> Should render EditNamesButton 1`] = `
 <button
+  className="button button--background"
   onClick={[Function]}
 >
   Edit your names

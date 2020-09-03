@@ -21,7 +21,7 @@ exports[`<ChangeoverPage /> Should render ChangeoverPage 1`] = `
     playingNow={
       Object {
         "team": "B",
-        "uid": 1234,
+        "uid": "abc1",
         "userName": "Bob",
       }
     }

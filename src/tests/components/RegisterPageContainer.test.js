@@ -79,7 +79,11 @@ describe('<RegisterPageContainer mounted />', () => {
     });
     wrapper.find('button').simulate('submit');
     expect(wrapper.find('.error').exists()).toEqual(false);
-    expect(startAddUserDetails).toBeCalledWith({ username: value, team: 'A' });
+    expect(startAddUserDetails).toBeCalledWith({
+      username: value,
+      uid: auth.uid,
+      team: 'A',
+    });
     expect(history.push).toBeCalledWith('/setup');
     expect(updateDisplayName).toBeCalledWith(value);
   });

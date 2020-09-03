@@ -1,23 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Countdown /> Should render Countdown with please wait message 1`] = `
-<div>
-  <p>
+<div
+  className="timer-block__timer"
+>
+  <h3>
+    Time left
+  </h3>
+  <p
+    className="timing-block--background"
+  >
     Hang on a second...
   </p>
-  <h3>
-    Time left: 
-    2:00
-  </h3>
 </div>
 `;
 
 exports[`<Countdown /> Should render Countdown with time remaining 1`] = `
-<div>
-  <p />
+<div
+  className="timer-block__timer"
+>
   <h3>
-    Time left: 
-    2:00
+    Time left
   </h3>
+  <p
+    className="timing-block--highlight"
+  >
+    0:55
+  </p>
 </div>
 `;

@@ -5,8 +5,8 @@ exports[`<RegisterPageContainer mounted /> Should render RegisterPageContainer c
   auth={
     Object {
       "error": "",
+      "firebaseUID": 1234,
       "passwordResetError": "",
-      "playersUid": 1234,
       "uid": "abc1",
       "username": "Joe",
     }
@@ -18,9 +18,7 @@ exports[`<RegisterPageContainer mounted /> Should render RegisterPageContainer c
   }
   players={
     Object {
-      "error": false,
-      "isLoading": false,
-      "players": Array [
+      "data": Array [
         Object {
           "team": "A",
           "uid": 1234,
@@ -37,6 +35,8 @@ exports[`<RegisterPageContainer mounted /> Should render RegisterPageContainer c
           "username": "Amy",
         },
       ],
+      "error": false,
+      "isLoading": false,
     }
   }
   startAddUserDetails={[MockFunction]}
@@ -49,9 +49,7 @@ exports[`<RegisterPageContainer mounted /> Should render RegisterPageContainer c
     onTeamChange={[Function]}
     players={
       Object {
-        "error": false,
-        "isLoading": false,
-        "players": Array [
+        "data": Array [
           Object {
             "team": "A",
             "uid": 1234,
@@ -68,6 +66,8 @@ exports[`<RegisterPageContainer mounted /> Should render RegisterPageContainer c
             "username": "Amy",
           },
         ],
+        "error": false,
+        "isLoading": false,
       }
     }
     team="A"
@@ -82,129 +82,135 @@ exports[`<RegisterPageContainer mounted /> Should render RegisterPageContainer c
       <form
         onSubmit={[Function]}
       >
-        <input
-          autoFocus={true}
-          className="text-input"
-          name="username"
-          onChange={[Function]}
-          placeholder="Name"
-          value="Joe"
-        />
-        <select
-          className="select"
-          name="team"
-          onChange={[Function]}
-          value="A"
+        <div
+          className="form__container"
         >
-          <option
+          <input
+            autoFocus={true}
+            className="input"
+            name="username"
+            onChange={[Function]}
+            placeholder="Name"
+            value="Joe"
+          />
+          <select
+            className="select"
+            name="team"
+            onChange={[Function]}
             value="A"
           >
-            Team A
-          </option>
-          <option
-            value="B"
-          >
-            Team B
-          </option>
-        </select>
-        <button
-          className="button button--input"
-        >
-          Go
-        </button>
-        <div>
-          <p
-            className="list-header"
-          >
-            Already on Team A:
-          </p>
-          <TeamList
-            players={
-              Object {
-                "error": false,
-                "isLoading": false,
-                "players": Array [
-                  Object {
-                    "team": "A",
-                    "uid": 1234,
-                    "username": "Bob",
-                  },
-                  Object {
-                    "team": "B",
-                    "uid": 5678,
-                    "username": "Bridget",
-                  },
-                  Object {
-                    "team": "A",
-                    "uid": 9012,
-                    "username": "Amy",
-                  },
-                ],
-              }
-            }
-            team="A"
-          >
-            <ul
-              className="list"
+            <option
+              value="A"
             >
-              <li
-                className="list__item"
-                key="1234"
-              >
-                Bob
-              </li>
-              <li
-                className="list__item"
-                key="9012"
-              >
-                Amy
-              </li>
-            </ul>
-          </TeamList>
-          <p
-            className="list-header"
-          >
-            Already on Team B:
-          </p>
-          <TeamList
-            players={
-              Object {
-                "error": false,
-                "isLoading": false,
-                "players": Array [
-                  Object {
-                    "team": "A",
-                    "uid": 1234,
-                    "username": "Bob",
-                  },
-                  Object {
-                    "team": "B",
-                    "uid": 5678,
-                    "username": "Bridget",
-                  },
-                  Object {
-                    "team": "A",
-                    "uid": 9012,
-                    "username": "Amy",
-                  },
-                ],
-              }
-            }
-            team="B"
-          >
-            <ul
-              className="list"
+              Team A
+            </option>
+            <option
+              value="B"
             >
-              <li
-                className="list__item"
-                key="5678"
-              >
-                Bridget
-              </li>
-            </ul>
-          </TeamList>
+              Team B
+            </option>
+          </select>
+          <button
+            className="button button--no-margin"
+          >
+            Go
+          </button>
         </div>
       </form>
+      <div
+        className="block"
+      >
+        <p
+          className="list__header"
+        >
+          Already on Team A:
+        </p>
+        <TeamList
+          players={
+            Object {
+              "data": Array [
+                Object {
+                  "team": "A",
+                  "uid": 1234,
+                  "username": "Bob",
+                },
+                Object {
+                  "team": "B",
+                  "uid": 5678,
+                  "username": "Bridget",
+                },
+                Object {
+                  "team": "A",
+                  "uid": 9012,
+                  "username": "Amy",
+                },
+              ],
+              "error": false,
+              "isLoading": false,
+            }
+          }
+          team="A"
+        >
+          <ul
+            className="list"
+          >
+            <li
+              className="list__item"
+              key="1234"
+            >
+              Bob
+            </li>
+            <li
+              className="list__item"
+              key="9012"
+            >
+              Amy
+            </li>
+          </ul>
+        </TeamList>
+        <p
+          className="list__header"
+        >
+          Already on Team B:
+        </p>
+        <TeamList
+          players={
+            Object {
+              "data": Array [
+                Object {
+                  "team": "A",
+                  "uid": 1234,
+                  "username": "Bob",
+                },
+                Object {
+                  "team": "B",
+                  "uid": 5678,
+                  "username": "Bridget",
+                },
+                Object {
+                  "team": "A",
+                  "uid": 9012,
+                  "username": "Amy",
+                },
+              ],
+              "error": false,
+              "isLoading": false,
+            }
+          }
+          team="B"
+        >
+          <ul
+            className="list"
+          >
+            <li
+              className="list__item"
+              key="5678"
+            >
+              Bridget
+            </li>
+          </ul>
+        </TeamList>
+      </div>
     </div>
   </RegisterPage>
 </RegisterPageContainer>

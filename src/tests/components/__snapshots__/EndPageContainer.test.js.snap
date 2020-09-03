@@ -20,17 +20,18 @@ exports[`<EndPageContainer mounted /> Should render empty component 1`] = `
       "endGame": false,
       "error": "",
       "isLoading": false,
-      "numPasses": 1,
+      "numNames": 4,
+      "numPasses": 5,
       "playingNow": Object {
         "team": "B",
-        "uid": 1234,
+        "uid": "abc1",
         "userName": "Bob",
       },
       "startTime": undefined,
       "startTurn": false,
       "teamAScore": 4,
       "teamBScore": 2,
-      "timerLength": 30000,
+      "timerLength": 55,
     }
   }
   history={

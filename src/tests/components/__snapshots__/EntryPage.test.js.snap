@@ -15,18 +15,26 @@ exports[`<EntryPage /> Should render EntryPage 1`] = `
     <p>
       The online version
     </p>
-    <button
-      className="button"
-      onClick={[Function]}
+    <div
+      className="column__single"
     >
-      Login
-    </button>
-    <button
-      className="button"
-      onClick={[Function]}
-    >
-      Sign up
-    </button>
+      <div
+        className="button-container"
+      >
+        <button
+          className="button__starts-row button--fixed-percent"
+          onClick={[Function]}
+        >
+          Login
+        </button>
+        <button
+          className="button button--fixed-percent"
+          onClick={[Function]}
+        >
+          Sign up
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 `;

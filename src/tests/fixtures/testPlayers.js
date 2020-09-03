@@ -1,5 +1,5 @@
 export default {
-  players: [{
+  data: [{
     username: 'Bob',
     team: 'A',
     uid: 1234

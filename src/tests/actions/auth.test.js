@@ -1,17 +1,18 @@
-import { login, logout } from '../../actions/auth';
+import { loginSuccess, logoutSuccess } from '../../actions/auth';
+import { auth } from '../fixtures/testAuth.js';
 
-test('Should setup login action object.', () =>{
-  const uid = 'abc123';
-  const action = login(uid);
+test('Should setup loginSuccess action object.', () =>{
+  const action = loginSuccess(auth, auth.username);
   expect(action).toEqual({
-    type:'LOGIN',
-    uid
+    type:'LOGIN_SUCCESS',
+    uid: auth.uid,
+    username: auth.username,
   });
 });
 
 test('Should setup logout action object.', () =>{
-  const action = logout();
+  const action = logoutSuccess();
   expect(action).toEqual({
-    type:'LOGOUT',
+    type:'LOGOUT_SUCCESS',
   });
 });

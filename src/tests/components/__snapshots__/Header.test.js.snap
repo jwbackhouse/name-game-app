@@ -15,16 +15,22 @@ exports[`<Header /> Should render Header correctly 1`] = `
       >
         The Name Game
       </h1>
-      <button
-        onClick={[MockFunction]}
+      <div
+        className="header__links"
       >
-        Sign out
-      </button>
-      <button
-        onClick={[Function]}
-      >
-        Settings
-      </button>
+        <button
+          className="button__header"
+          onClick={[MockFunction]}
+        >
+          Sign out
+        </button>
+        <button
+          className="button__header"
+          onClick={[Function]}
+        >
+          Settings
+        </button>
+      </div>
     </div>
   </div>
 </div>

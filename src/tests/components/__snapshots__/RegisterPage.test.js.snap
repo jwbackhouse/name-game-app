@@ -7,9 +7,7 @@ exports[`<RegisterPage /> mount Should render RegisterPage & child components co
   onTeamChange={[MockFunction]}
   players={
     Object {
-      "error": false,
-      "isLoading": false,
-      "players": Array [
+      "data": Array [
         Object {
           "team": "A",
           "uid": 1234,
@@ -26,6 +24,8 @@ exports[`<RegisterPage /> mount Should render RegisterPage & child components co
           "username": "Amy",
         },
       ],
+      "error": false,
+      "isLoading": false,
     }
   }
   team="A"
@@ -40,129 +40,135 @@ exports[`<RegisterPage /> mount Should render RegisterPage & child components co
     <form
       onSubmit={[MockFunction]}
     >
-      <input
-        autoFocus={true}
-        className="text-input"
-        name="username"
-        onChange={[MockFunction]}
-        placeholder="Name"
-        value="Alex"
-      />
-      <select
-        className="select"
-        name="team"
-        onChange={[MockFunction]}
-        value="A"
+      <div
+        className="form__container"
       >
-        <option
+        <input
+          autoFocus={true}
+          className="input"
+          name="username"
+          onChange={[MockFunction]}
+          placeholder="Name"
+          value="Alex"
+        />
+        <select
+          className="select"
+          name="team"
+          onChange={[MockFunction]}
           value="A"
         >
-          Team A
-        </option>
-        <option
-          value="B"
-        >
-          Team B
-        </option>
-      </select>
-      <button
-        className="button button--input"
-      >
-        Go
-      </button>
-      <div>
-        <p
-          className="list-header"
-        >
-          Already on Team A:
-        </p>
-        <TeamList
-          players={
-            Object {
-              "error": false,
-              "isLoading": false,
-              "players": Array [
-                Object {
-                  "team": "A",
-                  "uid": 1234,
-                  "username": "Bob",
-                },
-                Object {
-                  "team": "B",
-                  "uid": 5678,
-                  "username": "Bridget",
-                },
-                Object {
-                  "team": "A",
-                  "uid": 9012,
-                  "username": "Amy",
-                },
-              ],
-            }
-          }
-          team="A"
-        >
-          <ul
-            className="list"
+          <option
+            value="A"
           >
-            <li
-              className="list__item"
-              key="1234"
-            >
-              Bob
-            </li>
-            <li
-              className="list__item"
-              key="9012"
-            >
-              Amy
-            </li>
-          </ul>
-        </TeamList>
-        <p
-          className="list-header"
-        >
-          Already on Team B:
-        </p>
-        <TeamList
-          players={
-            Object {
-              "error": false,
-              "isLoading": false,
-              "players": Array [
-                Object {
-                  "team": "A",
-                  "uid": 1234,
-                  "username": "Bob",
-                },
-                Object {
-                  "team": "B",
-                  "uid": 5678,
-                  "username": "Bridget",
-                },
-                Object {
-                  "team": "A",
-                  "uid": 9012,
-                  "username": "Amy",
-                },
-              ],
-            }
-          }
-          team="B"
-        >
-          <ul
-            className="list"
+            Team A
+          </option>
+          <option
+            value="B"
           >
-            <li
-              className="list__item"
-              key="5678"
-            >
-              Bridget
-            </li>
-          </ul>
-        </TeamList>
+            Team B
+          </option>
+        </select>
+        <button
+          className="button button--no-margin"
+        >
+          Go
+        </button>
       </div>
     </form>
+    <div
+      className="block"
+    >
+      <p
+        className="list__header"
+      >
+        Already on Team A:
+      </p>
+      <TeamList
+        players={
+          Object {
+            "data": Array [
+              Object {
+                "team": "A",
+                "uid": 1234,
+                "username": "Bob",
+              },
+              Object {
+                "team": "B",
+                "uid": 5678,
+                "username": "Bridget",
+              },
+              Object {
+                "team": "A",
+                "uid": 9012,
+                "username": "Amy",
+              },
+            ],
+            "error": false,
+            "isLoading": false,
+          }
+        }
+        team="A"
+      >
+        <ul
+          className="list"
+        >
+          <li
+            className="list__item"
+            key="1234"
+          >
+            Bob
+          </li>
+          <li
+            className="list__item"
+            key="9012"
+          >
+            Amy
+          </li>
+        </ul>
+      </TeamList>
+      <p
+        className="list__header"
+      >
+        Already on Team B:
+      </p>
+      <TeamList
+        players={
+          Object {
+            "data": Array [
+              Object {
+                "team": "A",
+                "uid": 1234,
+                "username": "Bob",
+              },
+              Object {
+                "team": "B",
+                "uid": 5678,
+                "username": "Bridget",
+              },
+              Object {
+                "team": "A",
+                "uid": 9012,
+                "username": "Amy",
+              },
+            ],
+            "error": false,
+            "isLoading": false,
+          }
+        }
+        team="B"
+      >
+        <ul
+          className="list"
+        >
+          <li
+            className="list__item"
+            key="5678"
+          >
+            Bridget
+          </li>
+        </ul>
+      </TeamList>
+    </div>
   </div>
 </RegisterPage>
 `;
@@ -177,100 +183,106 @@ exports[`<RegisterPage /> shallow render Should render RegisterPage correctly 1`
   <form
     onSubmit={[MockFunction]}
   >
-    <input
-      autoFocus={true}
-      className="text-input"
-      name="username"
-      onChange={[MockFunction]}
-      placeholder="Name"
-      value="Jonathan"
-    />
-    <select
-      className="select"
-      name="team"
-      onChange={[MockFunction]}
-      value="B"
+    <div
+      className="form__container"
     >
-      <option
-        value="A"
-      >
-        Team A
-      </option>
-      <option
+      <input
+        autoFocus={true}
+        className="input"
+        name="username"
+        onChange={[MockFunction]}
+        placeholder="Name"
+        value="Jonathan"
+      />
+      <select
+        className="select"
+        name="team"
+        onChange={[MockFunction]}
         value="B"
       >
-        Team B
-      </option>
-    </select>
-    <button
-      className="button button--input"
-    >
-      Go
-    </button>
-    <div>
-      <p
-        className="list-header"
+        <option
+          value="A"
+        >
+          Team A
+        </option>
+        <option
+          value="B"
+        >
+          Team B
+        </option>
+      </select>
+      <button
+        className="button button--no-margin"
       >
-        Already on Team A:
-      </p>
-      <TeamList
-        players={
-          Object {
-            "error": false,
-            "isLoading": false,
-            "players": Array [
-              Object {
-                "team": "A",
-                "uid": 1234,
-                "username": "Bob",
-              },
-              Object {
-                "team": "B",
-                "uid": 5678,
-                "username": "Bridget",
-              },
-              Object {
-                "team": "A",
-                "uid": 9012,
-                "username": "Amy",
-              },
-            ],
-          }
-        }
-        team="A"
-      />
-      <p
-        className="list-header"
-      >
-        Already on Team B:
-      </p>
-      <TeamList
-        players={
-          Object {
-            "error": false,
-            "isLoading": false,
-            "players": Array [
-              Object {
-                "team": "A",
-                "uid": 1234,
-                "username": "Bob",
-              },
-              Object {
-                "team": "B",
-                "uid": 5678,
-                "username": "Bridget",
-              },
-              Object {
-                "team": "A",
-                "uid": 9012,
-                "username": "Amy",
-              },
-            ],
-          }
-        }
-        team="B"
-      />
+        Go
+      </button>
     </div>
   </form>
+  <div
+    className="block"
+  >
+    <p
+      className="list__header"
+    >
+      Already on Team A:
+    </p>
+    <TeamList
+      players={
+        Object {
+          "data": Array [
+            Object {
+              "team": "A",
+              "uid": 1234,
+              "username": "Bob",
+            },
+            Object {
+              "team": "B",
+              "uid": 5678,
+              "username": "Bridget",
+            },
+            Object {
+              "team": "A",
+              "uid": 9012,
+              "username": "Amy",
+            },
+          ],
+          "error": false,
+          "isLoading": false,
+        }
+      }
+      team="A"
+    />
+    <p
+      className="list__header"
+    >
+      Already on Team B:
+    </p>
+    <TeamList
+      players={
+        Object {
+          "data": Array [
+            Object {
+              "team": "A",
+              "uid": 1234,
+              "username": "Bob",
+            },
+            Object {
+              "team": "B",
+              "uid": 5678,
+              "username": "Bridget",
+            },
+            Object {
+              "team": "A",
+              "uid": 9012,
+              "username": "Amy",
+            },
+          ],
+          "error": false,
+          "isLoading": false,
+        }
+      }
+      team="B"
+    />
+  </div>
 </div>
 `;

@@ -70,7 +70,6 @@ describe('<ChangeoverPage />', () => {
   test('Should pass true to thisUserPlaying prop of <StartMessage />', () => {
     const thisUserPlaying = wrapper.find('StartMessage').props().thisUserPlaying;
     // Check fixtures data is still providing identical uids
-    expect(testAuth.firebaseUID).toEqual(testGame.playingNow.uid);
     expect(thisUserPlaying).toEqual(true);
   })
 });

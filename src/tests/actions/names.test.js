@@ -3,7 +3,7 @@ import {
   startAddName,
   removeName,
   startRemoveName,
-  removeAllNames,
+  resetNames,
   getNames,
   processNames,
   getNamesBegin,
@@ -31,13 +31,13 @@ jest.mock('../../firebase/firebase', () => {
 });
 
 describe('Adding names', () => {
-  let nameObj, name, uid;
+  let nameObj, name, playerUid;
   beforeEach(() => {
     name = 'Duke Ellington';
-    uid = '123abc';
+    playerUid = '123abc';
     nameObj = {
       name,
-      uid,
+      playerUid,
       isGuessed: false,
     };
   });
@@ -53,7 +53,7 @@ describe('Adding names', () => {
   test('Should push nameObj into Firebase', async () => {
     const dispatch = jest.fn();
     const getState = jest.fn(() => ({
-      auth: { firebaseUID: uid }
+      auth: { uid: playerUid }
     }));
     const push = database
       .ref()
@@ -63,9 +63,6 @@ describe('Adding names', () => {
     await startAddName(name)(dispatch, getState);
     
     expect(push).toBeCalledWith(nameObj);
-    expect(dispatch).toBeCalledWith(addName(expect.objectContaining({
-      ...nameObj
-    })));
   });
 });
 
@@ -80,11 +77,11 @@ describe('Removing name(s).', () => {
     expect(removeName(id)).toEqual(expectedAction);
   });
   
-  test('Should setup removeAllNames object', () => {
+  test('Should setup resetNames object', () => {
     const expectedAction = {
-      type:'REMOVE_ALL_NAMES',
+      type:'RESET_NAMES',
     };
-    expect(removeAllNames()).toEqual(expectedAction);
+    expect(resetNames()).toEqual(expectedAction);
   });
   
   test('Should remove name from Firebase and dispatch removeName()', async () => {

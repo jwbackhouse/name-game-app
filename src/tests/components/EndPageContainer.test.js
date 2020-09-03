@@ -18,7 +18,7 @@ describe('<EndPageContainer mounted />', () => {
   const initialiseGame = jest.fn();
   const removeAllNames = jest.fn();
   const resetGame = jest.fn();
-  const history = {push: jest.fn()};
+  const history = { push: jest.fn() };
 
   beforeEach(() => {
     wrapper = mount(
@@ -69,8 +69,11 @@ describe('<EndPageContainer mounted />', () => {
     
     wrapper.setState({ ready: true });
     wrapper.find('button').simulate('click');
-    expect(history.push).toBeCalledWith('/');
-    expect(removeAllNames).toBeCalled();
-    expect(resetGame).toBeCalled();
+    // Add delay to allow Firebase query to complete
+    setTimeout(() => {
+      expect(removeAllNames).toBeCalled();
+      expect(resetGame).toBeCalled();
+      expect(history.push).toBeCalledWith('/');
+    },500)
   });
 });

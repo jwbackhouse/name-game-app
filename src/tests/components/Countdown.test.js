@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import database from '../../firebase/firebase';
+import testGame from '../fixtures/testGame';
 import { Countdown } from '../../components/Countdown';
 
 // // This and commented-out lines below can be used to mock Firebase
@@ -18,7 +19,11 @@ describe('<Countdown />', () => {
   const onFinished = jest.fn();
   beforeEach(() => {
     // on = database.ref().on;
-    wrapper = shallow(<Countdown onFinished={ onFinished }/>);
+    wrapper = shallow(
+      <Countdown
+        onFinished={ onFinished }
+        game={ testGame }
+      />);
   })
   
   test('Should render Countdown with time remaining', (done) => {

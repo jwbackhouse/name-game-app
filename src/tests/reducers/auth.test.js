@@ -1,25 +1,36 @@
 import authReducer from '../../reducers/auth';
+import { auth } from '../fixtures/testAuth.js';
 
-test('Should set user id on login.', () => {
-  const uid = 1234;
+test('Should set user details on login.', () => {
   const action = {
-    type:'LOGIN',
-    uid
-  }
+    type:'LOGIN_SUCCESS',
+    uid: auth.uid,
+    username: auth.username
+  };
   const state = authReducer(undefined, action);
   expect(state).toEqual({
-    uid
+    uid: auth.uid,
+    username: auth.username,
+    error: '',
   });
 });
 
-test('Should remove user id on logout.', () => {
+test('Should clear state on logout.', () => {
   const prevState = {
-    uid: 4567
+    uid: 4567,
+    username: 'Tracy Chapman',
+    error: 'some error'
   };
-  const uid = 1234;
+  const initialState = {
+    uid: '',
+    firebaseUID: '',
+    username: '',
+    error: '',
+    passwordResetError: ''
+  };
   const action = {
-    type:'LOGOUT',
-  }
+    type:'LOGOUT_SUCCESS',
+  };
   const state = authReducer(prevState, action);
-  expect(state).toEqual({});
+  expect(state).toEqual(initialState);
 });

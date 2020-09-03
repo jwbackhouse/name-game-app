@@ -4,13 +4,14 @@ export default {
   teamAScore: 4,
   teamBScore: 2,
   playingNow: {
-    uid: 1234,
+    uid: 'abc1',
     userName: 'Bob',
     team: 'B'
   },
   startTime: undefined,
   startTurn: false,
   endGame: false,
-  timerLength: 30000,
-  numPasses: 1,
+  numPasses: 5,
+  numNames: 4,
+  timerLength: 55,
 };
