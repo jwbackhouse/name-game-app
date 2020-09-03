@@ -13,10 +13,6 @@ export class ChangeoverPage extends React.Component {
     nextPlayer: undefined,
   }
 
-  // componentDidMount = () => {
-  //   this.props.getNames();
-  // }
-
   componentDidUpdate = (prevProps) => {
     const { game, history } = this.props;
 
@@ -36,7 +32,7 @@ export class ChangeoverPage extends React.Component {
 
   render = () => {
     const { game, auth } = this.props;
-    const thisUserPlaying = auth.firebaseUID === game.playingNow.uid;
+    const thisUserPlaying = auth.uid === game.playingNow.uid;
 
     return (
       <div className='content-container'>
