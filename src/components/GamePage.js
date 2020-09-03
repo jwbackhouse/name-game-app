@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import LiveName from './LiveName';
 import Countdown from './Countdown';
-import PassedNamesButton from './PassedNamesButton';
 
 export const GamePage = props => {
   const {
