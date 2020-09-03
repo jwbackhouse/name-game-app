@@ -39,8 +39,8 @@ export class EntryPage extends React.Component {
           <p>The online version</p>
           <div className='column__single'>
             <div className='button-container'>
-              <button onClick={ () => this.onClick('login', 'signup') } className='button__starts-row'>Login</button>
-              <button onClick={ () => this.onClick('signup', 'login') } className='button'>Sign up</button>
+              <button onClick={ () => this.onClick('login', 'signup') } className='button__starts-row button--fixed-percent'>Login</button>
+              <button onClick={ () => this.onClick('signup', 'login') } className='button button--fixed-percent'>Sign up</button>
             </div>
             { this.state.login && <LoginForm showPasswordReset={ this.togglePasswordReset }/> }
             { this.state.signup && <SignupForm /> }

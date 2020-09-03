@@ -70,48 +70,57 @@ const AdminPage = ({ initialiseGame, startResetGame, game, history }) => {
   const pageContent = (
     <div className='content-container'>
       <h1>Game settings</h1>
-      <form onSubmit={ onSubmit }>
-        <label>Number of passes allowed
-          <input
-            name='numPasses'
-            id='numPasses'
-            value={ numPasses }
-            onChange={ onPassesChange }
-            type='number'
-          />
-        </label>
-        <label>Number of names for each player to submit
-          <input
-            name='numNames'
-            id='numNames'
-            value={ numNames }
-            onChange={ onNamesChange }
-            type='number'
-          />
-        </label>
-        <label>Time allowed for guessing (in seconds)
-          <input
-            name='timerLength'
-            id='timerLength'
-            value={ timerLength }
-            onChange={ onTimerChange }
-            type='number'
-          />
-        </label>
-        <button className='button button--hero' type='submit'>
-          Save
-        </button>
-      </form>
-      { submitMsg && <p>{ submitMsg }</p> }
-      <br />
-      <button className='button button--background' onClick={ onReset }>
-        Reset the game
-      </button>
-      <br />
-      <br />
-      <button onClick={ history.goBack } className='button'>
-        Back
-      </button>
+        <form onSubmit={ onSubmit }>
+          <div className='form__column'>
+            <label>Number of passes allowed
+              <input
+                className='input input--spaced'
+                name='numPasses'
+                id='numPasses'
+                value={ numPasses }
+                onChange={ onPassesChange }
+                type='number'
+              />
+            </label>
+            <label>Number of names for each player to submit
+              <input
+                className='input input--spaced'
+                name='numNames'
+                id='numNames'
+                value={ numNames }
+                onChange={ onNamesChange }
+                type='number'
+              />
+            </label>
+            <label>Time allowed for guessing (in seconds)
+              <input
+                className='input input--spaced'
+                name='timerLength'
+                id='timerLength'
+                value={ timerLength }
+                onChange={ onTimerChange }
+                type='number'
+              />
+            </label>
+            <button className='button button--hero button--fixed-width' type='submit'>
+              Save
+            </button>
+          </div>
+          
+          { submitMsg ? <p className='info-msg'>{ submitMsg }</p> : <p>{ String.fromCharCode(160) }</p>}
+          
+          <div className='button-container button--fixed-width'>
+            <button className='button button--half-width' onClick={ history.goBack }>
+              Back
+            </button>
+            <button className='button button--half-width'>
+              Home
+            </button>
+          </div>
+          <button className='button button--background button--half-width' onClick={ onReset }>
+            Reset the game
+          </button>
+        </form>
     </div>
   );
   

@@ -21,7 +21,7 @@ export const LiveName = ({ index, names, pass, guess, viewPassedNames, allowPass
       <p className='guess-block__name'>{ names[index].name }</p>
       <div className='button-container'>
         <button
-          className='button__starts-row button--hero'
+          className='button__starts-row button--hero button--fixed-percent'
           onClick={ () => guess('guess') }
         >
           Got it!

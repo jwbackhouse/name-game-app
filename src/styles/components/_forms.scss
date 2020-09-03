@@ -13,14 +13,20 @@
   border: 1px solid #CACCCB;
   border-radius: 0.25rem;
   color: $dark-grey;
+  display: block;
   height: 50px;
   padding: 1rem;
   width: 20rem;
 }
 
+.input--spaced {
+  margin-bottom: $s-size;
+}
+
+// For login forms
 .input--column {
   margin: 0 auto $xs-size auto;
-  width: calc(80% + #{$s-size});
+  width: 100%;
 }
 
 .select {

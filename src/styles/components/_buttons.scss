@@ -80,10 +80,18 @@
   margin-right: 0;
 }
 
-.button--fixed-width {
+.button--fixed-percent {
   display: flex;
   justify-content: center;
   width: 40%;
+}
+
+.button--fixed-width {
+  width: 20rem;
+}
+
+.button--half-width {
+  width: 9rem;
 }
 
 .button--text-link {
@@ -100,7 +108,7 @@
   }
 }
 
-// Single column layout for login transform-style:
+// Single column layout for login form:
 .button--column {
   margin: $xs-size auto;
   width: 40%;
