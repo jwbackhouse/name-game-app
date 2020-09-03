@@ -12,7 +12,10 @@ const initialState = {
   },
   startTime: undefined,
   startTurn: false,
-  endGame: false
+  endGame: false,
+  numPasses: 3,
+  numNames: 5,
+  timerLength: 60,
 };
 
 export default (state = initialState, action) => {
