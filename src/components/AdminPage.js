@@ -49,7 +49,11 @@ const AdminPage = ({ initialiseGame, startResetGame, game, history }) => {
           setSubmitMsg('Data successfully reset.');
         });
     }
-  }
+  };
+  
+  const onClickHome = () => {
+    history.push('/join');
+  };
   
   const onSubmit = (e) => {
     e.preventDefault();
@@ -113,7 +117,7 @@ const AdminPage = ({ initialiseGame, startResetGame, game, history }) => {
             <button className='button button--half-width' onClick={ history.goBack }>
               Back
             </button>
-            <button className='button button--half-width'>
+            <button className='button button--half-width' onClick= { onClickHome }>
               Home
             </button>
           </div>
