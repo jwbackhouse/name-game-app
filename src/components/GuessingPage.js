@@ -25,7 +25,9 @@ export class GuessingPage extends React.Component {
     return (
       <div className='content-container'>
         <h1>Guessing time</h1>
-        <Countdown onFinished={ this.onFinished } />
+        <div className='timer-block--solo'>
+          <Countdown onFinished={ this.onFinished } />
+        </div>
       </div>
     );
   }
