@@ -51,6 +51,7 @@ export class SignupFormBase extends React.Component {
           value={ username }
           onChange={ this.onChange }
           placeholder='Name'
+          autocomplete='name'
           type='text'
         />
         <input
@@ -59,6 +60,7 @@ export class SignupFormBase extends React.Component {
           value={ email }
           onChange={ this.onChange }
           placeholder='Email'
+          autocomplete='email'
           type='text'
         />
         <input
@@ -67,6 +69,7 @@ export class SignupFormBase extends React.Component {
           value={ passwordOne }
           onChange={ this.onChange }
           placeholder='Password'
+          autocomplete='new-password'
           type='password'
         />
         <input
@@ -75,6 +78,7 @@ export class SignupFormBase extends React.Component {
           value={ passwordTwo }
           onChange={ this.onChange }
           placeholder='Confirm password'
+          autocomplete='new-password'
           type='password'
         />
         <button className='button button--column button--hero' type='submit' disabled={ isInvalid }>

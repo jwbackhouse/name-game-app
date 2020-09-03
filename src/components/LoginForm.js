@@ -54,6 +54,7 @@ export class LoginFormBase extends React.Component {
           value={ email }
           onChange={ this.onChange }
           placeholder='Email'
+          autocomplete='email'
           type='text'
         />
         <input
@@ -62,6 +63,7 @@ export class LoginFormBase extends React.Component {
           value={ password }
           onChange={ this.onChange }
           placeholder='Password'
+          autocomplete='current-password'
           type='password'
         />
         <button className='button button--column button--hero' type='submit' disabled={ isInvalid }>
