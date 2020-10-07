@@ -11,17 +11,22 @@ This version replicates this game online, allowing people to play remotely over 
 - There is an admin page at /admin that allows you to set the number of passes allowed per turn and the timer length. The page requires the password 'namegame' to access.
 
 
-### Notes on the code
-Built in React 16, using Redux for local state management and Firebase Realtime Database to share information between players.
+### Tech stack
+- React 16 + Redux
+- Webpack + Babel
+- Jest + Enzyme
+- SCSS (using BEM naming methodology)
+- Firebase Realtime Database
 
-It is bundled with Webpack and compiled with Babel. Testing is run with Jest and Enzyme. There are separate dev and production environments.
 
-The styling has been done using SCSS with BEM naming methodology. (NB my focus so far has been on the functionality, not the styling - so it's a bit rough-and-ready.)
+### A few notes
+My first built-from-scratch-without-support React app. As such, I'm sure there are lots of things that could be improved. In particular, I'm not certain the component hierarchy is at the right level of detail, or that the data fetching is done in the most efficient way.
 
-This is my first built-from-scratch-without-support React app. As such, I'm sure there are lots of things that could be improved. In particular, I'm not certain the component hierarchy is at the right level of detail, or that the data fetching is done in the most efficient way.
+My focus so far has been on the functionality, not the styling - so it's a bit rough-and-ready.
 
 
 ### To do
 - Add ability to run multiple games independently
 - Check for duplicate names upon entry
 - Add instructions into the app
+- Improve styling
