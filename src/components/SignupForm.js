@@ -10,7 +10,7 @@ const initialState = {
   passwordOne: '',
   passwordTwo: '',
   error: ''
-}
+};
   
 
 export class SignupFormBase extends React.Component {
@@ -23,7 +23,19 @@ export class SignupFormBase extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     
-    const { email, passwordOne, username } = this.state;
+    const { email, username, passwordOne, passwordTwo } = this.state;
+    
+    // Check password match
+    if (passwordOne !== passwordTwo) {
+      this.setState({ error: 'Oops, the passwords don\'t match' });
+      return;
+    }
+    
+    if (passwordOne.length < 6) {
+      this.setState({ error: 'Your password needs to be 6 characters or more please'});
+      return;
+    }
+    
     this.props.startPasswordSignup(email, passwordOne, username);
     this.setState({ error: '' });
   }
@@ -39,8 +51,6 @@ export class SignupFormBase extends React.Component {
     
     const isInvalid =
       !checkEmail(email) ||
-      passwordOne.length < 6 ||
-      passwordOne !== passwordTwo ||
       username === '';
     
     return (
@@ -51,7 +61,7 @@ export class SignupFormBase extends React.Component {
           value={ username }
           onChange={ this.onChange }
           placeholder='Name'
-          autocomplete='name'
+          autoComplete='name'
           type='text'
         />
         <input
@@ -60,7 +70,7 @@ export class SignupFormBase extends React.Component {
           value={ email }
           onChange={ this.onChange }
           placeholder='Email'
-          autocomplete='email'
+          autoComplete='email'
           type='text'
         />
         <input
@@ -69,7 +79,7 @@ export class SignupFormBase extends React.Component {
           value={ passwordOne }
           onChange={ this.onChange }
           placeholder='Password'
-          autocomplete='new-password'
+          autoComplete='new-password'
           type='password'
         />
         <input
@@ -78,14 +88,14 @@ export class SignupFormBase extends React.Component {
           value={ passwordTwo }
           onChange={ this.onChange }
           placeholder='Confirm password'
-          autocomplete='new-password'
+          autoComplete='new-password'
           type='password'
         />
         <button className='button button--column button--hero' type='submit' disabled={ isInvalid }>
           Go
         </button>
         
-        { error && <p>{error.message}</p> }
+        { error && <p>{ error }</p> }
         { this.props.auth.error && <p>Oops. { this.props.auth.error.message }</p> }
       </form>
     )
